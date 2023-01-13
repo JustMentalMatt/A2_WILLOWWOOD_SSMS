@@ -125,18 +125,13 @@ section{
   float: left;
   margin-left: 20px;
   margin-top: 5px;
-  border: 5px solid black;
-  object-fit: cover;
+
+  object-fit: fill;
   object-position: 50% 50%;
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 80px;
 }
 
-.cclogo img{
-  margin: -10px 0px 0px -180px;
-}
-
-}
 
 /* navbar amongus button */
 
@@ -270,11 +265,6 @@ button.amongus {
   transition: all 0.1s;
  }
 
-
- .exit-reddit{
-  position: relative;
-  top: 6px; left: 10px;
- }
 
 
 /* ------------------------------------ */
