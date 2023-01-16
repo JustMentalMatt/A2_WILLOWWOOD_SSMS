@@ -93,5 +93,3 @@ def rowCount():
                 sqliteConnection.close()
                 print("The databse connection is closed")
                 print("Total Rows affected since the database connection was opened: ", sqliteConnection.total_changes)
-
-
