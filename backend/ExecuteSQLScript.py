@@ -5,7 +5,7 @@ import sqlite3
 def runSQLfromScript():
     
     try:
-        sqliteConnection = sqlite3.connect('database.db')
+        sqliteConnection = sqlite3.connect('./database.db')
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to SQLite")
 

@@ -15,7 +15,7 @@ CREATE TABLE products (
 );
 */
 
-CREATE TABLE orders (
+/*CREATE TABLE orders (
  id INTEGER PRIMARY KEY,
  user_id INTEGER NOT NULL,
  product_id INTEGER NOT NULL,
@@ -24,3 +24,6 @@ CREATE TABLE orders (
  FOREIGN KEY (user_id) REFERENCES default_users(id),
  FOREIGN KEY (product_id) REFERENCES products(id)
 );
+*/
+
+INSERT INTO default_users (id, name, age, username, password, email, join_date)  VALUES  (1, 'Sandra Adams', 24, 'sadams1', 'passsecur3', 'sadams@user.net', '12/12/2020')

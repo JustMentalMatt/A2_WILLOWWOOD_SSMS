@@ -49,13 +49,11 @@ def createTable():
 
 def insertData():
     try:
-        sqliteConnection = sqlite3.connect('database.db')
+        sqliteConnection = sqlite3.connect('./database.db')
         cursor = sqliteConnection.cursor()
         print("Successfully Connected to the database")
 
-        sqlite_insert_query = """INSERT INTO Admin_Users
-                            (id, name, email, joining_date, password, username)  VALUES  (1, 'John Doe', 'johndoe123@admin.net',
-                            '12/12/2020', '123456', 'johndoe123')"""
+        sqlite_insert_query = """INSERT INTO default_users (id, name, age, username, password, email, join_date)  VALUES  (1, 'Sandra Adams', 24, 'sadams1', 'passsecur3', 'sadams@user.net', '12/12/2020')"""
 
         count = cursor.execute(sqlite_insert_query)
         sqliteConnection.commit()
@@ -93,3 +91,21 @@ def rowCount():
                 sqliteConnection.close()
                 print("The databse connection is closed")
                 print("Total Rows affected since the database connection was opened: ", sqliteConnection.total_changes)
+
+def showTables():
+    try:
+        sqliteConnection = sqlite3.connect('./database.db')
+        cursor = sqliteConnection.cursor()
+        print("Successfully Connected to the database")
+
+        sqlite_insert_query = """SHOW TABLES"""
+
+        count = cursor.execute(sqlite_insert_query)
+        sqliteConnection.commit()
+        print("Record inserted successfully into Admin_Users table ", cursor.rowcount)
+        cursor.close()
+
+    except sqlite3.Error as error:
+            print("Failed to read data from database table", error)
+
+showTables()
