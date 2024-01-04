@@ -1,12 +1,11 @@
-import customtkinter
+import customtkinter as ctk
 import sqlite3
-from mainwindow import mainWindow
 
-customtkinter.set_appearance_mode("dark")
-customtkinter.set_default_color_theme("dark-blue")
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("dark-blue")
 
-root = customtkinter.CTk()
-root.geometry("400x350")
+login_window = ctk.CTk()
+login_window.geometry("400x350")
 
 def login():
     sqliteConnection = sqlite3.connect('./backend/database.db')
@@ -16,32 +15,35 @@ def login():
     results = cursor.fetchall()
     
     for row in results:
-        global username
         username = row[0]
         password = row[1]
-        
+
+
         if entry1.get() == username and entry2.get() == password:
             print("Login Successful")
-            UserStatus = str(username)
-            root.destroy()
-            mainWindow()         
-    return
+            return username #Returns the Logged in Username
+        
+        else:
+            return None
+            #root.destroy()
+            #mainWindow() 
 
-frame = customtkinter.CTkFrame(master=root)
+
+frame = ctk.CTkFrame(master=login_window)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-label = customtkinter.CTkLabel(master=frame, text="Login System", font=("Roboto", 24))
+label = ctk.CTkLabel(master=frame, text="Login System", font=("Roboto", 24))
 label.pack(pady=12, padx=10)
 
-entry1 = customtkinter.CTkEntry(master=frame, placeholder_text="Username")
+entry1 = ctk.CTkEntry(master=frame, placeholder_text="Username")
 entry1.pack(pady=12, padx=10)
 
-entry2 = customtkinter.CTkEntry(master=frame, placeholder_text="Password", show="*")
+entry2 = ctk.CTkEntry(master=frame, placeholder_text="Password", show="*")
 entry2.pack(pady=12, padx=10)
 
-button = customtkinter.CTkButton(master=frame, text="Login", command=login)
+button = ctk.CTkButton(master=frame, text="Login", command=login)
 button.pack(pady=12, padx=10)
 
-root.title("Database Login System")
-root.resizable(False,False)
-root.mainloop()
+login_window.title("Database Login System")
+login_window.resizable(False,False)
+login_window.mainloop()

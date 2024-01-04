@@ -2,11 +2,8 @@ import customtkinter
 import sqlite3
 from tkinter import *
 from tkinter import ttk
-from sqliteui import AdminUsersTable_ENTRY
-from sqliteui import DefaultUsersTable_ENTRY
-
-
-loggedUserName = "[USERNAME]"
+from sqliteui import AdminUsersTable_ENTRY, DefaultUsersTable_ENTRY
+from login_gui import login
 
 
 def mainWindow():
@@ -34,6 +31,7 @@ def mainWindow():
     usrinfoFrame.grid(column=0, columnspan=2, row=2, rowspan=1, ipadx=5, ipady=5, padx=20, pady=10, sticky="nsew")
     usrName = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Logged in as: " + loggedUserName, font=("Roboto", 14))
     usrName.grid(column=0, row=0, ipadx=10, ipady=10, sticky="SW")
+
     authLevel_admin = True # This is temporary. Meant to be fetched from login_gui.py
     if authLevel_admin == True:
         authStatus = "Admin"
@@ -46,7 +44,14 @@ def mainWindow():
     sqlUIFrame.grid(column=2, columnspan=5, row=0, rowspan=5, ipadx=5, ipady=5, padx=30, pady=20, sticky="NSEW")
     sqlUI = customtkinter.CTkLabel(master=sqlUIFrame,font=("Roboto", 130))
     sqlUI.grid(column=0, columnspan=5, row=0, rowspan=2, ipadx=10, ipady=10, sticky="NSEW")
-    
+
+    root.mainloop()
+
+loggedUserName = str(login())
+if loggedUserName[0] != " " or None:
+    mainWindow()
+
+
     def admin_usersTable():
         conn = sqlite3.connect('./backend/database.db')
         c = conn.cursor()
@@ -74,7 +79,7 @@ def mainWindow():
         
         conn.commit()
         c.close()
-    
+
     def default_usersTable():
         conn = sqlite3.connect('./backend/database.db')
         c = conn.cursor()
@@ -96,17 +101,17 @@ def mainWindow():
         t.column("five", minwidth=150, width=150, stretch=YES)
         t.heading("six", text="Join Date")
         t.column("six", minwidth=150, width=150, stretch=YES)
-    
-   #admin_usersTable() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
+        
+    #admin_usersTable() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
     default_usersTable()
-    
+
     def createRecord():
         #AdminUsersTable_ENTRY() # SQLUI - Create Records for Admin_Users Table - (frontend\sqliteui.py)
         DefaultUsersTable_ENTRY()
         
     createRecord_btn = customtkinter.CTkButton(master=root, text="Add Record", font=("Roboto", 16), command=createRecord)
     createRecord_btn.grid(column=3, row=4, columnspan=3, padx=5, ipadx=50, sticky="SW")
-    
+
     def refreshTable():
         #admin_usersTable()
         default_usersTable()
@@ -132,8 +137,3 @@ def mainWindow():
                                                                          
     # combobox.grid(row=1, column=1)
     # combobox.set("TABLES")  # set initial value
-    
-    
-    root.mainloop()
-    
-#mainWindow()
