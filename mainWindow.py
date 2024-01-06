@@ -139,7 +139,6 @@ class loginGUI(ctk.CTkFrame):
 		frame = ctk.CTkFrame(self, width=300, height=480, fg_color="#ffffff")
 		frame.pack_propagate(0)
 		frame.pack(expand=True, side="right")
-		frame.sticky = "e"
 
 		ctk.CTkLabel(
 			master=frame,
