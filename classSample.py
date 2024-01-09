@@ -85,4 +85,4 @@ class Entry(ttk.Frame):
 # turn the entry frame with its children into a separate class
 # you should be able to set the color, the label text and the button text via the arguments
 
-App('Class based app', (600,600))
+# App('Class based app', (600,600))

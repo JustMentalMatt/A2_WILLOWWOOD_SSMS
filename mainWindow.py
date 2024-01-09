@@ -4,7 +4,13 @@ from customtkinter import *
 from tkinter import ttk
 from PIL import Image
 import sqlite3
+import time
+from loggedMain import mainMenu
 
+
+globalUser = ""
+globalPass = ""
+globalLogin = False
 
 class mainApp(ctk.CTk):
 	def __init__(self):
@@ -17,7 +23,7 @@ class mainApp(ctk.CTk):
 		self.main = loginGUI(self)
 
 		self.mainloop()
-
+		loginCheck()
 
 class loginGUI(ctk.CTkFrame):
       
@@ -25,10 +31,44 @@ class loginGUI(ctk.CTkFrame):
 		super().__init__(parent)
 		self.pack(expand=True, fill="both")
 		
-		#self.create_login_layout()
-		self.create_register_layout()
-	
+		# self.create_login_layout()
+		# self.create_register_layout()
+
+		self.create_login_layout()
+
 	def create_login_layout(self):
+
+		def switch_to_register_layout():
+			for widget in self.winfo_children():
+				widget.destroy()
+			self.create_register_layout()
+
+		def onLogin():
+			sqliteConnection = sqlite3.connect('./backend/database.db')
+			cursor = sqliteConnection.cursor()
+			credential_fetch = "SELECT username, password FROM Admin_Users"
+			cursor.execute(credential_fetch)
+			results = cursor.fetchall()
+
+			for row in results:
+				username = row[0]
+				password = row[1]
+
+				if userVar.get() == username and passVar.get() == password:
+					print("Login Successful")
+					global globalUser
+					global globalPass
+					global globalLogin
+					globalUser = username
+					globalPass = password
+					globalLogin = True
+					break
+				else:
+					globalLogin = False
+
+			if globalLogin == True:
+				self.quit()
+				
 
 		side_img_data = Image.open("./GUI_Design/Login/Images/side-img.gif")
 		email_icon_data = Image.open("./GUI_Design/Login/Images/email-icon.png")
@@ -74,14 +114,15 @@ class loginGUI(ctk.CTkFrame):
 			compound="left",
 		).pack(anchor="w", pady=(38, 0), padx=(25, 0))
 
-		ctk.CTkEntry(
+		userVar = ctk.CTkEntry(
 			master=frame,
 			width=225,
 			fg_color="#EEEEEE",
 			border_color="#601E88",
 			border_width=1,
 			text_color="#000000",
-		).pack(anchor="w", padx=(25, 0))
+		)
+		userVar.pack(anchor="w", padx=(25, 0))
 
 		ctk.CTkLabel(
 			master=frame,
@@ -94,7 +135,7 @@ class loginGUI(ctk.CTkFrame):
 			compound="left",
 		).pack(anchor="w", pady=(21, 0), padx=(25, 0))
 
-		ctk.CTkEntry(
+		passVar = ctk.CTkEntry(
 			master=frame,
 			width=225,
 			fg_color="#EEEEEE",
@@ -102,7 +143,8 @@ class loginGUI(ctk.CTkFrame):
 			border_width=1,
 			text_color="#000000",
 			show="*",
-		).pack(anchor="w", padx=(25, 0))
+		)
+		passVar.pack(anchor="w", padx=(25, 0))
 
 		ctk.CTkButton(
 			master=frame,
@@ -112,19 +154,26 @@ class loginGUI(ctk.CTkFrame):
 			font=("Arial Bold", 12),
 			text_color="#ffffff",
 			width=225,
+			command=onLogin
 		).pack(anchor="w", pady=(40, 0), padx=(25, 0))
 
 		ctk.CTkButton(
-			master=frame,
-			text="Register",
-			fg_color="#EEEEEE",
-			hover_color="#c4c2c2",
-			font=("Arial Bold", 12),
-			text_color="#601E88",
-			width=225,
-		).pack(anchor="w", pady=(20, 0), padx=(25, 0))
+            master=frame,
+            text="Register",
+            fg_color="#EEEEEE",
+            hover_color="#c4c2c2",
+            font=("Arial Bold", 12),
+            text_color="#601E88",
+            width=225,
+            command=switch_to_register_layout
+        ).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
 	def create_register_layout(self):
+
+		def switch_to_login_layout():
+			for widget in self.winfo_children():
+				widget.destroy()
+			self.create_login_layout()
 		
 		side_img_data = Image.open("./GUI_Design/Login/Images/side-img.gif")
 		email_icon_data = Image.open("./GUI_Design/Login/Images/email-icon.png")
@@ -284,15 +333,20 @@ agreeing to our terms and conditions.""",
 		).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
 		ctk.CTkButton(
-			master=frame,
-			text="Back to Login",
-			fg_color="#EEEEEE", 
-			hover_color="#c4c2c2",
-			font=("Arial Bold", 12),
-			text_color="#601E88",
-			width=225,
-		).pack(anchor="w", pady=(10, 0), padx=(25, 0))
+            master=frame,
+            text="Back to Login",
+            fg_color="#EEEEEE",
+            hover_color="#c4c2c2",
+            font=("Arial Bold", 12),
+            text_color="#601E88",
+            width=225,
+            command=switch_to_login_layout
+        ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
+def loginCheck():
+	if globalLogin == True:
+		mainMenu()
+		print("success")
 
 if __name__ == "__main__":
     mainApp()
