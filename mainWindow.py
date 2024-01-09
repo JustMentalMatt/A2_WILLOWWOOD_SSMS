@@ -70,7 +70,7 @@ class loginGUI(ctk.CTkFrame):
 				self.quit()
 				
 
-		side_img_data = Image.open("./GUI_Design/Login/Images/side-img.gif")
+		side_img_data = Image.open("./GUI_Design/Login/Images/side-img.png")
 		email_icon_data = Image.open("./GUI_Design/Login/Images/email-icon.png")
 		password_icon_data = Image.open("./GUI_Design/Login/Images/password-icon.png")
 
