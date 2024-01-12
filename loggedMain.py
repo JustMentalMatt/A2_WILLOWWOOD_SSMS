@@ -24,9 +24,15 @@ class adminView(ctk.CTkFrame):
         self.mainloop()
 
     def sidebarFrame(self):
-        sidebar_frame = CTkFrame(self, fg_color="#2A8C55",  width=176, height=650, corner_radius=0)
-        sidebar_frame.pack_propagate(0)
-        sidebar_frame.pack(fill="y", anchor="w", side="left")
+        sidebar = CTkFrame(self, fg_color="#2A8C55",  width=176, height=650, corner_radius=0)
+        sidebar.pack(fill="y", anchor="w", side="left")
+        sidebar.pack_propagate(0)
+        
+
+
+
+        CTkButton(sidebar, text="Menu", fg_color="transparent", font=("Arial Bold", 14), hover_color="#207244", anchor="w").pack(anchor="center", ipady=5, pady=(60, 0))
+
 
         
 
