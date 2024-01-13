@@ -2,6 +2,7 @@ from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 
+
 app = CTk()
 app.geometry("856x645")
 app.resizable(0,0)
