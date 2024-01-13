@@ -1,139 +1,354 @@
-import customtkinter
-import sqlite3
-from tkinter import *
+import customtkinter as ctk
+import tkinter as tk
+from customtkinter import *
 from tkinter import ttk
-from sqliteui import AdminUsersTable_ENTRY, DefaultUsersTable_ENTRY
-from login_gui import login
+from PIL import Image
+import sqlite3
+import time
+from loggedMain import mainMenu
+
+globalUser = ""
+globalPass = ""
+globalLogin = False
 
 
-def mainWindow():
-    customtkinter.set_appearance_mode("dark")
-    customtkinter.set_default_color_theme("dark-blue")
+class mainApp(ctk.CTk):
+    def __init__(self):
+        # main window setup
+        super().__init__()
+        self.geometry("600x480")
+        self.title("i love jesus better than icecream")
+        self.resizable(False, False)
 
-    root = customtkinter.CTk()
-    root.geometry("1300x350") # original: 1280x720
-    root.title("Database Viewer")
-    root.resizable(False,False)
-    
-                                            # --------- Frames --------- #:
-    
-    # Title Box:
-    titleboxFrame = customtkinter.CTkFrame(master=root)
-    titleboxFrame.grid(column=0, columnspan=2, row=0, rowspan=1, ipadx=5, ipady=5, padx=20, pady=20, sticky="nsew")
-    tb_title = customtkinter.CTkLabel(master=titleboxFrame, text="SQLite Database Viewer", font=("Roboto", 24, "underline",))
-    tb_title.grid(column=0, row=0, ipadx=10, ipady=10, sticky="nsew")
-    tb_text = customtkinter.CTkLabel(master=titleboxFrame, text=" Database Viewer", font=("Roboto", 12))
-    tb_text.grid(column=0, columnspan=2, row=1, ipadx=10, sticky="w")
-    
-    # User Info Box:
-    
-    usrinfoFrame = customtkinter.CTkFrame(master=root)
-    usrinfoFrame.grid(column=0, columnspan=2, row=2, rowspan=1, ipadx=5, ipady=5, padx=20, pady=10, sticky="nsew")
-    usrName = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Logged in as: " + loggedUserName, font=("Roboto", 14))
-    usrName.grid(column=0, row=0, ipadx=10, ipady=10, sticky="SW")
+        self.main = loginGUI(self)
 
-    authLevel_admin = True # This is temporary. Meant to be fetched from login_gui.py
-    if authLevel_admin == True:
-        authStatus = "Admin"
-    else:
-        authStatus = "User"
-    usrAuth = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Auth Level:  " + authStatus, font=("Roboto", 14))
-    usrAuth.grid(column=0, row=2, ipadx=10, sticky="SW")
-        
-    sqlUIFrame = customtkinter.CTkFrame(master=root)
-    sqlUIFrame.grid(column=2, columnspan=5, row=0, rowspan=5, ipadx=5, ipady=5, padx=30, pady=20, sticky="NSEW")
-    sqlUI = customtkinter.CTkLabel(master=sqlUIFrame,font=("Roboto", 130))
-    sqlUI.grid(column=0, columnspan=5, row=0, rowspan=2, ipadx=10, ipady=10, sticky="NSEW")
-
-    root.mainloop()
-
-loggedUserName = str(login())
-if loggedUserName[0] != " " or None:
-    mainWindow()
+        self.mainloop()
+        loginCheck()
 
 
-    def admin_usersTable():
-        conn = sqlite3.connect('./backend/database.db')
-        c = conn.cursor()
-        c.execute("SELECT * FROM Admin_Users")
-        rows = c.fetchall()
-        t = ttk.Treeview(sqlUI)
-        t["columns"] = ("one", "two", "three", "four", "five")
-        t.heading("#0", text="ID")
-        t.column("#0", minwidth=50, width=50, stretch=YES)
-        t.heading("one", text="Name")
-        t.column("one", minwidth=150, width=150, stretch=YES)
-        t.heading("two", text="Email")
-        t.column("two", minwidth=200, width=200, stretch=YES)
-        t.heading("three", text="Join Date")
-        t.column("three", minwidth=150, width=150, stretch=YES)
-        t.heading("four", text="Username")
-        t.column("four", minwidth=150, width=150, stretch=YES)
-        t.heading("five", text="Password")
-        t.column("five", minwidth=150, width=150, stretch=YES)
+class loginGUI(ctk.CTkFrame):
 
-        for row in rows:
-            t.insert("", END, text=row[0], values=(row[1], row[2], row[3], row[4], row[5]))
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.pack(expand=True, fill="both")
 
-        t.grid(column=0, columnspan=5, row=0, rowspan=2, padx=5, ipadx=10, ipady=10, sticky="NS")
-        
-        conn.commit()
-        c.close()
+        # self.create_login_layout()
+        # self.create_register_layout()
 
-    def default_usersTable():
-        conn = sqlite3.connect('./backend/database.db')
-        c = conn.cursor()
-        c.execute("SELECT * FROM default_users")
-        rows = c.fetchall()
-        t = ttk.Treeview(sqlUI)
-        t["columns"] = ("one", "two", "three", "four", "five", "six")
-        t.heading("#0", text="ID")
-        t.column("#0", minwidth=50, width=50, stretch=YES)
-        t.heading("one", text="Name")
-        t.column("one", minwidth=150, width=150, stretch=YES)
-        t.heading("two", text="Age")
-        t.column("two", minwidth=200, width=200, stretch=YES)
-        t.heading("three", text="Username")
-        t.column("three", minwidth=150, width=150, stretch=YES)
-        t.heading("four", text="Password")
-        t.column("four", minwidth=150, width=150, stretch=YES)
-        t.heading("five", text="Email")
-        t.column("five", minwidth=150, width=150, stretch=YES)
-        t.heading("six", text="Join Date")
-        t.column("six", minwidth=150, width=150, stretch=YES)
-        
-    #admin_usersTable() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
-    default_usersTable()
+        self.create_login_layout()
 
-    def createRecord():
-        #AdminUsersTable_ENTRY() # SQLUI - Create Records for Admin_Users Table - (frontend\sqliteui.py)
-        DefaultUsersTable_ENTRY()
-        
-    createRecord_btn = customtkinter.CTkButton(master=root, text="Add Record", font=("Roboto", 16), command=createRecord)
-    createRecord_btn.grid(column=3, row=4, columnspan=3, padx=5, ipadx=50, sticky="SW")
+    def create_login_layout(self):
 
-    def refreshTable():
-        #admin_usersTable()
-        default_usersTable()
-    refreshTable_btn = customtkinter.CTkButton(master=root, text="Refresh", font=("Roboto", 16), command=refreshTable)
-    refreshTable_btn.grid(column=3, row=4, columnspan=3, padx=5, ipadx=10, sticky="SE")
-    
-    # # Button Box:
-    # btnboxFrame = customtkinter.CTkFrame(master=root)
-    # btnboxFrame.grid(column=0, columnspan=3, row=0, rowspan=10, ipadx=20, ipady=20, padx=20, pady=20, sticky="nsew")
-    
+        def switch_to_register_layout():
+            for widget in self.winfo_children():
+                widget.destroy()
+            self.create_register_layout()
 
-#########################################################################################################################
+        def onLogin():
+            sqliteConnection = sqlite3.connect('./backend/database.db')
+            cursor = sqliteConnection.cursor()
+            credential_fetch = "SELECT username, password FROM Admin_Users"
+            cursor.execute(credential_fetch)
+            results = cursor.fetchall()
+
+            for row in results:
+                username = row[0]
+                password = row[1]
+
+                if userVar.get() == username and passVar.get() == password:
+                    print("Login Successful")
+                    global globalUser
+                    global globalPass
+                    global globalLogin
+                    globalUser = username
+                    globalPass = password
+                    globalLogin = True
+                    break
+                else:
+                    globalLogin = False
+
+            if globalLogin:
+                self.quit()
+
+        side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
+        email_icon_data = Image.open("./frontend/Templates/Login/Images/email-icon.png")
+        password_icon_data = Image.open("./frontend/Templates/Login/Images/password-icon.png")
+
+        side_img = CTkImage(dark_image=side_img_data, light_image=side_img_data, size=(300, 480))
+        email_icon = CTkImage(dark_image=email_icon_data, light_image=email_icon_data, size=(20, 20))
+        password_icon = CTkImage(dark_image=password_icon_data, light_image=password_icon_data, size=(17, 17))
+
+        ctk.CTkLabel(self, text="", image=side_img).pack(expand=True, side="left")
+
+        frame = ctk.CTkFrame(self, width=300, height=480, fg_color="#ffffff")
+        frame.pack_propagate(0)
+        frame.pack(expand=True, side="right")
+        frame.sticky = "e"
+
+        ctk.CTkLabel(
+            master=frame,
+            text="Welcome Back!",
+            text_color="#37007a",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 24),
+        ).pack(anchor="w", pady=(50, 5), padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="Sign in to your account",
+            text_color="#7E7E7E",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 12),
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="  Username:",
+            text_color="#601E88",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 14),
+            image=email_icon,
+            compound="left",
+        ).pack(anchor="w", pady=(38, 0), padx=(25, 0))
+
+        userVar = ctk.CTkEntry(
+            master=frame,
+            width=225,
+            fg_color="#EEEEEE",
+            border_color="#601E88",
+            border_width=1,
+            text_color="#000000",
+        )
+        userVar.pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="  Password:",
+            text_color="#601E88",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 14),
+            image=password_icon,
+            compound="left",
+        ).pack(anchor="w", pady=(21, 0), padx=(25, 0))
+
+        passVar = ctk.CTkEntry(
+            master=frame,
+            width=225,
+            fg_color="#EEEEEE",
+            border_color="#601E88",
+            border_width=1,
+            text_color="#000000",
+            show="*",
+        )
+        passVar.pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkButton(
+            master=frame,
+            text="Login",
+            fg_color="#37007a",
+            hover_color="#E44982",
+            font=("Arial Bold", 12),
+            text_color="#ffffff",
+            width=225,
+            command=onLogin
+        ).pack(anchor="w", pady=(40, 0), padx=(25, 0))
+
+        ctk.CTkButton(
+            master=frame,
+            text="Register",
+            fg_color="#EEEEEE",
+            hover_color="#c4c2c2",
+            font=("Arial Bold", 12),
+            text_color="#601E88",
+            width=225,
+            command=switch_to_register_layout
+        ).pack(anchor="w", pady=(20, 0), padx=(25, 0))
+
+    def create_register_layout(self):
+
+        def switch_to_login_layout():
+            for widget in self.winfo_children():
+                widget.destroy()
+            self.create_login_layout()
+
+        side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
+        email_icon_data = Image.open("./frontend/Templates/Login/Images/email-icon.png")
+        password_icon_data = Image.open("./frontend/Templates/Login/Images/password-icon.png")
+
+        side_img = CTkImage(dark_image=side_img_data, light_image=side_img_data, size=(300, 480))
+        email_icon = CTkImage(dark_image=email_icon_data, light_image=email_icon_data, size=(20, 20))
+        password_icon = CTkImage(dark_image=password_icon_data, light_image=password_icon_data, size=(17, 17))
+
+        ctk.CTkLabel(self, text="", image=side_img).pack(expand=True, side="left")
+
+        frame = ctk.CTkFrame(self, width=300, height=480, fg_color="#ffffff")
+        frame.pack_propagate(0)
+        frame.pack(expand=True, side="right")
+
+        ctk.CTkLabel(
+            master=frame,
+            text="Register an Account",
+            text_color="#37007a",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 24),
+        ).pack(anchor="w", pady=(20, 10), padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="""By registering an account you are
+agreeing to our terms and conditions.""",
+            text_color="#7E7E7E",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 9),
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="  Full Name:",
+            text_color="#601E88",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 11),
+			# image=email_icon,
+            compound="left",
+        ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        ctk.CTkEntry(
+            master=frame,
+            placeholder_text="Daniel Adams",
+            width=225,
+            height=20,
+            fg_color="#EEEEEE",
+            border_color="#601E88",
+            border_width=1,
+            text_color="#000000",
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="  Email:",
+            text_color="#601E88",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 11),
+			# image=password_icon,
+            compound="left",
+        ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        ctk.CTkEntry(
+            master=frame,
+            placeholder_text="dadams@email.com",
+            width=225,
+            height=20,
+            fg_color="#EEEEEE",
+            border_color="#601E88",
+            border_width=1,
+            text_color="#000000",
+            show="*",
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="  Username:",
+            text_color="#601E88",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 11),
+			# image=password_icon,
+            compound="left",
+        ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        ctk.CTkEntry(
+            master=frame,
+            placeholder_text="lizzo432",
+            width=225,
+            height=20,
+            fg_color="#EEEEEE",
+            border_color="#601E88",
+            border_width=1,
+            text_color="#000000",
+            show="*",
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="  Date of Birth:",
+            text_color="#601E88",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 11),
+			# image=password_icon,
+            compound="left",
+        ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        ctk.CTkEntry(
+            master=frame,
+            placeholder_text="DD/MM/YYYY",
+            width=225,
+            height=20,
+            fg_color="#EEEEEE",
+            border_color="#601E88",
+            border_width=1,
+            text_color="#000000",
+            show="*",
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame,
+            text="  Password:",
+            text_color="#601E88",
+            anchor="w",
+            justify="left",
+            font=("Arial Bold", 11),
+			# image=password_icon,
+            compound="left",
+        ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        ctk.CTkEntry(
+            master=frame,
+            placeholder_text="supersecret123",
+            width=225,
+            height=20,
+            fg_color="#EEEEEE",
+            border_color="#601E88",
+            border_width=1,
+            text_color="#000000",
+            show="*",
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkButton(
+            master=frame,
+            text="Create Account",
+            fg_color="#37007a",
+            hover_color="#E44982",
+            font=("Arial Bold", 12),
+            text_color="#ffffff",
+            width=225,
+        ).pack(anchor="w", pady=(20, 0), padx=(25, 0))
+
+        ctk.CTkButton(
+            master=frame,
+            text="Back to Login",
+            fg_color="#EEEEEE",
+            hover_color="#c4c2c2",
+            font=("Arial Bold", 12),
+            text_color="#601E88",
+            width=225,
+            command=switch_to_login_layout
+        ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
 
-    # tableText = customtkinter.CTkLabel(master=btnboxFrame, text="Browse Tables:", font=("Roboto", 24))
-    # tableText.grid(column=0, row=0, pady=(20, 0), sticky="nsew")
-    
-    # def optionmenu_callback(choice):
-    #     print("optionmenu dropdown clicked:", choice)
+def loginCheck():
+    if globalLogin == True:
+        mainMenu()
+        print("success")
 
-    # combobox = customtkinter.CTkOptionMenu(master=frame, values=["Admin_Users", "Guest_Users"], command=optionmenu_callback) 
-                                          
-                                                                         
-    # combobox.grid(row=1, column=1)
-    # combobox.set("TABLES")  # set initial value
+
+if __name__ == "__main__":
+    mainApp()
