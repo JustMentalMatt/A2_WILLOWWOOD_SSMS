@@ -12,6 +12,7 @@ class mainMenu(ctk.CTk):
         self.title("Logged In - WILLOW WOOD INN")
 
         self.main = adminView(self)
+        self.mainloop()
 
 class adminView(ctk.CTkFrame):
     def __init__(self, parent):
@@ -21,7 +22,6 @@ class adminView(ctk.CTkFrame):
         
         self.sidebarFrame()
 
-        self.mainloop()
 
     def sidebarFrame(self):
         sidebar = CTkFrame(self, fg_color="#2A8C55",  width=176, height=650, corner_radius=0)
