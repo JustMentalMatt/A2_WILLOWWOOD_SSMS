@@ -28,10 +28,11 @@ class adminView(ctk.CTkFrame):
         sidebar.pack(fill="y", anchor="w", side="left")
         sidebar.pack_propagate(0)
         
-
-
-
+        CTkLabel(sidebar, text="", image="./frontend/Resources/WILLOW_LOGO.png" ,anchor="center")
         CTkButton(sidebar, text="Menu", fg_color="transparent", font=("Arial Bold", 14), hover_color="#207244", anchor="w").pack(anchor="center", ipady=5, pady=(60, 0))
+        CTkButton(sidebar, text="Menu", fg_color="transparent", font=("Arial Bold", 14), hover_color="#207244", anchor="w").pack(anchor="center", ipady=5, pady=(0, 0))
+        CTkButton(sidebar, text="Menu", fg_color="transparent", font=("Arial Bold", 14), hover_color="#207244", anchor="w").pack(anchor="center", ipady=5, pady=(0, 0))
+        CTkButton(sidebar, text="Menu", fg_color="transparent", font=("Arial Bold", 14), hover_color="#207244", anchor="w").pack(anchor="center", ipady=5, pady=(0, 0))
 
 
         
