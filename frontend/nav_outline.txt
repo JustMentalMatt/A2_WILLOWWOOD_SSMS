@@ -1,0 +1,49 @@
+1. Seasonal User:
+Profile:
+
+View and edit personal information.
+Change password.
+Enrollment:
+
+Enroll in the summer volunteering opportunity.
+View the status of enrollment.
+Raise concerns or requests (e.g., room change, relocation).
+House Information:
+
+View details about the assigned house.
+See the roommates and supervisor.
+2. Supervisor User:
+Profile:
+
+View and edit personal information.
+Change password.
+House Management:
+
+Accept or deny requests from Seasonal Users to join their house.
+View and edit room layouts for their assigned lodge.
+Communication:
+
+Send and receive alerts or messages from Seasonal Users.
+Report concerns to the Management.
+3. Management User:
+Profile:
+
+View and edit personal information.
+Change password.
+Management Dashboard:
+
+Access to the "General Register" for overall enrollment details.
+Assign houses to supervisors.
+Audit the "General Register" for historical records.
+User Management:
+
+View, edit, create, and delete Supervisor and Seasonal User accounts.
+Access to the complete user database.
+Communication and Alerts:
+
+Send alerts or messages to Supervisors and Seasonal Users.
+Receive reports or concerns from Supervisors.
+Reports:
+
+Generate room reports for daily rota through text-based output.
+Access various reports related to enrollment and house assignments.
