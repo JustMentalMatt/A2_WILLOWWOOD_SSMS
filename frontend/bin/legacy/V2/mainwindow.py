@@ -102,19 +102,19 @@ if loggedUserName[0] != " " or None:
         t.heading("six", text="Join Date")
         t.column("six", minwidth=150, width=150, stretch=YES)
         
-    #admin_usersTable() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
-    default_usersTable()
+    admin_usersTable() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
+    #default_usersTable()
 
     def createRecord():
-        #AdminUsersTable_ENTRY() # SQLUI - Create Records for Admin_Users Table - (frontend\sqliteui.py)
-        DefaultUsersTable_ENTRY()
+        AdminUsersTable_ENTRY() # SQLUI - Create Records for Admin_Users Table - (frontend\sqliteui.py)
+        #DefaultUsersTable_ENTRY()
         
     createRecord_btn = customtkinter.CTkButton(master=root, text="Add Record", font=("Roboto", 16), command=createRecord)
     createRecord_btn.grid(column=3, row=4, columnspan=3, padx=5, ipadx=50, sticky="SW")
 
     def refreshTable():
-        #admin_usersTable()
-        default_usersTable()
+        admin_usersTable()
+        #default_usersTable()
     refreshTable_btn = customtkinter.CTkButton(master=root, text="Refresh", font=("Roboto", 16), command=refreshTable)
     refreshTable_btn.grid(column=3, row=4, columnspan=3, padx=5, ipadx=10, sticky="SE")
     
