@@ -3,16 +3,19 @@ import tkinter as tk
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
+import sqlite3
 
 
 class mainMenu(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("856x645")
+        self.geometry("1056x645")
+        self.resizable(False,False)
         self.title("Logged In - WILLOW WOOD INN")
 
         self.main = adminView(self)
         self.mainloop()
+        
 
 class adminView(ctk.CTkFrame):
     def __init__(self, parent):
@@ -22,35 +25,21 @@ class adminView(ctk.CTkFrame):
         
         self.sidebarFrame()
         self.mainFrame()
-
-
-    def sidebarFrame(self):
-        sidebar = CTkFrame(self, fg_color="#edebde",  width=176, height=650, corner_radius=0)
-        sidebar.pack(fill="y", anchor="w", side="left")
-        sidebar.pack_propagate(0)
-        
-        dat_img_mainLogo = Image.open("./frontend/Resources/WILLOW_LOGO.png")
-        img_mainLogo = CTkImage(dark_image=dat_img_mainLogo, light_image=dat_img_mainLogo, size=(200,200))
-        CTkLabel(sidebar, text="", image=img_mainLogo).pack(pady=(0, 0), anchor="center")
-        
-        CTkButton(sidebar, text="Menu", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 24), hover_color="#207244").pack(anchor="center", ipady=5, pady=(40, 0))
-        CTkButton(sidebar, text="Dashboard", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-        CTkButton(sidebar, text="User\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-        CTkButton(sidebar, text="Reports", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-        CTkButton(sidebar, text="Alerts", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-        
-        CTkButton(sidebar, text="Profile", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 18), hover_color="#207244").pack(anchor="center", ipady=5, pady=(50, 0))
-
+        #self.UserManagementFrame()
 
     def mainFrame(self):
-        main_view = CTkFrame(self, fg_color="#19383d",  width=680, height=650, corner_radius=0)
+        main_view = CTkFrame(self, fg_color="#19383d",  width=900, height=650, corner_radius=0)
         main_view.pack_propagate(0)
         main_view.pack(side="left")
 
         title_frame = CTkFrame(main_view, fg_color="transparent")
-        title_frame.pack(anchor="n", fill="x",  padx=27, pady=(29, 0))
+        title_frame.pack(anchor="n", fill="x",  padx=2, pady=(2, 0))
 
-        CTkLabel(title_frame, text="Welcome [username]!", font=("Trebuchet MS", 58), text_color="#fff").pack(anchor="center", side="top")
+        #CTkLabel(title_frame, text="Welcome [username]!", font=("Trebuchet MS", 58), text_color="#fff").pack(anchor="center", side="top")
+        
+        dat_img_backlogo = Image.open("./frontend/Resources/WILLOW_TITLE_LOGO.png")
+        img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
+        CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
         
         text_frame = CTkFrame(main_view, fg_color="transparent", bg_color="#fff", width=480, height=490, corner_radius=0)
         text_frame.propagate(0)
@@ -60,15 +49,67 @@ class adminView(ctk.CTkFrame):
         
 ######
         
-    def altFrame(self):
-        main_view = CTkFrame(self, fg_color="#edebde",  width=680, height=650, corner_radius=0)
+    def UserManagementFrame(self):
+        
+        def UserManagementDatabase():
+            conn = sqlite3.connect('./backend/database.db')
+            cursor = conn.cursor()
+
+            disp_column = ["ID", "Name", "Email", "Joining_Date", "Username", "Password"] # iunclude coluims you only wanna show
+            columnsSQL = ', '.join(disp_column) # for the sql wuarey
+            cursor.execute(f'SELECT {columnsSQL} FROM Admin_Users') #yupada
+            rows = cursor.fetchall() #this puts it in tabular form so u can just use it with the ctk table thing
+
+            conn.close()
+
+            tabData = [disp_column]
+            tabData.extend(rows)
+            
+            tabFrame = CTkScrollableFrame(master=main_view, fg_color="transparent")
+            tabFrame.pack(expand=True, fill="both", padx=27, pady=21)
+            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=85)
+            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+            table.pack(expand=True)
+        
+        main_view = CTkFrame(self, fg_color="#19383d",  width=680, height=450, corner_radius=0)
         main_view.pack_propagate(0)
-        main_view.pack(side="left")
+        main_view.pack(anchor="ne")
 
         title_frame = CTkFrame(main_view, fg_color="transparent", width=480, height=450, corner_radius=30)
         title_frame.pack(anchor="n", fill="x",  padx=27, pady=(29, 0))
 
         CTkLabel(title_frame, text="AAAAAAA", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+        
+        
+        UserManagementDatabase()
+        
+        
+
+    def sidebarFrame(self):
+            sidebar = CTkFrame(self, fg_color="#edebde",  width=176, height=650, corner_radius=0)
+            sidebar.pack(fill="y", anchor="w", side="left")
+            sidebar.pack_propagate(0)
+
+            
+            dat_img_mainLogo = Image.open("./frontend/Resources/WILLOW_LOGO.png")
+            img_mainLogo = CTkImage(dark_image=dat_img_mainLogo, light_image=dat_img_mainLogo, size=(200,200))
+            CTkLabel(sidebar, text="", image=img_mainLogo).pack(pady=(0, 0), anchor="center")
+            
+            CTkButton(sidebar, text="Menu", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 24), hover_color="#207244").pack(anchor="center", ipady=5, pady=(40, 0))
+            CTkButton(sidebar, text="Dashboard", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+            CTkButton(sidebar, text="User\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+            CTkButton(sidebar, text="Reports", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+            CTkButton(sidebar, text="Alerts", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+            
+            CTkButton(sidebar, text="Profile", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 18), hover_color="#207244").pack(anchor="center", ipady=5, pady=(50, 0))
+            
+
+
+
+
+
+
+
 
 
 # app = CTk()
