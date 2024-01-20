@@ -5,6 +5,8 @@ from CTkTable import CTkTable
 from PIL import Image
 import sqlite3
 
+from SQL_AdminView import *
+
 
 class mainMenu(ctk.CTk):
     def __init__(self):
@@ -45,6 +47,10 @@ class adminView(ctk.CTkFrame):
         img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
         CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
         
+        dat_img_300caff = Image.open("./frontend/Resources/300mg_caff.jpg")
+        img_300caff = CTkImage(dark_image=dat_img_300caff, light_image=dat_img_300caff, size=(720,240))
+        CTkLabel(self.main_view, text="", image=img_300caff).pack(pady=(0, 0), anchor="n")
+        
         text_frame = CTkFrame(self.main_view, fg_color="transparent", bg_color="#fff", width=480, height=490, corner_radius=0)
         text_frame.propagate(0)
         text_frame.pack(anchor="center", fill="x", pady=(30, 30), padx=27)
@@ -52,35 +58,28 @@ class adminView(ctk.CTkFrame):
         CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\n\nHi!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
 
     def UserManagementFrame(self):
-        
-        def UserManagementDatabase():
-            conn = sqlite3.connect('./backend/database.db')
-            cursor = conn.cursor()
 
-            disp_column = ["ID", "Name", "Email", "Joining_Date", "Username", "Password"] # iunclude coluims you only wanna show
-            columnsSQL = ', '.join(disp_column) # for the sql wuarey
-            cursor.execute(f'SELECT {columnsSQL} FROM Admin_Users') #yupada
-            rows = cursor.fetchall() #this puts it in tabular form so u can just use it with the ctk table thing
-
-            conn.close()
-
-            tabData = [disp_column]
-            tabData.extend(rows)
-            
-            tabFrame = CTkScrollableFrame(master=main_view, fg_color="transparent")
-            tabFrame.pack(expand=True, fill="both", padx=27, pady=21)
-            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=85)
-            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
-            table.pack(expand=True)
-        
-        title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=450, corner_radius=30)
+        title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=20, corner_radius=30)
+        title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
         
         CTkLabel(title_frame, text="AAAAAAA", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
         
-        UserManagementDatabase()
+        def INIT_TABLE_AdminUsers():
+            
+            disp_column = SQL_AdminView_fetchadminusers()[0]
+            rows = SQL_AdminView_fetchadminusers()[1]
+            tabData = [disp_column]
+            tabData.extend(rows)
+            
+            tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=300)
+            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=21)
+            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=50)
+            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+            table.pack(expand=True)
+            
+        INIT_TABLE_AdminUsers()
 
-        # Rest of the UserManagementFrame function...
 
     def sidebarFrame(self):
         sidebar = CTkFrame(self, fg_color="#edebde", width=176, height=650, corner_radius=0)
