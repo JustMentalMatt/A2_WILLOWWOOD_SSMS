@@ -52,8 +52,33 @@ class adminView(ctk.CTkFrame):
         CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\n\nHi!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
 
     def UserManagementFrame(self):
+        
+        def UserManagementDatabase():
+            conn = sqlite3.connect('./backend/database.db')
+            cursor = conn.cursor()
+
+            disp_column = ["ID", "Name", "Email", "Joining_Date", "Username", "Password"] # iunclude coluims you only wanna show
+            columnsSQL = ', '.join(disp_column) # for the sql wuarey
+            cursor.execute(f'SELECT {columnsSQL} FROM Admin_Users') #yupada
+            rows = cursor.fetchall() #this puts it in tabular form so u can just use it with the ctk table thing
+
+            conn.close()
+
+            tabData = [disp_column]
+            tabData.extend(rows)
+            
+            tabFrame = CTkScrollableFrame(master=main_view, fg_color="transparent")
+            tabFrame.pack(expand=True, fill="both", padx=27, pady=21)
+            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=85)
+            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+            table.pack(expand=True)
+        
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=450, corner_radius=30)
         title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
+        
+        CTkLabel(title_frame, text="AAAAAAA", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+        
+        UserManagementDatabase()
 
         # Rest of the UserManagementFrame function...
 
