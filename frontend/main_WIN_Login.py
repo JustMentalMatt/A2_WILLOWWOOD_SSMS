@@ -12,16 +12,27 @@ globalPass = ""
 globalLogin = False
 
 
+# class mainApp(ctk.CTk):
+#     def __init__(self):
+#         # main window setup
+#         super().__init__()
+#         self.geometry("600x480")
+#         self.title("i love jesus better than icecream")
+#         self.resizable(False, False)
+
+#         self.main = loginGUI(self)
+
+#         self.mainloop()
+#         loginCheck()
+
 class mainApp(ctk.CTk):
     def __init__(self):
-        # main window setup
         super().__init__()
         self.geometry("600x480")
         self.title("i love jesus better than icecream")
         self.resizable(False, False)
 
         self.main = loginGUI(self)
-
         self.mainloop()
         loginCheck()
 
@@ -58,10 +69,8 @@ class loginGUI(ctk.CTkFrame):
                 if userVar.get() == username and passVar.get() == password:
                     print("Login Successful")
                     global globalUser
-                    global globalPass
                     global globalLogin
                     globalUser = username
-                    globalPass = password
                     globalLogin = True
                     break
                 else:
@@ -344,10 +353,19 @@ agreeing to our terms and conditions.""",
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
 
+# def loginCheck():
+#     if globalLogin == True:
+#         mainMenu()
+#         print("success")
+#         print(globalUser)
+
 def loginCheck():
-    if globalLogin == True:
-        mainMenu()
+    if globalLogin:
+        admin_app = mainMenu()
+        admin_app.mainloop()
         print("success")
+        print(globalUser)
+
 
 
 if __name__ == "__main__":

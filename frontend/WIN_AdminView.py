@@ -4,19 +4,29 @@ from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 import sqlite3
+from tkinter import Toplevel
 
 from SQL_AdminView import *
 
 
-class mainMenu(ctk.CTk):
-    def __init__(self):
-        super().__init__()
+# class mainMenu(ctk.CTk):
+#     def __init__(self):
+#         super().__init__()
+#         self.geometry("1056x645")
+#         self.resizable(False, False)
+#         self.title("Logged In - WILLOW WOOD INN")
+
+#         self.main = adminView(self)
+#         self.mainloop()
+
+class mainMenu(Toplevel):
+    def __init__(self, master=None):
+        super().__init__(master)
         self.geometry("1056x645")
         self.resizable(False, False)
         self.title("Logged In - WILLOW WOOD INN")
 
         self.main = adminView(self)
-        self.mainloop()
 
 
 class adminView(ctk.CTkFrame):
