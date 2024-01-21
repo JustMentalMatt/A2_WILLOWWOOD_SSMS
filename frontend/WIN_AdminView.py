@@ -4,29 +4,29 @@ from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 import sqlite3
-from tkinter import Toplevel
+
 
 from SQL_AdminView import *
 
 
-# class mainMenu(ctk.CTk):
-#     def __init__(self):
-#         super().__init__()
-#         self.geometry("1056x645")
-#         self.resizable(False, False)
-#         self.title("Logged In - WILLOW WOOD INN")
-
-#         self.main = adminView(self)
-#         self.mainloop()
-
-class mainMenu(Toplevel):
-    def __init__(self, master=None):
-        super().__init__(master)
+class mainMenu(ctk.CTk):
+    def __init__(self):
+        super().__init__()
         self.geometry("1056x645")
         self.resizable(False, False)
         self.title("Logged In - WILLOW WOOD INN")
 
         self.main = adminView(self)
+        self.mainloop()
+
+# class mainMenu(CTkToplevel):
+#     def __init__(self, master=None):
+#         super().__init__(master)
+#         self.geometry("1056x645")
+#         self.resizable(False, False)
+#         self.title("Logged In - WILLOW WOOD INN")
+
+#         self.main = adminView(self)
 
 
 class adminView(ctk.CTkFrame):
@@ -42,6 +42,10 @@ class adminView(ctk.CTkFrame):
         self.menuFrame()
 
     def pageDestroy(self):
+        for frame in self.main_view.winfo_children():
+            frame.destroy()
+            
+    def TableDestroy(self):
         for frame in self.main_view.winfo_children():
             frame.destroy()
 
@@ -67,7 +71,7 @@ class adminView(ctk.CTkFrame):
         
         CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\n\nHi!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
 
-    def UserManagementFrame(self):
+    def UserManagementFrame(self, search_query=None):
 
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
@@ -79,13 +83,14 @@ class adminView(ctk.CTkFrame):
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
-        def INIT_TABLE_AdminUsers(search_query=None):
+
+        def INIT_TABLE_AdminUsers():
             
             disp_column = SQL_AdminView_FetchUserTable()[0]
             rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
             tabData = [disp_column]
             tabData.extend(rows)
-
+            
             tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=300)
             tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
             
@@ -94,14 +99,18 @@ class adminView(ctk.CTkFrame):
             table.pack(expand=True)
             
             
+            
             #table.bind("<Double-Button-1>", lambda event: print(table.get_selected_row()))
             
         INIT_TABLE_AdminUsers()
 
         def on_search():
-            search_query = searchBar.get()
-            INIT_TABLE_AdminUsers(search_query)
-            
+            global search_query
+            search_query = None if searchBar.get() == "" else searchBar.get()
+            self.TableDestroy()
+            self.UserManagementFrame(search_query)
+            # INIT_TABLE_AdminUsers(search_q-uery)
+        
         searchBar.bind("<Return>", lambda event: on_search())
 
     def sidebarFrame(self):
