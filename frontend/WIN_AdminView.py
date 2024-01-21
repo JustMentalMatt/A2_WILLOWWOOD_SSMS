@@ -46,8 +46,13 @@ class adminView(ctk.CTkFrame):
             frame.destroy()
             
     def TableDestroy(self):
-        for frame in self.main_view.winfo_children():
-            frame.destroy()
+        # for frame in self.main_view.winfo_children()[1]:
+        #     print(frame)
+        #     frame.destroy()
+            
+        frame = self.main_view.winfo_children()[1] # this is the scrollable frame; specific frame deletion, leaves others.
+        frame.destroy()                            # CHANGE OTHER CODE IN onSearch() IF CHANGING THIS TO THE ABOVE METHOD!
+
 
     def pageSwitch(self, page):
         self.pageDestroy()
@@ -71,7 +76,7 @@ class adminView(ctk.CTkFrame):
         
         CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\n\nHi!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
 
-    def UserManagementFrame(self, search_query=None):
+    def UserManagementFrame(self):
 
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
@@ -84,7 +89,7 @@ class adminView(ctk.CTkFrame):
         searchBar.propagate(0)
         
 
-        def INIT_TABLE_AdminUsers():
+        def INIT_TABLE_AdminUsers(search_query=None):
             
             disp_column = SQL_AdminView_FetchUserTable()[0]
             rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
@@ -108,8 +113,8 @@ class adminView(ctk.CTkFrame):
             global search_query
             search_query = None if searchBar.get() == "" else searchBar.get()
             self.TableDestroy()
-            self.UserManagementFrame(search_query)
-            # INIT_TABLE_AdminUsers(search_q-uery)
+            #self.UserManagementFrame(search_query)     # this repacks the whole frame with searchbar, table and title - not ideal;
+            INIT_TABLE_AdminUsers(search_query)         # this just repacks the table - better ---> Make sure to switch the parameters in the function call if choosing to change method.
         
         searchBar.bind("<Return>", lambda event: on_search())
 
