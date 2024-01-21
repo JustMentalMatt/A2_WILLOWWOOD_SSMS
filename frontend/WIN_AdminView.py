@@ -59,27 +59,40 @@ class adminView(ctk.CTkFrame):
 
     def UserManagementFrame(self):
 
-        title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=20, corner_radius=30)
+        title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
-        title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
+        title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
         
-        CTkLabel(title_frame, text="AAAAAAA", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+        CTkLabel(title_frame, text="User Management", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
         
-        def INIT_TABLE_AdminUsers():
+        searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="#2A8C55", text_color="#000", placeholder_text="Search...")
+        searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
+        searchBar.propagate(0)
+        
+        def INIT_TABLE_AdminUsers(search_query=None):
             
-            disp_column = SQL_AdminView_fetchadminusers()[0]
-            rows = SQL_AdminView_fetchadminusers()[1]
+            disp_column = SQL_AdminView_FetchUserTable()[0]
+            rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
             tabData = [disp_column]
             tabData.extend(rows)
-            
+
             tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=300)
-            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=21)
+            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
+            
             table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=50)
             table.edit_row(0, text_color="#000", hover_color="#2A8C55")
             table.pack(expand=True)
             
+            
+            #table.bind("<Double-Button-1>", lambda event: print(table.get_selected_row()))
+            
         INIT_TABLE_AdminUsers()
 
+        def on_search():
+            search_query = searchBar.get()
+            INIT_TABLE_AdminUsers(search_query)
+            
+        searchBar.bind("<Return>", lambda event: on_search())
 
     def sidebarFrame(self):
         sidebar = CTkFrame(self, fg_color="#edebde", width=176, height=650, corner_radius=0)
