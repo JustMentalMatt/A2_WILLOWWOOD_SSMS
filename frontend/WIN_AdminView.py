@@ -144,7 +144,7 @@ class adminView(ctk.CTkFrame):
             def INIT_TABLE_GeneralRegister(search_query=None):
                 
                 disp_column = SQL_AdminView_FetchGeneralRegister()[0]
-                rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchGeneralRegister()[1]
+                rows = SQL_AdminView_FetchGeneralRegister(search_query)[1] if search_query else SQL_AdminView_FetchGeneralRegister()[1]
                 tabData = [disp_column]
                 tabData.extend(rows)
                 

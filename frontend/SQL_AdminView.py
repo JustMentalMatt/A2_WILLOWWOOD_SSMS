@@ -30,10 +30,7 @@ def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrol
             conn = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = conn.cursor()
 
-            disp_column = ["UserID", "Username", "Password", "FirstName", "LastName", "DOB", "ContactNumber",
-                           "Role", 
-                           "EnrollmentStatus", 
-                           "HouseID"]
+            disp_column = ["UserID", "Username", "Password", "FirstName", "LastName", "DOB", "ContactNumber", "Role", "EnrollmentStatus", "HouseID"]
             columnsSQL = ', '.join(disp_column) # for the sql wuarey
             
 
@@ -42,7 +39,7 @@ def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrol
                 search_condition = f"(EnrollmentStatus = 'Pending' OR EnrollmentStatus = 'Enrolled') AND (Username LIKE '{search_query}%' OR FirstName LIKE '{search_query}%' OR LastName LIKE '{search_query}%')"
                 query = f"SELECT {columnsSQL} FROM UserTable WHERE {search_condition}"
             else:
-                search_condition = f"EnrollmentStatus LIKE 'Pending' OR EnrollmentStatus LIKE 'Enrolled'"
+                search_condition = f"EnrollmentStatus = 'Pending' OR EnrollmentStatus = 'Enrolled'"
                 query = f"SELECT {columnsSQL} FROM UserTable WHERE {search_condition}"
             
             #cursor.execute(f'SELECT {columnsSQL} FROM UserTable') #yupada
