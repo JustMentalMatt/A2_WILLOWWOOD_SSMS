@@ -46,12 +46,13 @@ class adminView(ctk.CTkFrame):
             frame.destroy()
             
     def TableDestroy(self):
-        # for frame in self.main_view.winfo_children()[1]:
-        #     print(frame)
-        #     frame.destroy()
-            
-        frame = self.main_view.winfo_children()[1] # this is the scrollable frame; specific frame deletion, leaves others.
-        frame.destroy()                            # CHANGE OTHER CODE IN onSearch() IF CHANGING THIS TO THE ABOVE METHOD!
+        frames = self.main_view.winfo_children()
+        for frame in frames[1:len(frames)]:
+            print(frame)
+            frame.destroy()
+        
+        # frame = self.main_view.winfo_children()[1] # this is the scrollable frame; specific frame deletion, leaves others.
+        # frame.destroy()                            # CHANGE OTHER CODE IN onSearch() IF CHANGING THIS TO THE ABOVE METHOD!
 
 
     def pageSwitch(self, page):
@@ -112,10 +113,22 @@ class adminView(ctk.CTkFrame):
 
 
         #place for sql queries
-        # optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
-        # optionsFrame.propagate(0)
-        # optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
-        # CTkLabel(optionsFrame, text="", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+        def optionsFrame():
+            optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
+            optionsFrame.propagate(0)
+            optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
+            CTkLabel(optionsFrame, text="", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+
+            CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
+            CTkButton(optionsFrame, text="Edit User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
+            CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
+            CTkButton(optionsFrame, text="Reset Password", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
+            CTkButton(optionsFrame, text="View User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
+            CTkButton(optionsFrame, text="View User Log", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
+            
+
+
+        optionsFrame()
 
         
 
@@ -125,7 +138,8 @@ class adminView(ctk.CTkFrame):
             self.TableDestroy()
             #self.UserManagementFrame(search_query)     # this repacks the whole frame with searchbar, table and title - not ideal;
             INIT_TABLE_AdminUsers(search_query)         # this just repacks the table - better ---> Make sure to switch the parameters in the function call if choosing to change method.
-        
+            optionsFrame()
+
         searchBar.bind("<Return>", lambda event: on_search())
 
     def GeneralRegisterFrame(self):
