@@ -97,6 +97,18 @@ class adminView(ctk.CTkFrame):
 
         def INIT_TABLE_AdminUsers(search_query=None):
             
+            global selectedRow
+            selectedRow = None
+            def TableClickEvent(cell):
+                global selectedRow
+                if selectedRow is not None:
+                    table.deselect_row(selectedRow)
+
+                selectedRow = cell["row"]
+                print("Selected Row:", selectedRow)
+                table.select_row(selectedRow)
+
+
             disp_column = SQL_AdminView_FetchUserTable()[0]
             rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
             tabData = [disp_column]
@@ -105,17 +117,15 @@ class adminView(ctk.CTkFrame):
             tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=300)
             tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
             
-            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=50)
+            table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=50)
             table.edit_row(0, text_color="#000", hover_color="#2A8C55")
             table.pack(expand=True)
-            
-            #table.bind("<Double-Button-1>", lambda event: print(table.get_selected_row()))
 
         INIT_TABLE_AdminUsers()
 
 
         #place for sql queries
-        def addUser():
+        def addUserButton():
             print("Add User")
 
         def optionsFrame():
@@ -124,13 +134,10 @@ class adminView(ctk.CTkFrame):
             optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
             CTkLabel(optionsFrame, text="", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
 
-            CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUser()).pack(anchor="w", ipady=5, pady=(15, 0))
+            CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(15, 0))
             CTkButton(optionsFrame, text="Edit User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
             CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
-            CTkButton(optionsFrame, text="Reset Password", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
-            CTkButton(optionsFrame, text="View User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
-            CTkButton(optionsFrame, text="View User Log", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
-            
+            CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
 
         optionsFrame()
 
