@@ -108,6 +108,23 @@ class adminView(ctk.CTkFrame):
                 print("Selected Row:", selectedRow)
                 table.select_row(selectedRow)
 
+                selectedData = table.get_row(selectedRow)
+
+
+                global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message
+
+                e_ID.set(selectedData[0])
+                e_Username.set(selectedData[1])
+                e_Password.set(selectedData[2])
+                e_FirstName.set(selectedData[3])
+                e_LastName.set(selectedData[4])
+                e_DOB.set(selectedData[5])
+                e_ContactNumber.set(selectedData[6])
+                e_Role.set(selectedData[7])
+                e_EnrollmentStatus.set(selectedData[8])
+                e_HouseID.set(selectedData[9])
+                e_Message.set(selectedData[10])
+
 
             disp_column = SQL_AdminView_FetchUserTable()[0]
             rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
@@ -129,15 +146,42 @@ class adminView(ctk.CTkFrame):
             print("Add User")
 
         def optionsFrame():
+            ###
+            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message
+            e_ID = tk.StringVar()
+            e_Username = tk.StringVar()
+            e_Password = tk.StringVar()
+            e_FirstName = tk.StringVar()
+            e_LastName = tk.StringVar()
+            e_DOB = tk.StringVar()
+            e_ContactNumber = tk.StringVar()
+            e_Role = tk.StringVar()
+            e_EnrollmentStatus = tk.StringVar()
+            e_HouseID = tk.StringVar()
+            e_Message = tk.StringVar()
+            ###
+
             optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
             optionsFrame.propagate(0)
             optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
-            CTkLabel(optionsFrame, text="", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+            #CTkLabel(optionsFrame, text="Options", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
 
-            CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(15, 0))
-            CTkButton(optionsFrame, text="Edit User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
-            CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
-            CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
+            #CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(1, 0))
+            
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_ID, state='readonly').pack(anchor="n", side="left", padx=(35, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Username).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Password).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_FirstName).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_LastName).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_DOB).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_ContactNumber).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Role).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_EnrollmentStatus).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_HouseID).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Message).pack(anchor="n", side="left", padx=(2, 5), fill="x")
+            
+            #CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
+            #CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
 
         optionsFrame()
 
