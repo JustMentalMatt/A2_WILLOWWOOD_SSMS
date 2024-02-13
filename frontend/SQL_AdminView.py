@@ -64,12 +64,34 @@ def DeleteUserSQL(SqlID):
 
     cursor.execute(f"DELETE FROM UserTable WHERE UserID = '{SqlID}'")
     conn.commit()
+
+    #REORDER THE USERID
+    cursor.execute(f"UPDATE UserTable SET UserID = UserID - 1 WHERE UserID > '{SqlID}'")
+    conn.commit()
+
     conn.close()
 
 def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID, Message):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    cursor.execute(f"INSERT INTO UserTable (Username, Password, FirstName, LastName, DOB, ContactNumber, Role, EnrollmentStatus, HouseID, Message) VALUES ('{Username}', '{Password}', '{FirstName}', '{LastName}', '{DOB}', '{ContactNumber}', '{Cmbo_Role}', '{Cmbo_EnrollmentStatus}', '{HouseID}', '{Message}')")
+    cursor.execute('SELECT MAX(UserID) FROM UserTable')
+    conn.commit()
+
+    max_user_id = cursor.fetchone()[0]
+    # Calculate the new UserID by incrementing the maximum UserID
+    NewUID = max_user_id + 1 if max_user_id is not None else 1
+
+    cursor.execute(f"INSERT INTO UserTable (UserID, Username, Password, FirstName, LastName, DOB, ContactNumber, Role, EnrollmentStatus, HouseID, Message) VALUES ('{NewUID}', '{Username}', '{Password}', '{FirstName}', '{LastName}', '{DOB}', '{ContactNumber}', '{Cmbo_Role}', '{Cmbo_EnrollmentStatus}', '{HouseID}', '{Message}')")
     conn.commit()
     conn.close()
+
+# def MANUALREORDER():
+#     conn = sqlite3.connect('./backend/WillowInnDB.db')
+#     cursor = conn.cursor()
+
+#     cursor.execute(f"UPDATE UserTable SET UserID = UserID - 1 WHERE UserID > 15")
+#     conn.commit()
+#     conn.close()
+
+# MANUALREORDER() #this is for the manual reorder of the user id, this is only for testing purposes
