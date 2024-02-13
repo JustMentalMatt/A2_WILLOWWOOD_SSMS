@@ -165,6 +165,12 @@ class adminView(ctk.CTkFrame):
                 except sqlite3.IntegrityError:
                     tk.messagebox.showerror("User Addition", "User already exists.")
                     return
+                except sqlite3.OperationalError:
+                    tk.messagebox.showerror("User Addition", "Database Locked - Restart the application.")
+                    return
+                except sqlite3.DatabaseError:
+                    tk.messagebox.showerror("User Addition", "Database error - restart the application.")
+                    return
 
         def DeleteUserButton():
             if e_Username.get() == "":
