@@ -89,8 +89,9 @@ class adminView(ctk.CTkFrame):
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
-        
-        tableSelect = CTkComboBox(title_frame, values=["ALL USERS", "Management", "Supervisors", "Volunteers"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+        tableSelectVAR = tk.StringVar(value="ALL USERS") #WIP - not implemented yet.
+
+        tableSelect = CTkComboBox(title_frame, values=["ALL USERS", "Management", "Supervisors", "Volunteers"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
         tableSelect.propagate(0)
         tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
 
@@ -143,8 +144,8 @@ class adminView(ctk.CTkFrame):
 
         INIT_TABLE_AllUsers()
 
-
         #place for sql queries
+
         def EditUserButton():
             SqlID = e_ID.get()
             EditUserSQL(SqlID, e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_HouseID.get(), e_Message.get())
