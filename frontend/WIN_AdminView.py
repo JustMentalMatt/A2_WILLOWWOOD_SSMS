@@ -145,9 +145,41 @@ class adminView(ctk.CTkFrame):
 
 
         #place for sql queries
-        def ApplyChangesButton():
+        def EditUserButton():
             SqlID = e_ID.get()
-            EditSQLTable(SqlID, e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_HouseID.get(), e_Message.get())
+            EditUserSQL(SqlID, e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_HouseID.get(), e_Message.get())
+            self.TableDestroy()
+            INIT_TABLE_AllUsers()
+            optionsFrame()
+
+        def AddUserButton():
+            if e_Username.get() == "":
+                tk.messagebox.showerror("User Addition", "No user selected to add.")
+                return
+            else:
+                try:
+                    AddUserSQL(e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_HouseID.get(), e_Message.get())
+                    self.TableDestroy()
+                    INIT_TABLE_AllUsers()
+                    optionsFrame()
+                except sqlite3.IntegrityError:
+                    tk.messagebox.showerror("User Addition", "User already exists.")
+                    return
+
+        def DeleteUserButton():
+            if e_Username.get() == "":
+                tk.messagebox.showerror("User Deletion", "No user selected to delete.")
+                return
+            
+            answer = tk.messagebox.askyesno("User Deletion", f"Are you sure you want to PERMANENTLY DELETE [{e_Username.get()}]?\nThis action cannot be undone.", icon="warning")
+            if answer:
+                SqlID = e_ID.get()
+                DeleteUserSQL(SqlID)
+                self.TableDestroy()
+                INIT_TABLE_AllUsers()
+                optionsFrame()
+        
+        def ClearFieldsButton():
             self.TableDestroy()
             INIT_TABLE_AllUsers()
             optionsFrame()
@@ -196,7 +228,10 @@ class adminView(ctk.CTkFrame):
             CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Message).pack(anchor="n", side="left", padx=(2, 5), fill="x")
             
             #CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
-            CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=ApplyChangesButton).pack(anchor="se", ipady=5, pady=(70, 10), padx=(0, 10))
+            CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=EditUserButton).pack(anchor="e", side="right", ipady=5, pady=(70, 10), padx=(0,10))
+            CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=AddUserButton).pack(anchor="w", side="left", ipady=5, pady=(70, 10), padx=(10,0))
+            CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=DeleteUserButton).pack(anchor="w", side="left", ipady=5, pady=(70, 10), padx=(10,0))
+            CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(70, 10), padx=(0,10))
 
         optionsFrame()
 
