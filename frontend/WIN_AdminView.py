@@ -75,7 +75,7 @@ class adminView(ctk.CTkFrame):
         text_frame.propagate(0)
         text_frame.pack(anchor="center", fill="x", pady=(30, 30), padx=27)
         
-        CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\n\nHi!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        CTkLabel(text_frame, text="\n\n\nWelcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\nYou are currently logged in as an ADMIN USER\nTread with care as you have all access rights!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
 
     def UserManagementFrame(self):
 
@@ -83,35 +83,34 @@ class adminView(ctk.CTkFrame):
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
         
-        CTkLabel(title_frame, text="User Management", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+        CTkLabel(title_frame, text="User Management", font=("Arial Black", 25), text_color="#DAF7A6").pack(anchor="nw", side="left")
 
-        searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="#2A8C55", text_color="#000", placeholder_text="Search...")
+        searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="transparent", text_color="#000", placeholder_text="Search...")
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
         
-        tableSelect = CTkComboBox(title_frame, values=["ALL USERS", "Management", "Supervisors", "Volunteers"], width=200, height=20, font=("Arial Bold", 15), fg_color="#fff", bg_color="#2A8C55", text_color="#000")
+        tableSelect = CTkComboBox(title_frame, values=["ALL USERS", "Management", "Supervisors", "Volunteers"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
         tableSelect.propagate(0)
-        tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="both")
+        tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
 
 
-        def INIT_TABLE_AdminUsers(search_query=None):
+        def INIT_TABLE_AllUsers(search_query=None):
             
             global selectedRow
             selectedRow = None
             def TableClickEvent(cell):
-                global selectedRow
+                global selectedRow, e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message
+
                 if selectedRow is not None:
                     table.deselect_row(selectedRow)
 
                 selectedRow = cell["row"]
                 print("Selected Row:", selectedRow)
                 table.select_row(selectedRow)
-
                 selectedData = table.get_row(selectedRow)
 
-
-                global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message
+                global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message, Cmbo_Role, Cmbo_EnrollmentStatus
 
                 e_ID.set(selectedData[0])
                 e_Username.set(selectedData[1])
@@ -125,6 +124,9 @@ class adminView(ctk.CTkFrame):
                 e_HouseID.set(selectedData[9])
                 e_Message.set(selectedData[10])
 
+                Cmbo_Role.set(selectedData[7])
+                Cmbo_EnrollmentStatus.set(selectedData[8])
+
 
             disp_column = SQL_AdminView_FetchUserTable()[0]
             rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
@@ -134,11 +136,12 @@ class adminView(ctk.CTkFrame):
             tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=300)
             tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
             
-            table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=50)
+            table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=50)
             table.edit_row(0, text_color="#000", hover_color="#2A8C55")
-            table.pack(expand=True)
+            table.configure(width=50, height=10)
+            table.pack(expand=False, fill="both")
 
-        INIT_TABLE_AdminUsers()
+        INIT_TABLE_AllUsers()
 
 
         #place for sql queries
@@ -147,7 +150,7 @@ class adminView(ctk.CTkFrame):
 
         def optionsFrame():
             ###
-            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message
+            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message, Cmbo_Role, Cmbo_EnrollmentStatus
             e_ID = tk.StringVar()
             e_Username = tk.StringVar()
             e_Password = tk.StringVar()
@@ -159,26 +162,34 @@ class adminView(ctk.CTkFrame):
             e_EnrollmentStatus = tk.StringVar()
             e_HouseID = tk.StringVar()
             e_Message = tk.StringVar()
+            Cmbo_Role = tk.StringVar()
+            Cmbo_EnrollmentStatus = tk.StringVar()
             ###
 
             optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
             optionsFrame.propagate(0)
             optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
-            #CTkLabel(optionsFrame, text="Options", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+            CTkLabel(optionsFrame, text="User Options", font=("Arial Black", 25), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+            CTkLabel(optionsFrame, text="  ID    Username   Password   F_Name     L_Name        DOB      C_Number      Role          E_Status         HouseID    Message", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
 
-            #CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(1, 0))
             
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_ID, state='readonly').pack(anchor="n", side="left", padx=(35, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Username).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Password).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_FirstName).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_LastName).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_DOB).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_ContactNumber).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Role).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_EnrollmentStatus).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_HouseID).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-            CTkEntry(optionsFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="#2A8C55", text_color="#000", textvariable=e_Message).pack(anchor="n", side="left", padx=(2, 5), fill="x")
+            #CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(1, 0))
+            entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
+            entryFrame.propagate(0)
+            entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
+            CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
+            CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Username).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(entryFrame, width=80, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Password).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_FirstName).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_LastName).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_DOB).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            
+            CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ContactNumber).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkComboBox(entryFrame, values=["USER", "SUPV", "MGMT"], width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_Role).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkComboBox(entryFrame, values=["Enrolled", "Not Enrolled", "Pending"], width=110, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_EnrollmentStatus).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+
+            CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_HouseID).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+            CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Message).pack(anchor="n", side="left", padx=(2, 5), fill="x")
             
             #CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
             #CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="e", ipady=5, pady=(15, 0))
@@ -192,7 +203,7 @@ class adminView(ctk.CTkFrame):
             search_query = None if searchBar.get() == "" else searchBar.get()
             self.TableDestroy()
             #self.UserManagementFrame(search_query)     # this repacks the whole frame with searchbar, table and title - not ideal;
-            INIT_TABLE_AdminUsers(search_query)         # this just repacks the table - better ---> Make sure to switch the parameters in the function call if choosing to change method.
+            INIT_TABLE_AllUsers(search_query)         # this just repacks the table - better ---> Make sure to switch the parameters in the function call if choosing to change method.
             optionsFrame()
 
         searchBar.bind("<Return>", lambda event: on_search())
