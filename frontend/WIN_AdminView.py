@@ -294,19 +294,163 @@ class adminView(ctk.CTkFrame):
             
             searchBar.bind("<Return>", lambda event: on_search())
 
-    def AlertFrame(self):
-        title_frame = CTkFrame(self.main_view, fg_color="transparent")
-        title_frame.pack(anchor="n", fill="x", padx=2, pady=(2, 0))
+    def HouseManagementFrame(self):
+        title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
+        title_frame.propagate(0)
+        title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
+        
+        CTkLabel(title_frame, text="House Management", font=("Arial Black", 25), text_color="#DAF7A6").pack(anchor="nw", side="left")
 
-        dat_img_backlogo = Image.open("./frontend/Resources/funny-laugh.png")
-        img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,1000))
-        CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
+        HouseFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=600)
+        HouseFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
+
+        H1 = CTkFrame(HouseFrame, fg_color="transparent", width=480, height=350, border_color="#2A8C55", border_width=2)
+        H1.propagate(0)
+        H1.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
+        CTkLabel(H1, text="House 1", font=("Arial Black", 25), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
         
-        dat_img_300caff = Image.open("./frontend/Resources/300mg_caff.jpg")
-        #img_300caff = CTkImage(dark_image=dat_img_300caff, light_image=dat_img_300caff, size=(720,240))
-        #CTkLabel(self.main_view, text="", image=img_300caff).pack(pady=(0, 0), anchor="n")
-        
-        CTkLabel(title_frame, text="yo momma pigo", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        def INIT_TABLE_House1():
+            disp_column = SQL_AdminView_FetchHouse1()[0]
+            rows = SQL_AdminView_FetchHouse1()[1]
+            tabData = [disp_column]
+            tabData.extend(rows)
+            
+            tabFrame = CTkFrame(master=H1, fg_color="transparent", border_width=0, width=480, height=30)
+            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
+            
+            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
+            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+            table.pack(expand=True)
+
+            dividerFrame1 = CTkFrame(H1, fg_color="transparent", width=240, height=370, border_color="#2A8C55", border_width=2)
+            dividerFrame1.propagate(0)
+            dividerFrame1.pack(side="left", anchor="n", fill="x", padx=25, pady=(20, 20))
+
+            dividerFrame2 = CTkFrame(H1, fg_color="transparent", width=240, height=370, border_color="#2A8C55", border_width=2)
+            dividerFrame2.propagate(0)
+            dividerFrame2.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
+
+            dividerFrame3 = CTkFrame(H1, fg_color="transparent", width=240, height=370, border_color="#2A8C55", border_width=2)
+            dividerFrame3.propagate(0)
+            dividerFrame3.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
+
+            CTkLabel(dividerFrame1, text="Room 1", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+            CTkLabel(dividerFrame2, text="Room 2", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+            CTkLabel(dividerFrame3, text="Room 3", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+
+            
+            C1 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C1.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C2 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C2.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C3 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C3.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C4 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C4.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C5 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C5.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C6 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C6.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C7 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C7.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C8 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C8.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C9 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C9.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C10 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C10.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C11 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C11.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C12 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C12.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+        INIT_TABLE_House1()
+
+
+        H2 = CTkFrame(HouseFrame, fg_color="transparent", width=480, height=350, border_color="#2A8C55", border_width=2)
+        H2.propagate(0)
+        H2.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
+        CTkLabel(H2, text="House 2", font=("Arial Black", 25), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+
+        def INIT_TABLE_House2():
+            disp_column = SQL_AdminView_FetchHouse2()[0]
+            rows = SQL_AdminView_FetchHouse2()[1]
+            tabData = [disp_column]
+            tabData.extend(rows)
+            
+            tabFrame = CTkFrame(master=H2, fg_color="transparent", border_width=0, width=480, height=30)
+            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
+            
+            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
+            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+            table.pack(expand=True)
+
+            dividerFrame1 = CTkFrame(H2, fg_color="transparent", width=240, height=370, border_color="#2A8C55", border_width=2)
+            dividerFrame1.propagate(0)
+            dividerFrame1.pack(side="left", anchor="n", fill="x", padx=25, pady=(20, 20))
+
+            dividerFrame2 = CTkFrame(H2, fg_color="transparent", width=240, height=370, border_color="#2A8C55", border_width=2)
+            dividerFrame2.propagate(0)
+            dividerFrame2.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
+
+            dividerFrame3 = CTkFrame(H2, fg_color="transparent", width=240, height=370, border_color="#2A8C55", border_width=2)
+            dividerFrame3.propagate(0)
+            dividerFrame3.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
+
+            CTkLabel(dividerFrame1, text="Room 1", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+            CTkLabel(dividerFrame2, text="Room 2", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+            CTkLabel(dividerFrame3, text="Room 3", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top")
+
+            
+            C1 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C1.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C2 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C2.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C3 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C3.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C4 = CTkComboBox(dividerFrame1, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C4.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C5 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C5.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C6 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C6.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C7 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C7.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C8 = CTkComboBox(dividerFrame2, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C8.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C9 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C9.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C10 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C10.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C11 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C11.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+            C12 = CTkComboBox(dividerFrame3, values=["User1", "User 2", "User 3", "User 4"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+            C12.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+
+        INIT_TABLE_House2()
+
 
     def sidebarFrame(self):
         sidebar = CTkFrame(self, fg_color="#edebde", width=176, height=650, corner_radius=0)
@@ -324,9 +468,9 @@ class adminView(ctk.CTkFrame):
                     command=lambda: self.pageSwitch(self.UserManagementFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
         CTkButton(sidebar, text="General\nRegister", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
                   command=lambda: self.pageSwitch(self.GeneralRegisterFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
-        CTkButton(sidebar, text="Alerts", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
-                  command=lambda: self.pageSwitch(self.AlertFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
-        CTkButton(sidebar, text="Profile", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 18), hover_color="#207244").pack(anchor="center", ipady=5, pady=(50, 0))
+        CTkButton(sidebar, text="House\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
+                  command=lambda: self.pageSwitch(self.HouseManagementFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
+        CTkButton(sidebar, text="Profile", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 18), hover_color="#207244").pack(anchor="center", ipady=5, pady=(40, 0))
 
 if __name__ == "__main__":
     mainMenu()

@@ -86,6 +86,30 @@ def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo
     conn.commit()
     conn.close()
 
+def SQL_AdminView_FetchHouse1():
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+
+    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail", "HouseSupervisor"]
+    columnsSQL = ', '.join(disp_column) # for the sql wuarey
+
+    cursor.execute(f"SELECT {columnsSQL} FROM HouseTable WHERE HouseID = 1")
+    rows = cursor.fetchall()
+    conn.close()
+    return disp_column, rows
+
+def SQL_AdminView_FetchHouse2():
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+
+    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail", "HouseSupervisor"]
+    columnsSQL = ', '.join(disp_column) # for the sql wuarey
+
+    cursor.execute(f"SELECT {columnsSQL} FROM HouseTable WHERE HouseID = 2")
+    rows = cursor.fetchall()
+    conn.close()
+    return disp_column, rows
+
 ####################################################################################################################
 
 # def ChangeTableView(Option):
