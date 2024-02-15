@@ -86,29 +86,118 @@ def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo
     conn.commit()
     conn.close()
 
-def SQL_AdminView_FetchHouse1():
+def SQL_AdminView_FetchHouse(HouseID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail", "HouseSupervisor"]
+    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
-    cursor.execute(f"SELECT {columnsSQL} FROM HouseTable WHERE HouseID = 1")
+    #get house supervosor name
+    cursor.execute(f"SELECT FirstName, LastName FROM UserTable WHERE Role = 'SUPV' AND HouseID = {HouseID}")
+    HouseSupervisor = cursor.fetchone()
+    HouseSupervisor = f"{HouseSupervisor[0]} {HouseSupervisor[1]}"
+    conn.commit()
+    cursor.execute(f"UPDATE HouseTable SET HouseSupervisor = '{HouseSupervisor}' WHERE HouseID = {HouseID}")
+    conn.commit()
+
+    cursor.execute(f"SELECT {columnsSQL} FROM HouseTable WHERE HouseID = {HouseID}")
     rows = cursor.fetchall()
     conn.close()
-    return disp_column, rows
 
-def SQL_AdminView_FetchHouse2():
+    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail", "HouseSupervisor"]
+    combinedrows = [rows[0] + (HouseSupervisor,)]
+
+    return disp_column, combinedrows, HouseSupervisor
+
+def SQLAdminView_FetchHouseResidents(HouseID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail", "HouseSupervisor"]
+    disp_column = ["FirstName", "LastName"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
+
+    cursor.execute(f"SELECT {columnsSQL} FROM UserTable WHERE HouseID = {HouseID} AND Role = 'USER'")
+    residents = cursor.fetchall()
+    conn.close()
+
+    residents = [" ".join(resident) for resident in residents]
+    residents.insert(0, "Unassigned")
+    return residents
+
+def SQLAdminView_FetchAssignedUser(room_id, bed_id, house_id):
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+
+    disp_column = ["FirstName", "LastName"]
+    columnsSQL = ', '.join(disp_column) # for the sql wuarey
+
+    cursor.execute(f"SELECT {columnsSQL} FROM UserTable WHERE HouseID = {house_id} AND RoomID = {room_id} AND BedID = {bed_id}")
+    assigned_user = cursor.fetchone()
+    conn.close()
+
+    if assigned_user:
+        return " ".join(assigned_user)
+    else:
+        return "Unassigned"
+
+def SQLAdminView_AssignBed(user, RoomID, BedID, HouseID):
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT UserID FROM UserTable WHERE RoomID = {RoomID} AND BedID = {BedID} AND HouseID = {HouseID}")
+    existingUser = cursor.fetchone()
+    if existingUser:
+        cursor.execute(f"UPDATE UserTable SET RoomID = '', BedID = '' WHERE UserID = {existingUser[0]}")
+
+    if user == "Unassigned":
+        cursor.execute(f"UPDATE UserTable SET RoomID = '', BedID = '' WHERE UserID = {existingUser[0]}")
+    else:
+        FirstName, LastName = user.split()
+        cursor.execute(f"UPDATE UserTable SET RoomID = {RoomID}, BedID = {BedID} WHERE FirstName = '{FirstName}' AND LastName = '{LastName}' AND HouseID = {HouseID}")
+    
+    conn.commit()
+    conn.close()
+
+def SQL_AdminView_FetchHouse2(HouseID):
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+
+    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail"]
+    columnsSQL = ', '.join(disp_column) # for the sql wuarey
+
+    #get house supervosor name
+    cursor.execute(f"SELECT FirstName, LastName FROM UserTable WHERE Role = 'SUPV' AND HouseID = 2")
+    HouseSupervisor = cursor.fetchone()
+    HouseSupervisor = f"{HouseSupervisor[0]} {HouseSupervisor[1]}"
+    conn.commit()
+    cursor.execute(f"UPDATE HouseTable SET HouseSupervisor = '{HouseSupervisor}' WHERE HouseID = 2")
+    conn.commit()
 
     cursor.execute(f"SELECT {columnsSQL} FROM HouseTable WHERE HouseID = 2")
     rows = cursor.fetchall()
     conn.close()
-    return disp_column, rows
+
+    disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail", "HouseSupervisor"]
+    combinedrows = [rows[0] + (HouseSupervisor,)]
+
+    return disp_column, combinedrows, HouseSupervisor
+
+def SQLAdminView_FetchHouse2Residents():
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+
+    disp_column = ["FirstName", "LastName"]
+    columnsSQL = ', '.join(disp_column) # for the sql wuarey
+
+    cursor.execute(f"SELECT {columnsSQL} FROM UserTable WHERE HouseID = 2 AND Role = 'USER'")
+    residents = cursor.fetchall()
+    conn.close()
+
+    residents = [" ".join(resident) for resident in residents]
+    residents.insert(0, "Unassigned")
+    return residents
+
 
 ####################################################################################################################
 
