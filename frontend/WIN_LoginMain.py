@@ -5,7 +5,8 @@ from tkinter import ttk
 from PIL import Image
 import sqlite3
 import time
-from WIN_AdminView import mainMenu
+
+from WIN_AdminView import mainMenu 
 
 globalUser = ""
 globalPass = ""
@@ -33,8 +34,9 @@ class mainApp(ctk.CTk):
         self.resizable(False, False)
 
         self.main = loginGUI(self)
+
         self.mainloop()
-        loginCheck()
+
 
 
 class loginGUI(ctk.CTkFrame):
@@ -55,10 +57,30 @@ class loginGUI(ctk.CTkFrame):
                 widget.destroy()
             self.create_register_layout()
 
+        def loginCheck(self):
+            if globalLogin:
+                admin_app = mainMenu()
+                admin_app.mainloop()
+
+                self.admin_app = mainMenu(self)
+                print("success")
+                print(globalUser)
+
+                self.mainloop()
+
+                return True
+            else:
+                print("failed")
+                return False
+
         def onLogin():
             sqliteConnection = sqlite3.connect('./backend/database.db')
             cursor = sqliteConnection.cursor()
-            credential_fetch = "SELECT username, password FROM Admin_Users"
+
+            disp_column = ["Username", "Password","Role"]
+            columnsSQL = ', '.join(disp_column)
+
+            credential_fetch = f"SELECT {columnsSQL} FROM Users WHERE Username = '{userVar.get()}' AND Password = '{passVar.get()}' AND Role = '{roleVar.get()}'"
             cursor.execute(credential_fetch)
             results = cursor.fetchall()
 
@@ -77,7 +99,9 @@ class loginGUI(ctk.CTkFrame):
                     globalLogin = False
 
             if globalLogin:
-                self.quit()
+                self.destroy()
+                self.login = loginCheck(self)
+                self.login.mainloop()
 
         side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
         email_icon_data = Image.open("./frontend/Templates/Login/Images/email-icon.png")
@@ -359,12 +383,7 @@ agreeing to our terms and conditions.""",
 #         print("success")
 #         print(globalUser)
 
-def loginCheck():
-    if globalLogin:
-        admin_app = mainMenu()
-        admin_app.mainloop()
-        print("success")
-        print(globalUser)
+
 
 
 
