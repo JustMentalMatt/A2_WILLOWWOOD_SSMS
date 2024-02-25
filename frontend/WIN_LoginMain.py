@@ -74,13 +74,16 @@ class loginGUI(ctk.CTkFrame):
                 return False
 
         def onLogin():
-            sqliteConnection = sqlite3.connect('./backend/database.db')
+            sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = sqliteConnection.cursor()
 
             disp_column = ["Username", "Password","Role"]
             columnsSQL = ', '.join(disp_column)
 
-            credential_fetch = f"SELECT {columnsSQL} FROM Users WHERE Username = '{userVar.get()}' AND Password = '{passVar.get()}' AND Role = '{roleVar.get()}'"
+            roleVar = tk.StringVar()
+            roleVar.set("Admin")
+
+            credential_fetch = f"SELECT {columnsSQL} FROM UserTable WHERE Username = '{userVar.get()}' AND Password = '{passVar.get()}' AND Role = '{roleVar.get()}'"
             cursor.execute(credential_fetch)
             results = cursor.fetchall()
 
