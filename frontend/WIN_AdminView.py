@@ -8,24 +8,24 @@ import sqlite3
 
 from SQL_AdminView import *
 
-# class mainMenu(ctk.CTk):
-#     def __init__(self):
-#         super().__init__()
-#         self.geometry("1056x645")
-#         self.resizable(False, False)
-#         self.title("Logged In - MANAGEMENT - WILLOW WOOD INN")
-
-#         self.main = adminView(self)
-#         self.mainloop()
-
-class mainMenu(CTkToplevel):
-    def __init__(self, master=None):
-        super().__init__(master)
+class mainMenu(ctk.CTk):
+    def __init__(self):
+        super().__init__()
         self.geometry("1056x645")
         self.resizable(False, False)
-        self.title("Logged In - WILLOW WOOD INN")
+        self.title("Logged In - MANAGEMENT - WILLOW WOOD INN")
 
         self.main = adminView(self)
+        self.mainloop()
+
+# class mainMenu(CTkToplevel):
+#     def __init__(self, master=None):
+#         super().__init__(master)
+#         self.geometry("1056x645")
+#         self.resizable(False, False)
+#         self.title("Logged In - WILLOW WOOD INN")
+
+#         self.main = adminView(self)
 
 
 class adminView(ctk.CTkFrame):

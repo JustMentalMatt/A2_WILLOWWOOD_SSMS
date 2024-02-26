@@ -1,0 +1,159 @@
+-- Define the HouseTable
+CREATE TABLE HouseTable (
+    HouseID INTEGER PRIMARY KEY AUTOINCREMENT,
+    HouseName TEXT NOT NULL UNIQUE,
+    HouseAddress TEXT NOT NULL UNIQUE,
+    HousePhone TEXT NOT NULL UNIQUE,
+    HouseEmail TEXT NOT NULL UNIQUE,
+    HouseSupervisor TEXT NOT NULL,
+    HouseCapacity TEXT NOT NULL,
+    HouseStatus TEXT NOT NULL
+);
+
+-- Define the UserTable with role differentiation and enrollment status
+CREATE TABLE UserTable (
+    UserID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Username VARCHAR(255) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    DOB DATE NOT NULL,
+    ContactNumber INTEGER NOT NULL,
+    RoleID INTEGER NOT NULL,
+    EnrollmentStatus TEXT DEFAULT 'Not Enrolled',
+    HouseID INTEGER DEFAULT NULL,
+    Message TEXT DEFAULT NULL,
+    RoomID INTEGER DEFAULT NULL,
+    BedID INTEGER DEFAULT NULL,
+    FOREIGN KEY (RoleID) REFERENCES UserRoleTable(RoleID),
+    FOREIGN KEY (HouseID) REFERENCES HouseTable(HouseID),
+    FOREIGN KEY (RoomID) REFERENCES RoomTable(RoomID),
+    FOREIGN KEY (BedID) REFERENCES BedTable(BedID)
+);
+
+-- Define the UserRoleTable
+CREATE TABLE UserRoleTable (
+    RoleID INTEGER PRIMARY KEY AUTOINCREMENT,
+    RoleName TEXT NOT NULL
+);
+
+-- Define the Room table
+CREATE TABLE RoomTable (
+    RoomID INTEGER PRIMARY KEY AUTOINCREMENT,
+    RoomNumber INTEGER NOT NULL,
+    RoomType TEXT NOT NULL,
+    RoomCapacity INTEGER NOT NULL,
+    HouseID INTEGER NOT NULL,
+    FOREIGN KEY (HouseID) REFERENCES HouseTable(HouseID)
+);
+
+-- Define the Bed table
+CREATE TABLE BedTable (
+    BedID INTEGER PRIMARY KEY AUTOINCREMENT,
+    RoomID INTEGER NOT NULL,
+    BedNumber INTEGER NOT NULL,
+    BedStatus TEXT NOT NULL,
+    FOREIGN KEY (RoomID) REFERENCES RoomTable(RoomID)
+);
+
+-- Define the Event table
+CREATE TABLE EventTable (
+    EventID INTEGER PRIMARY KEY AUTOINCREMENT,
+    EventName TEXT NOT NULL,
+    EventDate DATE NOT NULL,
+    Capacity INTEGER NOT NULL,
+    DifficultyLevel TEXT NOT NULL,
+    Points INTEGER NOT NULL
+);
+
+-- Define the Task table
+CREATE TABLE TaskTable (
+    TaskID INTEGER PRIMARY KEY AUTOINCREMENT,
+    TaskName TEXT NOT NULL,
+    EventID INTEGER NOT NULL,
+    Capacity INTEGER NOT NULL,
+    DifficultyLevel TEXT NOT NULL,
+    Points INTEGER NOT NULL,
+    FOREIGN KEY (EventID) REFERENCES EventTable(EventID)
+);
+
+-- Define the Booking table
+CREATE TABLE BookingTable (
+    BookingID INTEGER PRIMARY KEY AUTOINCREMENT,
+    EventID INTEGER NOT NULL,
+    UserID INTEGER NOT NULL,
+    BookingDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (EventID) REFERENCES EventTable(EventID),
+    FOREIGN KEY (UserID) REFERENCES UserTable(UserID)
+);
+
+-- Insert sample data into HouseTable
+INSERT INTO HouseTable (HouseName, HouseAddress, HousePhone, HouseEmail, HouseSupervisor, HouseCapacity, HouseStatus)
+VALUES
+    ('House A', '123 Main St', '123-456-7890', 'housea@example.com', 'Supervisor A', '50', 'Active'),
+    ('House B', '456 Elm St', '987-654-3210', 'houseb@example.com', 'Supervisor B', '40', 'Active'),
+    ('House C', '789 Oak St', '555-555-5555', 'housec@example.com', 'Supervisor C', '60', 'Active');
+
+-- Insert sample data into UserRoleTable
+INSERT INTO UserRoleTable (RoleName) VALUES
+    ('Volunteer'),
+    ('Manager'),
+    ('Supervisor');
+
+-- Insert sample data into UserTable
+INSERT INTO UserTable (Username, Password, FirstName, LastName, DOB, ContactNumber, RoleID, HouseID)
+VALUES
+    ('user1', 'password1', 'John', 'Doe', '1990-01-01', '1234567890', 1, 1),
+    ('user2', 'password2', 'Jane', 'Smith', '1995-02-15', '9876543210', 1, 1),
+    ('manager1', 'managerpass', 'Michael', 'Johnson', '1985-06-20', '5555555555', 2, NULL),
+    ('supervisor1', 'supervisorpass', 'Sarah', 'Williams', '1978-12-10', '1112223333', 3, NULL);
+
+-- Insert sample data into Room
+INSERT INTO RoomTable (RoomNumber, RoomType, RoomCapacity, HouseID)
+VALUES
+    (101, 'Single', 1, 1),
+    (102, 'Double', 2, 1),
+    (201, 'Single', 1, 2),
+    (202, 'Double', 2, 2),
+    (301, 'Single', 1, 3),
+    (302, 'Double', 2, 3);
+
+-- Insert sample data into Bed
+INSERT INTO BedTable (RoomID, BedNumber, BedStatus)
+VALUES
+    (1, 1, 'Available'),
+    (2, 1, 'Occupied'),
+    (2, 2, 'Available'),
+    (3, 1, 'Available'),
+    (4, 1, 'Occupied'),
+    (4, 2, 'Occupied'),
+    (5, 1, 'Available'),
+    (6, 1, 'Available'),
+    (6, 2, 'Available');
+
+-- Insert sample data into Event
+INSERT INTO EventTable (EventName, EventDate, Capacity, DifficultyLevel, Points)
+VALUES
+    ('Event 1', '2024-03-01', 50, 'Easy', 10),
+    ('Event 2', '2024-03-05', 40, 'Moderate', 20),
+    ('Event 3', '2024-03-10', 60, 'Hard', 30);
+
+-- Insert sample data into Task
+INSERT INTO TaskTable (TaskName, EventID, Capacity, DifficultyLevel, Points)
+VALUES
+    ('Task 1', 1, 10, 'Easy', 5),
+    ('Task 2', 1, 20, 'Moderate', 10),
+    ('Task 3', 2, 15, 'Moderate', 8),
+    ('Task 4', 2, 25, 'Hard', 15),
+    ('Task 5', 3, 30, 'Hard', 20),
+    ('Task 6', 3, 10, 'Easy', 5);
+
+-- Insert sample data into Booking
+INSERT INTO BookingTable (EventID, UserID, BookingDate)
+VALUES
+    (1, 1, '2024-02-25 10:00:00'),
+    (1, 2, '2024-02-26 11:00:00'),
+    (2, 1, '2024-02-27 12:00:00'),
+    (2, 2, '2024-02-28 13:00:00'),
+    (3, 1, '2024-02-29 14:00:00'),
+    (3, 2, '2024-03-01 15:00:00');
