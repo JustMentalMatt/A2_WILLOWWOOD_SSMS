@@ -83,6 +83,33 @@ class adminView(ctk.CTkFrame):
 
     def UserManagementFrame(self):
 
+        def SwitchTable(tableSelectVAR):
+            print(tableSelectVAR)
+            tableName = tableSelectVAR
+            if tableName == "UserTable":
+                self.TableDestroy()
+                self.INIT_table_AllUsers()
+            elif tableName == "HouseTable":
+                self.TableDestroy()
+                self.INIT_table_House()
+            elif tableName == "EventsTable":
+                self.TableDestroy()
+                self.INIT_table_Events()
+            elif tableName == "BookingTable":
+                self.TableDestroy()
+                self.INIT_table_Booking()
+            elif tableName == "TaskTable":
+                self.TableDestroy()
+                self.INIT_table_Task()
+            elif tableName == "RoomTable":
+                self.TableDestroy()
+                self.INIT_table_Room()
+            elif tableName == "BedTable":
+                self.TableDestroy()
+                self.INIT_table_Bed()
+
+
+
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
@@ -93,19 +120,19 @@ class adminView(ctk.CTkFrame):
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
-        tableSelectVAR = tk.StringVar(value="ALL USERS") #WIP - not implemented yet.
+        tableSelectVAR = tk.StringVar(value="UserTable") #WIP - not implemented yet.
 
-        tableSelect = CTkComboBox(title_frame, values=["ALL USERS", "Management", "Supervisors", "Volunteers"], width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
+        tableSelect = CTkComboBox(title_frame, values=["UserTable", "HouseTable", "EventsTable", "BookingTable", "TaskTable", "RoomTable", "BedTable"], command=SwitchTable, width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
         tableSelect.propagate(0)
         tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
 
 
-        def INIT_TABLE_AllUsers(search_query=None):
+        def INIT_TABLE_AllUsers(self, search_query=None):
             
             global selectedRow
             selectedRow = None
             def TableClickEvent(cell):
-                global selectedRow, e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message
+                global selectedRow, e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID
 
                 if selectedRow is not None:
                     table.deselect_row(selectedRow)
@@ -115,7 +142,7 @@ class adminView(ctk.CTkFrame):
                 table.select_row(selectedRow)
                 selectedData = table.get_row(selectedRow)
 
-                global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message, Cmbo_Role, Cmbo_EnrollmentStatus
+                global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
 
                 e_ID.set(selectedData[0])
                 e_Username.set(selectedData[1])
@@ -124,13 +151,16 @@ class adminView(ctk.CTkFrame):
                 e_LastName.set(selectedData[4])
                 e_DOB.set(selectedData[5])
                 e_ContactNumber.set(selectedData[6])
-                e_Role.set(selectedData[7])
-                e_EnrollmentStatus.set(selectedData[8])
-                e_HouseID.set(selectedData[9])
-                e_Message.set(selectedData[10])
+                e_EnrollmentStatus.set(selectedData[7])
+                e_Message.set(selectedData[8])
+                e_RoleID.set(selectedData[9])
+                e_HouseID.set(selectedData[10])
+                e_RoomID.set(selectedData[11])
+                e_BedID.set(selectedData[12])
+    
 
-                Cmbo_Role.set(selectedData[7])
-                Cmbo_EnrollmentStatus.set(selectedData[8])
+                Cmbo_Role.set(selectedData[13])
+                Cmbo_EnrollmentStatus.set(selectedData[9])
 
 
             disp_column = SQL_AdminView_FetchUserTable()[0]
@@ -141,12 +171,12 @@ class adminView(ctk.CTkFrame):
             tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
             tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
             
-            table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=50)
+            table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], font=("Arial Bold", 10), header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=50)
             table.edit_row(0, text_color="#000", hover_color="#2A8C55")
             table.configure(width=30, height=20)
             table.pack(expand=False, fill="both")
 
-        INIT_TABLE_AllUsers()
+        INIT_TABLE_AllUsers(self)
 
         #place for sql queries
 
@@ -197,7 +227,7 @@ class adminView(ctk.CTkFrame):
 
         def optionsFrame():
             ###
-            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_Role, e_EnrollmentStatus, e_HouseID, e_Message, Cmbo_Role, Cmbo_EnrollmentStatus
+            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
             e_ID = tk.StringVar()
             e_Username = tk.StringVar()
             e_Password = tk.StringVar()
@@ -205,10 +235,12 @@ class adminView(ctk.CTkFrame):
             e_LastName = tk.StringVar()
             e_DOB = tk.StringVar()
             e_ContactNumber = tk.StringVar()
-            e_Role = tk.StringVar()
             e_EnrollmentStatus = tk.StringVar()
-            e_HouseID = tk.StringVar()
             e_Message = tk.StringVar()
+            e_RoleID = tk.StringVar()
+            e_HouseID = tk.StringVar()
+            e_RoomID = tk.StringVar()
+            e_BedID = tk.StringVar()
             Cmbo_Role = tk.StringVar()
             Cmbo_EnrollmentStatus = tk.StringVar()
             ###
