@@ -58,7 +58,6 @@ class adminView(ctk.CTkFrame):
         # frame = self.main_view.winfo_children()[1] # this is the scrollable frame; specific frame deletion, leaves others.
         # frame.destroy()                            # CHANGE OTHER CODE IN onSearch() IF CHANGING THIS TO THE ABOVE METHOD!
 
-
     def pageSwitch(self, page):
         self.pageDestroy()
         page()
@@ -83,33 +82,6 @@ class adminView(ctk.CTkFrame):
 
     def UserManagementFrame(self):
 
-        def SwitchTable(tableSelectVAR):
-            print(tableSelectVAR)
-            tableName = tableSelectVAR
-            if tableName == "UserTable":
-                self.TableDestroy()
-                self.INIT_TABLE_AllUsers()
-            elif tableName == "HouseTable":
-                self.TableDestroy()
-                self.INIT_table_House()
-            elif tableName == "EventsTable":
-                self.TableDestroy()
-                self.INIT_table_Events()
-            elif tableName == "BookingTable":
-                self.TableDestroy()
-                self.INIT_table_Booking()
-            elif tableName == "TaskTable":
-                self.TableDestroy()
-                self.INIT_table_Task()
-            elif tableName == "RoomTable":
-                self.TableDestroy()
-                self.INIT_table_Room()
-            elif tableName == "BedTable":
-                self.TableDestroy()
-                self.INIT_table_Bed()
-
-
-
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
@@ -120,74 +92,19 @@ class adminView(ctk.CTkFrame):
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
+
         tableSelectVAR = tk.StringVar(value="UserTable") #WIP - not implemented yet.
-
-        tableSelect = CTkComboBox(title_frame, values=["UserTable", "HouseTable", "EventsTable", "BookingTable", "TaskTable", "RoomTable", "BedTable"], command=SwitchTable, width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
-        tableSelect.propagate(0)
-        tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
-
-
-    def INIT_TABLE_AllUsers(self, search_query=None):
-        
-        global selectedRow
-        selectedRow = None
-        def TableClickEvent(cell):
-            global selectedRow, e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID
-
-            if selectedRow is not None:
-                table.deselect_row(selectedRow)
-
-            selectedRow = cell["row"]
-            print("Selected Row:", selectedRow)
-            table.select_row(selectedRow)
-            selectedData = table.get_row(selectedRow)
-
-            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
-
-            e_ID.set(selectedData[0])
-            e_Username.set(selectedData[1])
-            e_Password.set(selectedData[2])
-            e_FirstName.set(selectedData[3])
-            e_LastName.set(selectedData[4])
-            e_DOB.set(selectedData[5])
-            e_ContactNumber.set(selectedData[6])
-            e_EnrollmentStatus.set(selectedData[7])
-            e_Message.set(selectedData[8])
-            e_RoleID.set(selectedData[9])
-            e_HouseID.set(selectedData[10])
-            e_RoomID.set(selectedData[11])
-            e_BedID.set(selectedData[12])
-
-
-            Cmbo_Role.set(selectedData[13])
-            Cmbo_EnrollmentStatus.set(selectedData[9])
-
-
-        disp_column = SQL_AdminView_FetchUserTable()[0]
-        rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
-        tabData = [disp_column]
-        tabData.extend(rows)
-        
-        tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
-        tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
-        
-        table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], font=("Arial Bold", 10), header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=50)
-        table.edit_row(0, text_color="#000", hover_color="#2A8C55")
-        table.configure(width=30, height=20)
-        table.pack(expand=False, fill="both")
-
-        self.INIT_TABLE_AllUsers(self)
-
-        #place for sql queries
 
         def EditUserButton():
             SqlID = e_ID.get()
             EditUserSQL(SqlID, e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_HouseID.get(), e_Message.get())
             self.TableDestroy()
-            self.INIT_TABLE_AllUsers()
+            SwitchTable(tableSelectVAR.get())
             optionsFrame()
 
         def AddUserButton():
+            
+            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
             if e_Username.get() == "":
                 tk.messagebox.showerror("User Addition", "No user selected to add.")
                 return
@@ -195,7 +112,7 @@ class adminView(ctk.CTkFrame):
                 try:
                     AddUserSQL(e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_HouseID.get(), e_Message.get())
                     self.TableDestroy()
-                    INIT_TABLE_AllUsers()
+                    SwitchTable(tableSelectVAR.get())
                     optionsFrame()
                 except sqlite3.IntegrityError:
                     tk.messagebox.showerror("User Addition", "User already exists.")
@@ -208,6 +125,7 @@ class adminView(ctk.CTkFrame):
                     return
 
         def DeleteUserButton():
+            global e_Username
             if e_Username.get() == "":
                 tk.messagebox.showerror("User Deletion", "No user selected to delete.")
                 return
@@ -217,13 +135,14 @@ class adminView(ctk.CTkFrame):
                 SqlID = e_ID.get()
                 DeleteUserSQL(SqlID)
                 self.TableDestroy()
-                INIT_TABLE_AllUsers()
+                SwitchTable(tableSelectVAR.get())
                 optionsFrame()
         
         def ClearFieldsButton():
             self.TableDestroy()
-            INIT_TABLE_AllUsers()
+            SwitchTable(tableSelectVAR.get())
             optionsFrame()
+
 
         def optionsFrame():
             ###
@@ -276,14 +195,93 @@ class adminView(ctk.CTkFrame):
             CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=DeleteUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
             CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
 
-        optionsFrame()
+        def INIT_TABLE_AllUsers(self, search_query=None):
+            
+            global selectedRow
+            selectedRow = None
+            def TableClickEvent(cell):
+                global selectedRow, e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID
+
+                if selectedRow is not None:
+                    table.deselect_row(selectedRow)
+
+                selectedRow = cell["row"]
+                print("Selected Row:", selectedRow)
+                table.select_row(selectedRow)
+                selectedData = table.get_row(selectedRow)
+
+                global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
+
+                e_ID.set(selectedData[0])
+                e_Username.set(selectedData[1])
+                e_Password.set(selectedData[2])
+                e_FirstName.set(selectedData[3])
+                e_LastName.set(selectedData[4])
+                e_DOB.set(selectedData[5])
+                e_ContactNumber.set(selectedData[6])
+                e_EnrollmentStatus.set(selectedData[7])
+                e_Message.set(selectedData[8])
+                e_RoleID.set(selectedData[9])
+                e_HouseID.set(selectedData[10])
+                e_RoomID.set(selectedData[11])
+                e_BedID.set(selectedData[12])
+    
+
+                Cmbo_Role.set(selectedData[13])
+                Cmbo_EnrollmentStatus.set(selectedData[9])
+
+
+            disp_column = SQL_AdminView_FetchUserTable()[0]
+            rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
+            tabData = [disp_column]
+            tabData.extend(rows)
+            
+            tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
+            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
+            
+            table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], font=("Arial Bold", 10), header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=50)
+            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+            table.configure(width=30, height=20)
+            table.pack(expand=False, fill="both")
+
+        def SwitchTable(tableSelectVAR):
+            print(tableSelectVAR)
+            tableName = tableSelectVAR
+            if tableName == "UserTable":
+                self.TableDestroy()
+                INIT_TABLE_AllUsers(self)
+                optionsFrame()
+            elif tableName == "HouseTable":
+                self.TableDestroy()
+                self.INIT_table_House()
+            elif tableName == "EventsTable":
+                self.TableDestroy()
+                self.INIT_table_Events()
+            elif tableName == "BookingTable":
+                self.TableDestroy()
+                self.INIT_table_Booking()
+            elif tableName == "TaskTable":
+                self.TableDestroy()
+                self.INIT_table_Task()
+            elif tableName == "RoomTable":
+                self.TableDestroy()
+                self.INIT_table_Room()
+            elif tableName == "BedTable":
+                self.TableDestroy()
+                self.INIT_table_Bed()
+
+        tableSelect = CTkComboBox(title_frame, values=["UserTable", "HouseTable", "EventsTable", "BookingTable", "TaskTable", "RoomTable", "BedTable"], command=SwitchTable, width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
+        tableSelect.propagate(0)
+        tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
+
+        SwitchTable("UserTable")
+
+        #place for sql queries
 
         def on_search():
-            global search_query
             search_query = None if searchBar.get() == "" else searchBar.get()
             self.TableDestroy()
-            #self.UserManagementFrame(search_query)     # this repacks the whole frame with searchbar, table and title - not ideal;
-            INIT_TABLE_AllUsers(search_query)         # this just repacks the table - better ---> Make sure to switch the parameters in the function call if choosing to change method.
+            INIT_TABLE_AllUsers(self, search_query)         # this just repacks the table - better ---> Make sure to switch the parameters in the function call if choosing to change method.
             optionsFrame()
 
         searchBar.bind("<Return>", lambda event: on_search())
