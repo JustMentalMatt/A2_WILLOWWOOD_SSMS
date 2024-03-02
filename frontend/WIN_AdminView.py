@@ -88,7 +88,7 @@ class adminView(ctk.CTkFrame):
             tableName = tableSelectVAR
             if tableName == "UserTable":
                 self.TableDestroy()
-                self.INIT_table_AllUsers()
+                self.INIT_TABLE_AllUsers()
             elif tableName == "HouseTable":
                 self.TableDestroy()
                 self.INIT_table_House()
@@ -127,56 +127,56 @@ class adminView(ctk.CTkFrame):
         tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
 
 
-        def INIT_TABLE_AllUsers(self, search_query=None):
-            
-            global selectedRow
-            selectedRow = None
-            def TableClickEvent(cell):
-                global selectedRow, e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID
+    def INIT_TABLE_AllUsers(self, search_query=None):
+        
+        global selectedRow
+        selectedRow = None
+        def TableClickEvent(cell):
+            global selectedRow, e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID
 
-                if selectedRow is not None:
-                    table.deselect_row(selectedRow)
+            if selectedRow is not None:
+                table.deselect_row(selectedRow)
 
-                selectedRow = cell["row"]
-                print("Selected Row:", selectedRow)
-                table.select_row(selectedRow)
-                selectedData = table.get_row(selectedRow)
+            selectedRow = cell["row"]
+            print("Selected Row:", selectedRow)
+            table.select_row(selectedRow)
+            selectedData = table.get_row(selectedRow)
 
-                global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
+            global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
 
-                e_ID.set(selectedData[0])
-                e_Username.set(selectedData[1])
-                e_Password.set(selectedData[2])
-                e_FirstName.set(selectedData[3])
-                e_LastName.set(selectedData[4])
-                e_DOB.set(selectedData[5])
-                e_ContactNumber.set(selectedData[6])
-                e_EnrollmentStatus.set(selectedData[7])
-                e_Message.set(selectedData[8])
-                e_RoleID.set(selectedData[9])
-                e_HouseID.set(selectedData[10])
-                e_RoomID.set(selectedData[11])
-                e_BedID.set(selectedData[12])
-    
-
-                Cmbo_Role.set(selectedData[13])
-                Cmbo_EnrollmentStatus.set(selectedData[9])
+            e_ID.set(selectedData[0])
+            e_Username.set(selectedData[1])
+            e_Password.set(selectedData[2])
+            e_FirstName.set(selectedData[3])
+            e_LastName.set(selectedData[4])
+            e_DOB.set(selectedData[5])
+            e_ContactNumber.set(selectedData[6])
+            e_EnrollmentStatus.set(selectedData[7])
+            e_Message.set(selectedData[8])
+            e_RoleID.set(selectedData[9])
+            e_HouseID.set(selectedData[10])
+            e_RoomID.set(selectedData[11])
+            e_BedID.set(selectedData[12])
 
 
-            disp_column = SQL_AdminView_FetchUserTable()[0]
-            rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
-            tabData = [disp_column]
-            tabData.extend(rows)
-            
-            tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
-            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
-            
-            table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], font=("Arial Bold", 10), header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=50)
-            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
-            table.configure(width=30, height=20)
-            table.pack(expand=False, fill="both")
+            Cmbo_Role.set(selectedData[13])
+            Cmbo_EnrollmentStatus.set(selectedData[9])
 
-        INIT_TABLE_AllUsers(self)
+
+        disp_column = SQL_AdminView_FetchUserTable()[0]
+        rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
+        tabData = [disp_column]
+        tabData.extend(rows)
+        
+        tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
+        tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)  
+        
+        table = CTkTable(master=tabFrame, values=tabData, command=TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], font=("Arial Bold", 10), header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=50)
+        table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+        table.configure(width=30, height=20)
+        table.pack(expand=False, fill="both")
+
+        self.INIT_TABLE_AllUsers(self)
 
         #place for sql queries
 
@@ -184,7 +184,7 @@ class adminView(ctk.CTkFrame):
             SqlID = e_ID.get()
             EditUserSQL(SqlID, e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_HouseID.get(), e_Message.get())
             self.TableDestroy()
-            INIT_TABLE_AllUsers()
+            self.INIT_TABLE_AllUsers()
             optionsFrame()
 
         def AddUserButton():
