@@ -32,7 +32,7 @@ def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrol
             conn = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = conn.cursor()
 
-            disp_column = ["UserID", "Username", "Password", "FirstName", "LastName", "DOB", "ContactNumber", "Role", "EnrollmentStatus", "HouseID"]
+            disp_column = ["UserID", "Username", "FirstName", "LastName", "RoleID", "EnrollmentStatus", "HouseID"]
             columnsSQL = ', '.join(disp_column) # for the sql wuarey
             
 
@@ -95,9 +95,15 @@ def SQL_AdminView_FetchHouse(HouseID):
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
     #get house supervosor name
-    cursor.execute(f"SELECT FirstName, LastName FROM UserTable WHERE Role = 'SUPV' AND HouseID = {HouseID}")
+    cursor.execute(f"SELECT FirstName, LastName FROM UserTable WHERE RoleID = '2' AND HouseID = {HouseID}")
+    
     HouseSupervisor = cursor.fetchone()
-    HouseSupervisor = f"{HouseSupervisor[0]} {HouseSupervisor[1]}"
+    
+    if HouseSupervisor == None:
+        HouseSupervisor = "Unassigned"
+    else:
+        HouseSupervisor = f"{HouseSupervisor[0]} {HouseSupervisor[1]}"
+        
     conn.commit()
     cursor.execute(f"UPDATE HouseTable SET HouseSupervisor = '{HouseSupervisor}' WHERE HouseID = {HouseID}")
     conn.commit()
@@ -118,7 +124,7 @@ def SQLAdminView_FetchHouseResidents(HouseID):
     disp_column = ["FirstName", "LastName"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
-    cursor.execute(f"SELECT {columnsSQL} FROM UserTable WHERE HouseID = {HouseID} AND Role = 'USER'")
+    cursor.execute(f"SELECT {columnsSQL} FROM UserTable WHERE HouseID = {HouseID} AND RoleID = '1'")
     residents = cursor.fetchall()
     conn.close()
 

@@ -953,6 +953,7 @@ class adminView(ctk.CTkFrame):
             searchBar.bind("<Return>", lambda event: on_search())
 
     def HouseManagementFrame(self):
+        
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
@@ -999,7 +1000,6 @@ class adminView(ctk.CTkFrame):
 
             def AssignBed(user, RoomID, BedID):
                 SQLAdminView_AssignBed(user, RoomID, BedID, HouseID=1)
-
 
             def FetchAssignedUser(room_id, bed_id):
                 return SQLAdminView_FetchAssignedUser(room_id, bed_id, house_id=1)
