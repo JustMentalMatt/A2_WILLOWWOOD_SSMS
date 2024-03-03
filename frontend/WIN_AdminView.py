@@ -95,12 +95,12 @@ class adminView(ctk.CTkFrame):
         tableSelectVAR = tk.StringVar(value="UserTable") #WIP - not implemented yet.
 
         class UserTable:
-            def __init__(self, parent, search_query=None):
+            def __init__(self, parent):
                 self.parent = parent
                 self.main_view = parent.main_view
-                self.INIT_TABLE_AllUsers()
+                self.INIT_TABLE_AllUsers(search_query=None)
                 self.optionsFrame()
-                self.search_query = search_query
+
                 
             def EditUserButton(self):
                 EditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
@@ -177,10 +177,17 @@ class adminView(ctk.CTkFrame):
                 Cmbo_EnrollmentStatus.set(selectedData[7])
                 
             def INIT_TABLE_AllUsers(self, search_query=None):
+                
 
+                adminView.TableDestroy(self)
+                
+                print(f"{search_query} - Search Query") # debug print
+                
                 global table
-                disp_column = SQL_AdminView_FetchUserTable()[0]
-                rows = SQL_AdminView_FetchUserTable(search_query)[1] if search_query else SQL_AdminView_FetchUserTable()[1]
+                result = SQL_AdminView_FetchUserTable(search_query)
+                disp_column = result[0]
+                rows = result[1]
+                
                 tabData = [disp_column]
                 tabData.extend(rows)
                 
@@ -191,6 +198,8 @@ class adminView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=False)
                 table.configure(width=45, height=20)
+                
+                self.optionsFrame()
                 
             def optionsFrame(self):
                 ###
@@ -247,7 +256,7 @@ class adminView(ctk.CTkFrame):
             def __init__(self, parent):
                 self.parent = parent
                 self.main_view = parent.main_view
-                self.INIT_table_House()
+                self.INIT_table_House(search_query=None)
                 self.optionsFrame()
 
             def EditHouseButton(self):
@@ -312,10 +321,15 @@ class adminView(ctk.CTkFrame):
                 h_Telephone.set(selectedData[3])
                 h_Email.set(selectedData[4])
 
-            def INIT_table_House(self):
+            def INIT_table_House(self, search_query=None):
+                
+                adminView.TableDestroy(self)
+                
                 global table
-                disp_column = SQL_AdminView_FetchHouseTable()[0]
-                rows = SQL_AdminView_FetchHouseTable()[1]
+                result = SQL_AdminView_FetchHouseTable(search_query)
+                disp_column = result[0]
+                rows = result[1]
+                
                 tabData = [disp_column]
                 tabData.extend(rows)
                 
@@ -326,6 +340,8 @@ class adminView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
                 table.configure(width=75, height=20)
+                
+                self.optionsFrame()
             
             def optionsFrame(self):
                 ###
@@ -364,7 +380,7 @@ class adminView(ctk.CTkFrame):
             def __init__(self, parent):
                 self.parent = parent
                 self.main_view = parent.main_view
-                self.INIT_table_Events()
+                self.INIT_table_Events(search_query=None)
                 self.optionsFrame()
 
             def EditEventButton(self):
@@ -430,10 +446,15 @@ class adminView(ctk.CTkFrame):
                 E_Capacity.set(selectedData[4])
                 E_Difficulty.set(selectedData[5])
 
-            def INIT_table_Events(self):
+            def INIT_table_Events(self, search_query=None):
+                
+                adminView.TableDestroy(self)
+                
                 global table
-                disp_column = SQL_AdminView_FetchEventsTable()[0]
-                rows = SQL_AdminView_FetchEventsTable()[1]
+                result = SQL_AdminView_FetchEventsTable(search_query)
+                disp_column = result[0]
+                rows = result[1]
+                
                 tabData = [disp_column]
                 tabData.extend(rows)
                 
@@ -444,6 +465,8 @@ class adminView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.configure(width=30, height=20)
                 table.pack(expand=True)
+                
+                self.optionsFrame()
                 
             def optionsFrame(self):
                 ###
@@ -482,7 +505,7 @@ class adminView(ctk.CTkFrame):
             def __init__(self, parent):
                 self.parent = parent
                 self.main_view = parent.main_view
-                self.INIT_table_Booking()
+                self.INIT_table_Booking(search_query=None)
                 self.optionsFrame()
 
             def EditBookingButton(self):
@@ -546,10 +569,15 @@ class adminView(ctk.CTkFrame):
                 B_UserID.set(selectedData[2])
                 B_Date.set(selectedData[3])
 
-            def INIT_table_Booking(self):
+            def INIT_table_Booking(self, search_query=None):
+                
+                adminView.TableDestroy(self)
+                
                 global table
-                disp_column = SQL_AdminView_FetchBookingTable()[0]
-                rows = SQL_AdminView_FetchBookingTable()[1]
+                result = SQL_AdminView_FetchBookingTable(search_query)
+                disp_column = result[0]
+                rows = result[1]
+                
                 tabData = [disp_column]
                 tabData.extend(rows)
                 
@@ -560,6 +588,8 @@ class adminView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
                 table.configure(width=30, height=20)
+                
+                self.optionsFrame()
             
             def optionsFrame(self):
                 ###
@@ -593,7 +623,7 @@ class adminView(ctk.CTkFrame):
             def __init__(self, parent):
                 self.parent = parent
                 self.main_view = parent.main_view
-                self.INIT_table_Room()
+                self.INIT_table_Room(search_query=None)
                 self.optionsFrame()
                 
             def EditRoomButton(self):
@@ -659,10 +689,14 @@ class adminView(ctk.CTkFrame):
                 R_Capacity.set(selectedData[3])
                 HouseID.set(selectedData[4])
                 
-            def INIT_table_Room(self):
+            def INIT_table_Room(self, search_query=None):
+                
+                adminView.TableDestroy(self)
+                
                 global table
-                disp_column = SQL_AdminView_FetchRoomTable()[0]
-                rows = SQL_AdminView_FetchRoomTable()[1]
+                result = SQL_AdminView_FetchRoomTable(search_query)
+                disp_column = result[0]
+                rows = result[1]
                 tabData = [disp_column]
                 tabData.extend(rows)
                 
@@ -673,6 +707,8 @@ class adminView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
                 table.configure(width=30, height=20)
+                
+                self.optionsFrame()
                 
             def optionsFrame(self):
                 ###
@@ -708,7 +744,7 @@ class adminView(ctk.CTkFrame):
             def __init__(self, parent):
                 self.parent = parent
                 self.main_view = parent.main_view
-                self.INIT_table_Bed()
+                self.INIT_table_Bed(search_query=None)
                 self.optionsFrame()
                 
             def EditBedButton(self):
@@ -772,10 +808,15 @@ class adminView(ctk.CTkFrame):
                 B_Number.set(selectedData[2])
                 B_Status.set(selectedData[3])
                 
-            def INIT_table_Bed(self):
+            def INIT_table_Bed(self, search_query=None):
+                
+                adminView.TableDestroy(self)
+                
                 global table
-                disp_column = SQL_AdminView_FetchBedTable()[0]
-                rows = SQL_AdminView_FetchBedTable()[1]
+                result = SQL_AdminView_FetchBedTable(search_query)
+                disp_column = result[0]
+                rows = result[1]
+                
                 tabData = [disp_column]
                 tabData.extend(rows)
                 
@@ -786,6 +827,8 @@ class adminView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
                 table.configure(width=30, height=20)
+                
+                self.optionsFrame()
                 
             def optionsFrame(self):
                 ###
@@ -821,51 +864,50 @@ class adminView(ctk.CTkFrame):
             tableName = tableSelectVAR
             if tableName == "UserTable":
                 self.TableDestroy()
-                UserTable(self)
+                UserTable(self).INIT_TABLE_AllUsers(search_query=None)
             elif tableName == "HouseTable":
                 self.TableDestroy()
-                HouseTable(self)
+                HouseTable(self).INIT_table_House(search_query=None)
             elif tableName == "EventsTable":
                 self.TableDestroy()
-                EventsTable(self)
+                EventsTable(self).INIT_table_Events(search_query=None)
             elif tableName == "BookingTable":
                 self.TableDestroy()
-                BookingTable(self)
+                BookingTable(self).INIT_table_Booking(search_query=None)
             elif tableName == "RoomTable":
                 self.TableDestroy()
-                RoomTable(self)
+                RoomTable(self).INIT_table_Room(search_query=None)
             elif tableName == "BedTable":
                 self.TableDestroy()
-                BedTable(self)
+                BedTable(self).INIT_table_Bed(search_query=None)
 
         tableSelect = CTkComboBox(title_frame, values=["UserTable", "HouseTable", "EventsTable", "BookingTable", "RoomTable", "BedTable"], command=SwitchTable, width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
         tableSelect.propagate(0)
         tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
 
-        SwitchTable("UserTable")
-
-        #place for sql queries
+        SwitchTable("UserTable") # default table to display
 
         def on_search():
-            
             search_query = None if searchBar.get() == "" else searchBar.get()
-            self.TableDestroy()
             
             if tableSelectVAR.get() == "UserTable":
-                UserTable(self, search_query)
-                print("UserTable")
-                print(search_query)
+                UserTableINST = UserTable(parent=self)
+                UserTableINST.INIT_TABLE_AllUsers(search_query=search_query)
             elif tableSelectVAR.get() == "HouseTable":
-                HouseTable(self, search_query)
+                HouseTableINST = HouseTable(parent=self)
+                HouseTableINST.INIT_table_House(search_query=search_query)
             elif tableSelectVAR.get() == "EventsTable":
-                EventsTable(self, search_query)
+                EventsTableINST = EventsTable(parent=self)
+                EventsTableINST.INIT_table_Events(search_query=search_query)
             elif tableSelectVAR.get() == "BookingTable":
-                BookingTable(self, search_query)
+                BookingTableINST = BookingTable(parent=self)
+                BookingTableINST.INIT_table_Booking(search_query=search_query)
             elif tableSelectVAR.get() == "RoomTable":
-                RoomTable(self, search_query)
+                RoomTableINST = RoomTable(parent=self)
+                RoomTableINST.INIT_table_Room(search_query=search_query)
             elif tableSelectVAR.get() == "BedTable":
-                BedTable(self, search_query)        # this just repacks the table - better ---> Make sure to switch the parameters in the function call if choosing to change method.
-
+                BedTableINST = BedTable(parent=self)
+                BedTableINST.INIT_table_Bed(search_query=search_query)
 
         searchBar.bind("<Return>", lambda event: on_search())
 

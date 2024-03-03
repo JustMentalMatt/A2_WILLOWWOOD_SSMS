@@ -5,6 +5,7 @@ from customtkinter import *
 
 
 def SQL_AdminView_FetchUserTable(search_query=None): #fetches all users from the database
+
             conn = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = conn.cursor()
 
@@ -200,66 +201,96 @@ def SQLAdminView_FetchHouse2Residents():
 
 ########## new @@@@@@@@@@@
 
-def SQL_AdminView_FetchHouseTable():
+def SQL_AdminView_FetchHouseTable(search_query=None):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
-    cursor.execute(f"SELECT {columnsSQL} FROM HouseTable")
+    if search_query:
+        search_condition = f"HouseName LIKE '%{search_query}%' OR HouseAddress LIKE '%{search_query}%' OR HousePhone LIKE '%{search_query}%' OR HouseEmail LIKE '%{search_query}%'"
+        query = f"SELECT {columnsSQL} FROM HouseTable WHERE {search_condition}"
+    else:
+        query = f"SELECT {columnsSQL} FROM HouseTable"
+
+    cursor.execute(query)
     rows = cursor.fetchall()
     conn.close()
 
     return disp_column, rows
 
-def SQL_AdminView_FetchEventsTable():
+def SQL_AdminView_FetchEventsTable(search_query=None):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["EventID", "EventName", "EventDate", "Capacity", "DifficultyLevel", "Points"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
-    cursor.execute(f"SELECT {columnsSQL} FROM EventTable")
+    if search_query:
+        search_condition = f"EventName LIKE '%{search_query}%' OR EventDate LIKE '%{search_query}%' OR Capacity LIKE '%{search_query}%' OR DifficultyLevel LIKE '%{search_query}%' OR Points LIKE '%{search_query}%'"
+        query = f"SELECT {columnsSQL} FROM EventTable WHERE {search_condition}"
+    else:
+        query = f"SELECT {columnsSQL} FROM EventTable"
+
+    cursor.execute(query)
     rows = cursor.fetchall()
     conn.close()
 
     return disp_column, rows
 
-def SQL_AdminView_FetchBookingTable():
+def SQL_AdminView_FetchBookingTable(search_query=None):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["BookingID", "EventID", "UserID", "BookingDate"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
+    
+    if search_query:
+        search_condition = f"EventID LIKE '{search_query}' OR UserID LIKE '{search_query}' OR BookingDate LIKE '{search_query}'"
+        query = f"SELECT {columnsSQL} FROM BookingTable WHERE {search_condition}"
+    else:
+        query = f"SELECT {columnsSQL} FROM BookingTable"
 
-    cursor.execute(f"SELECT {columnsSQL} FROM BookingTable")
+    cursor.execute(query)
     rows = cursor.fetchall()
     conn.close()
 
     return disp_column, rows
 
-def SQL_AdminView_FetchRoomTable():
+def SQL_AdminView_FetchRoomTable(search_query=None):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["RoomID", "RoomNumber", "RoomType", "RoomCapacity", "HouseID"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
-    cursor.execute(f"SELECT {columnsSQL} FROM RoomTable")
+    if search_query:
+        search_condition = f"RoomNumber LIKE '{search_query}' OR RoomType LIKE '{search_query}' OR RoomCapacity LIKE '{search_query}' OR HouseID LIKE '{search_query}'"
+        query = f"SELECT {columnsSQL} FROM RoomTable WHERE {search_condition}"
+    else:
+        query = f"SELECT {columnsSQL} FROM RoomTable"
+    
+    cursor.execute(query)
     rows = cursor.fetchall()
     conn.close()
 
     return disp_column, rows
 
-def SQL_AdminView_FetchBedTable():
+def SQL_AdminView_FetchBedTable(search_query=None):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["BedID", "RoomID", "BedNumber", "BedStatus"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
-    cursor.execute(f"SELECT {columnsSQL} FROM BedTable")
+    if search_query:
+        search_condition = f"RoomID LIKE '{search_query}' OR BedNumber LIKE '{search_query}' OR BedStatus LIKE '{search_query}'"
+        query = f"SELECT {columnsSQL} FROM BedTable WHERE {search_condition}"
+    else:
+        query = f"SELECT {columnsSQL} FROM BedTable"
+
+    cursor.execute(query)
     rows = cursor.fetchall()
     conn.close()
 
