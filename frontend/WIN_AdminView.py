@@ -39,6 +39,8 @@ class adminView(ctk.CTkFrame):
 
         self.sidebarFrame()
         self.menuFrame()
+        name = "admin"
+        return name
 
     def onLogout(self):
             self.destroy()
