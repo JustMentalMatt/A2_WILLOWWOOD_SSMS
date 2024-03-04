@@ -27,13 +27,13 @@ globalLogin = False
 #         loginCheck()
 
 class mainApp(ctk.CTk):
-    def __init__(self):
+    def __init__(self, loginCallback):
         super().__init__()
         self.geometry("600x480")
         self.title("i love jesus better than icecream")
         self.resizable(False, False)
 
-        self.main = loginGUI(self)
+        self.main = loginGUI(self, loginCallback)
 
         self.mainloop()
 
@@ -41,13 +41,11 @@ class mainApp(ctk.CTk):
 
 class loginGUI(ctk.CTkFrame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, loginCallback):
         super().__init__(parent)
         self.pack(expand=True, fill="both")
 
-        # self.create_login_layout()
-        # self.create_register_layout()
-
+        self.loginCallback = loginCallback
         self.create_login_layout()
 
     def create_login_layout(self):
@@ -77,22 +75,21 @@ class loginGUI(ctk.CTkFrame):
             sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = sqliteConnection.cursor()
 
-            disp_column = ["Username", "Password","Role"]
+            print("LoginMain.py | Connected to SQLite")
+
+            disp_column = ["Username", "Password","RoleID"]
             columnsSQL = ', '.join(disp_column)
 
-            roleVar = tk.StringVar()
-            roleVar.set("Admin")
-
-            credential_fetch = f"SELECT {columnsSQL} FROM UserTable WHERE Username = '{userVar.get()}' AND Password = '{passVar.get()}' AND Role = '{roleVar.get()}'"
+            credential_fetch = f"SELECT {columnsSQL} FROM UserTable WHERE Username = '{userVar.get()}' AND Password = '{passVar.get()}'"
             cursor.execute(credential_fetch)
             results = cursor.fetchall()
 
             for row in results:
                 username = row[0]
                 password = row[1]
+                role = row[2]
 
                 if userVar.get() == username and passVar.get() == password:
-                    print("Login Successful")
                     global globalUser
                     global globalLogin
                     globalUser = username
@@ -102,9 +99,11 @@ class loginGUI(ctk.CTkFrame):
                     globalLogin = False
 
             if globalLogin:
-                self.destroy()
-                self.login = loginCheck(self)
-                self.login.mainloop()
+                print("LoginMain.py | Login Callback")
+                self.loginCallback(True, username, role)
+                #self.master.destroy()  i actually dont know bruh
+            else:
+                self.loginCallback(False, None, None)
 
         side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
         email_icon_data = Image.open("./frontend/Templates/Login/Images/email-icon.png")
@@ -390,5 +389,16 @@ agreeing to our terms and conditions.""",
 
 
 
-if __name__ == "__main__":
-    mainApp()
+# if __name__ == "__main__":
+#     def login_callback(successful, username, role):
+#         if successful:
+#             print("LoginMain.py | Login Successful")
+#             print("LoginMain.py | Username:", username)
+#             print("LoginMain.py | Role:", role)
+#             # Add logic here to handle the successful login
+#         else:
+#             print("LoginMain.py | Login Failed")
+#             # Add logic here to handle the failed login
+
+#     mainApp = mainApp(login_callback)
+#     mainApp.mainloop()
