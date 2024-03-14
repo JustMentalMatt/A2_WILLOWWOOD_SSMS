@@ -1,57 +1,54 @@
-import customtkinter as ctk
-import tkinter as tk
+
 from customtkinter import *
-from CTkTable import CTkTable
-from PIL import Image
-import sqlite3
 from threading import Thread
 
-from WIN_AdminView import *
 from WIN_LoginMain import *
+from WIN_AdminView import *
+from WIN_SupervisorView import *
+from WIN_VolunteerView import *
 
-# # login
-# class LoginMenu(ctk.CTk):
-#     def __init__(self):
-#         super().__init__()
-#         self.geometry("600x480")
-#         self.title("i love jesus better than icecream")
-#         self.resizable(False, False)
 
-#         self.main = loginGUI(self)
-#         self.mainloop()
-        
-#     def get_login_info(self):
-#         return self.main.logged_in, self.main.username
-        
-# # admin-view
-class AdminMenu(ctk.CTk):
-    def __init__(self):
-        super().__init__()
+class AdminMenu(CTkToplevel):
+    def __init__(self, master=None):
+        super().__init__(master)
         self.geometry("1056x645")
         self.resizable(False, False)
-        self.title("Logged In - MANAGEMENT - WILLOW WOOD INN")
+        self.title(f"Logged In | Manager: {usernameVAR} | WILLOW WOOD INN")
 
         self.main = adminView(self)
         self.mainloop()
-                
-# LoggedIn = True
 
-# def tickle_my_pickle():
+class SupervisorMenu(CTkToplevel):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.geometry("1056x645")
+        self.resizable(False, False)
+        self.title(f"Logged In | Supervisor: {usernameVAR} | WILLOW WOOD INN")
 
-#     if LoggedIn == True:
-#         AdminMenu()
-#     else:
-#         print("You are not authorized to access this page.")
-           
-# tickle_my_pickle()
+        self.main = supervisorView(self)
+        self.mainloop()
 
-from WIN_LoginMain import mainApp as LoginMenu
+class VolunteerMenu(CTkToplevel):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.geometry("1056x645")
+        self.resizable(False, False)
+        self.title(f"Logged In | Volunteer: {usernameVAR} | WILLOW WOOD INN")
+
+        self.main = volunteerView(self)
+        self.mainloop()
+
+
+
+
+
+
 
 
 LoggedIn = True 
 def initiate_login():
     if LoggedIn:
-        object = LoginMenu(handle_login_result)
+        object = mainApp(handle_login_result)
         global t
         t = Thread(target=object)  # Create a thread to run AdminMenu
         t.start()
@@ -63,13 +60,15 @@ def viewManager(role):
     if role == 3:
         AdminMenu()
     elif role == 2:
-        print("main.py | Manager")
+        SupervisorMenu()
     elif role == 1:
-        print("main.py | Volunteer")
+        VolunteerMenu()
     else:
         print("main.py | User Role not found")
 
 def handle_login_result(successful, username, role):
+    global usernameVAR
+    usernameVAR = username
     if successful:
         print("main.py | Login Successful")
         print("main.py | Username:", username)

@@ -29,7 +29,7 @@ class mainMenu(ctk.CTk):
 #         self.main = adminView(self)
 
 
-class adminView(ctk.CTkFrame):
+class supervisorView(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.pack(expand=True, fill="both")
