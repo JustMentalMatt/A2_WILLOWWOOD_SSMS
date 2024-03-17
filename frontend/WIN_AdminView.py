@@ -27,7 +27,6 @@ class mainMenu(ctk.CTk):
 
 #         self.main = adminView(self)
 
-
 class adminView(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
@@ -341,7 +340,7 @@ class adminView(ctk.CTkFrame):
                 table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
-                table.configure(width=75, height=20)
+                table.configure(width=170, height=40)
                 
                 self.optionsFrame()
             
@@ -465,7 +464,7 @@ class adminView(ctk.CTkFrame):
                 
                 table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
-                table.configure(width=30, height=20)
+                table.configure(width=140, height=40)
                 table.pack(expand=True)
                 
                 self.optionsFrame()
@@ -589,7 +588,7 @@ class adminView(ctk.CTkFrame):
                 table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
-                table.configure(width=30, height=20)
+                table.configure(width=210, height=30)
                 
                 self.optionsFrame()
             
@@ -708,7 +707,7 @@ class adminView(ctk.CTkFrame):
                 table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
-                table.configure(width=30, height=20)
+                table.configure(width=170, height=30)
                 
                 self.optionsFrame()
                 
@@ -828,7 +827,7 @@ class adminView(ctk.CTkFrame):
                 table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
-                table.configure(width=30, height=20)
+                table.configure(width=210, height=30)
                 
                 self.optionsFrame()
                 
@@ -939,7 +938,7 @@ class adminView(ctk.CTkFrame):
                 table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
-                table.configure(width=75, height=30)
+                table.configure(width=120, height=30)
 
                 
                 
@@ -1356,6 +1355,3 @@ class adminView(ctk.CTkFrame):
         CTkButton(sidebar, text="House\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
                   command=lambda: self.pageSwitch(self.HouseManagementFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
         CTkButton(sidebar, text="Logout", command=self.onLogout, text_color="#000", fg_color="transparent", font=("Arial Bold", 18), bg_color="#C70039", hover_color="#AD0000").pack(anchor="center", ipady=5, pady=(15, 0))
-
-if __name__ == "__main__":
-    mainMenu()
