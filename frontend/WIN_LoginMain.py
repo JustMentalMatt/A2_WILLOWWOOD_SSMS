@@ -30,7 +30,7 @@ class mainApp(ctk.CTk):
     def __init__(self, loginCallback):
         super().__init__()
         self.geometry("600x480")
-        self.title("i love jesus better than icecream")
+        self.title("Login | Willow Wood Inn")
         self.resizable(False, False)
 
         self.main = loginGUI(self, loginCallback)

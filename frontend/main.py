@@ -39,12 +39,6 @@ class VolunteerMenu(CTkToplevel):
         self.mainloop()
 
 
-
-
-
-
-
-
 LoggedIn = True 
 def initiate_login():
     if LoggedIn:
