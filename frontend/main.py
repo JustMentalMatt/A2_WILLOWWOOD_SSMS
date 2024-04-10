@@ -38,6 +38,10 @@ class VolunteerMenu(CTkToplevel):
         self.main = volunteerView(self)
         self.mainloop()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d11d45f2ec8f0364542345167300bc9b3ecf00b7
 LoggedIn = True 
 def initiate_login():
     if LoggedIn:

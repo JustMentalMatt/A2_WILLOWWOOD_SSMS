@@ -32,19 +32,18 @@ class adminView(ctk.CTkFrame):
         super().__init__(parent)
         self.pack(expand=True, fill="both")
 
-        self.main_view = CTkFrame(self, fg_color="#19383d", width=900, height=650, corner_radius=0)
+        self.main_view = CTkFrame(self, fg_color="#19383d", 
+                                  width=900, height=650, corner_radius=0)
         self.main_view.pack_propagate(0)
         self.main_view.pack(side="right")
 
         self.sidebarFrame()
         self.menuFrame()
-        name = "admin"
-        return name
+
 
     def onLogout(self):
             self.destroy()
             self.quit()
-            # main_WIN_Login()
 
     def pageDestroy(self):
         for frame in self.main_view.winfo_children():
@@ -70,11 +69,7 @@ class adminView(ctk.CTkFrame):
         dat_img_backlogo = Image.open("./frontend/Resources/WILLOW_TITLE_LOGO.png")
         img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
         CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
-        
-        dat_img_300caff = Image.open("./frontend/Resources/300mg_caff.jpg")
-        #img_300caff = CTkImage(dark_image=dat_img_300caff, light_image=dat_img_300caff, size=(720,240))
-        #CTkLabel(self.main_view, text="", image=img_300caff).pack(pady=(0, 0), anchor="n")
-        
+   
         text_frame = CTkFrame(self.main_view, fg_color="transparent", bg_color="#fff", width=480, height=490, corner_radius=0)
         text_frame.propagate(0)
         text_frame.pack(anchor="center", fill="x", pady=(30, 30), padx=27)
@@ -107,8 +102,10 @@ class adminView(ctk.CTkFrame):
                 EditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
                 print(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
 
+                # adminView.TableDestroy(self)
+                # UserTable(self)
                 adminView.TableDestroy(self)
-                UserTable(self)
+                self.INIT_TABLE_AllUsers(search_query=None)
                 
             def AddUserButton(self):
                 global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
