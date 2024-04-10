@@ -105,7 +105,7 @@ class adminView(ctk.CTkFrame):
                 # adminView.TableDestroy(self)
                 # UserTable(self)
                 adminView.TableDestroy(self)
-                self.INIT_TABLE_AllUsers(search_query=None)
+                UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                 
             def AddUserButton(self):
                 global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
@@ -116,7 +116,7 @@ class adminView(ctk.CTkFrame):
                     try:
                         AddUserSQL(e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
                         adminView.TableDestroy(self)
-                        UserTable(self)
+                        UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("User Addition", "Integrity Error.")
                         return
@@ -137,11 +137,11 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteUserSQL(e_ID.get())
                     adminView.TableDestroy(self)
-                    UserTable(self)
+                    UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                UserTable(self)
+                UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                 
             global selectedRow
             selectedRow = None
@@ -260,7 +260,7 @@ class adminView(ctk.CTkFrame):
             def EditHouseButton(self):
                 EditHouseSQL(h_ID.get(), h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get())
                 adminView.TableDestroy(self)
-                HouseTable(self)
+                HouseTable(self).INIT_table_House(search_query=None)
 
             def AddHouseButton(self):
                 
@@ -272,7 +272,8 @@ class adminView(ctk.CTkFrame):
                     try:
                         AddHouseSQL(h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get())
                         adminView.TableDestroy(self)
-                        HouseTable(self)
+                        HouseTable(self).INIT_table_House(search_query=None)
+
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("House Addition", "Integrity Error.")
                         return
@@ -293,11 +294,12 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteHouseSQL(h_ID.get())
                     adminView.TableDestroy(self)
-                    HouseTable(self)
+                    HouseTable(self).INIT_table_House(search_query=None)
+
             
             def ClearHouseFieldsButton(self):
                 adminView.TableDestroy(self)
-                HouseTable(self)
+                HouseTable(self).INIT_table_House(search_query=None)
 
             global selectedRow
             selectedRow = None
@@ -384,7 +386,7 @@ class adminView(ctk.CTkFrame):
             def EditEventButton(self):
                 EditEventSQL(E_ID.get(), E_Name.get(), E_Date.get(), E_Time.get(), E_Capacity.get(), E_Difficulty.get())
                 adminView.TableDestroy(self)
-                EventsTable(self)
+                EventsTable(self).INIT_table_Events(search_query=None)
             
             def AddEventButton(self):
                     
@@ -417,11 +419,12 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteEventSQL(E_ID.get())
                     adminView.TableDestroy(self)
-                    EventsTable(self)
+                    EventsTable(self).INIT_table_Events(search_query=None)
+
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                EventsTable(self)
+                EventsTable(self).INIT_table_Events(search_query=None)
                 
             global selectedRow
             selectedRow = None
@@ -509,7 +512,7 @@ class adminView(ctk.CTkFrame):
             def EditBookingButton(self):
                 EditBookingSQL(B_ID.get(), B_EventID.get(), B_UserID.get(), B_Date.get())
                 adminView.TableDestroy(self)
-                BookingTable(self)
+                BookingTable(self).INIT_table_Booking(search_query=None)
                 
             def AddBookingButton(self):
                         
@@ -521,7 +524,7 @@ class adminView(ctk.CTkFrame):
                     try:
                         AddBookingSQL(B_EventID.get(), B_UserID.get(), B_Date.get())
                         adminView.TableDestroy(self)
-                        BookingTable(self)
+                        BookingTable(self).INIT_table_Booking(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Booking Addition", "Integrity Error.")
                         return
@@ -542,11 +545,11 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteBookingSQL(B_ID.get())
                     adminView.TableDestroy(self)
-                    BookingTable(self)
+                    BookingTable(self).INIT_table_Booking(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                BookingTable(self)
+                BookingTable(self).INIT_table_Booking(search_query=None)
 
             global selectedRow
             selectedRow = None
@@ -627,7 +630,7 @@ class adminView(ctk.CTkFrame):
             def EditRoomButton(self):
                 EditRoomSQL(R_ID.get(), R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get())
                 adminView.TableDestroy(self)
-                RoomTable(self)
+                RoomTable(self).INIT_table_Room(search_query=None)
                 
             def AddRoomButton(self):
                         
@@ -640,7 +643,7 @@ class adminView(ctk.CTkFrame):
                         AddRoomSQL(R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get())
                         adminView.TableDestroy(self)
                         adminView.TableDestroy(self)
-                        RoomTable(self)
+                        RoomTable(self).INIT_table_Room(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Room Addition", "Integrity Error.")
                         return
@@ -661,11 +664,11 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteRoomSQL(R_ID.get())
                     adminView.TableDestroy(self)
-                    RoomTable(self)
+                    RoomTable(self).INIT_table_Room(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                RoomTable(self)
+                RoomTable(self).INIT_table_Room(search_query=None)
                 
             global selectedRow
             selectedRow = None
@@ -748,7 +751,7 @@ class adminView(ctk.CTkFrame):
             def EditBedButton(self):
                 EditBedSQL(B_ID.get(), B_RoomID.get(), B_Number.get(), B_Status.get())
                 adminView.TableDestroy(self)
-                BedTable(self)
+                BedTable(self).INIT_table_Bed(search_query=None)
                 
             def AddBedButton(self):
                             
@@ -760,7 +763,7 @@ class adminView(ctk.CTkFrame):
                     try:
                         AddBedSQL(B_RoomID.get(), B_Number.get(), B_Status.get())
                         adminView.TableDestroy(self)
-                        BedTable(self)
+                        BedTable(self).INIT_table_Bed(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Bed Addition", "Integrity Error.")
                         return
@@ -781,11 +784,11 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteBedSQL(B_ID.get())
                     adminView.TableDestroy(self)
-                    BedTable(self)
+                    BedTable(self).INIT_table_Bed(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                BedTable(self)
+                BedTable(self).INIT_table_Bed(search_query=None)
                 
             global selectedRow
             selectedRow = None
