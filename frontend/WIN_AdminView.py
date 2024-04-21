@@ -202,15 +202,11 @@ class adminView(ctk.CTkFrame):
 
             def exportTable(self):
                 global result
-
                 with open('output.txt', 'w') as f:
-
                     headings = result[0]
                     for heading in headings[0:]:
                         f.write('{:<20}'.format(heading))
                     f.write('\n')
-
-
                     for row in result[1]:
                         row_data = [str(item) if item is not None else '' for item in row]
                         for item in row_data[0:]:
