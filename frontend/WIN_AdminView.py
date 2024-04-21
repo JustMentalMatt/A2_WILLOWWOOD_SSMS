@@ -182,6 +182,7 @@ class adminView(ctk.CTkFrame):
                 print(f"{search_query} - Search Query") # debug print
                 
                 global table
+                global result
                 result = SQL_AdminView_FetchUserTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
@@ -198,6 +199,24 @@ class adminView(ctk.CTkFrame):
                 table.configure(width=45, height=20)
                 
                 self.optionsFrame()
+
+            def exportTable(self):
+                global result
+
+                with open('output.txt', 'w') as f:
+
+                    headings = result[0]
+                    for heading in headings[0:]:
+                        f.write('{:<20}'.format(heading))
+                    f.write('\n')
+
+
+                    for row in result[1]:
+                        row_data = [str(item) if item is not None else '' for item in row]
+                        for item in row_data[0:]:
+                            f.write('{:<20}'.format(item))
+                        f.write('\n')
+
                 
             def optionsFrame(self):
                 ###
@@ -249,7 +268,8 @@ class adminView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+
         class HouseTable:
             def __init__(self, parent):
                 self.parent = parent
