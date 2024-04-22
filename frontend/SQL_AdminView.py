@@ -249,11 +249,11 @@ def SQL_AdminView_FetchBookingTable(search_query=None):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    disp_column = ["BookingID", "EventID", "UserID", "BookingDate"]
+    disp_column = ["BookingID", "TaskID", "UserID", "BookingDate"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
     
     if search_query:
-        search_condition = f"EventID LIKE '{search_query}' OR UserID LIKE '{search_query}' OR BookingDate LIKE '{search_query}'"
+        search_condition = f"TaskID LIKE '{search_query}' OR UserID LIKE '{search_query}' OR BookingDate LIKE '{search_query}'"
         query = f"SELECT {columnsSQL} FROM BookingTable WHERE {search_condition}"
     else:
         query = f"SELECT {columnsSQL} FROM BookingTable"
@@ -372,15 +372,15 @@ def DeleteTaskSQL(TaskID):
     
 #### Booking Buttons ###
 
-def EditBookingSQL(BookingID, EventID, UserID, BookingDate):
+def EditBookingSQL(BookingID, TaskID, UserID, BookingDate):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE BookingTable SET EventID = '{EventID}', UserID = '{UserID}', BookingDate = '{BookingDate}' WHERE BookingID = '{BookingID}'")
+    cursor.execute(f"UPDATE BookingTable SET TaskID = '{TaskID}', UserID = '{UserID}', BookingDate = '{BookingDate}' WHERE BookingID = '{BookingID}'")
     conn.commit()
     conn.close()
     
-def AddBookingSQL(EventID, UserID, BookingDate):
+def AddBookingSQL(TaskID, UserID, BookingDate):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
@@ -391,7 +391,7 @@ def AddBookingSQL(EventID, UserID, BookingDate):
     # Calculate the new BookingID by incrementing the maximum BookingID
     NewBID = max_booking_id + 1 if max_booking_id is not None else 1
 
-    cursor.execute(f"INSERT INTO BookingTable (BookingID, EventID, UserID, BookingDate) VALUES ('{NewBID}', '{EventID}', '{UserID}', '{BookingDate}')")
+    cursor.execute(f"INSERT INTO BookingTable (BookingID, TaskID, UserID, BookingDate) VALUES ('{NewBID}', '{TaskID}', '{UserID}', '{BookingDate}')")
     conn.commit()
     conn.close()
     

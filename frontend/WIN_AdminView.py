@@ -555,19 +555,19 @@ class adminView(ctk.CTkFrame):
                 self.optionsFrame()
 
             def EditBookingButton(self):
-                EditBookingSQL(B_ID.get(), B_EventID.get(), B_UserID.get(), B_Date.get())
+                EditBookingSQL(B_ID.get(), B_TaskID.get(), B_UserID.get(), B_Date.get())
                 adminView.TableDestroy(self)
                 BookingTable(self).INIT_table_Booking(search_query=None)
                 
             def AddBookingButton(self):
                         
-                global B_ID, B_EventID, B_UserID, B_Date
-                if B_EventID.get() == "":
+                global B_ID, B_TaskID, B_UserID, B_Date
+                if B_TaskID.get() == "":
                     tk.messagebox.showerror("Booking Addition", "No Booking selected to add.")
                     return
                 else:
                     try:
-                        AddBookingSQL(B_EventID.get(), B_UserID.get(), B_Date.get())
+                        AddBookingSQL(B_TaskID.get(), B_UserID.get(), B_Date.get())
                         adminView.TableDestroy(self)
                         BookingTable(self).INIT_table_Booking(search_query=None)
                     except sqlite3.IntegrityError:
@@ -581,12 +581,12 @@ class adminView(ctk.CTkFrame):
                         return
             
             def DeleteBookingButton(self):
-                global B_EventID
-                if B_EventID.get() == "":
+                global B_TaskID
+                if B_TaskID.get() == "":
                     tk.messagebox.showerror("Booking Deletion", "No Booking selected to delete.")
                     return
                 
-                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE [{B_EventID.get()}]?\nThis action cannot be undone.", icon="warning")
+                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE [{B_TaskID.get()}]?\nThis action cannot be undone.", icon="warning")
                 if answer:
                     DeleteBookingSQL(B_ID.get())
                     adminView.TableDestroy(self)
@@ -600,7 +600,7 @@ class adminView(ctk.CTkFrame):
             selectedRow = None
             
             def TableClickEvent(self, cell):
-                global selectedRow, B_ID, B_EventID, B_UserID, B_Date, table
+                global selectedRow, B_ID, B_TaskID, B_UserID, B_Date, table
 
                 if selectedRow is not None:
                     table.deselect_row(selectedRow)
@@ -611,7 +611,7 @@ class adminView(ctk.CTkFrame):
                 selectedData = table.get_row(selectedRow)
 
                 B_ID.set(selectedData[0])
-                B_EventID.set(selectedData[1])
+                B_TaskID.set(selectedData[1])
                 B_UserID.set(selectedData[2])
                 B_Date.set(selectedData[3])
 
@@ -653,24 +653,24 @@ class adminView(ctk.CTkFrame):
 
             def optionsFrame(self):
                 ###
-                global selectedRow, B_ID, B_EventID, B_UserID, B_Date, table
+                global selectedRow, B_ID, B_TaskID, B_UserID, B_Date, table
                 B_ID = tk.StringVar()
                 B_UserID = tk.StringVar()
-                B_EventID = tk.StringVar()
+                B_TaskID = tk.StringVar()
                 B_Date = tk.StringVar()
                 
                 optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
                 CTkLabel(optionsFrame, text="Booking Options", font=("Arial Black", 25), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID      EventID    UserID               Date        ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
+                CTkLabel(optionsFrame, text="  ID      TaskID     UserID               Date        ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
                 
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
                 
                 CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
-                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_EventID).pack(anchor="n", side="left", padx=(20, 2), fill="x")
+                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_TaskID).pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_UserID).pack(anchor="n", side="left", padx=(35, 2), fill="x")
                 CTkEntry(entryFrame, width=140, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_Date).pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 
