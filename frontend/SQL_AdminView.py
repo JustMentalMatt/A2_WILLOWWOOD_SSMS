@@ -226,18 +226,18 @@ def SQL_AdminView_FetchHouseTable(search_query=None):
 
     return disp_column, rows
 
-def SQL_AdminView_FetchEventsTable(search_query=None):
+def SQL_AdminView_FetchTaskTable(search_query=None):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    disp_column = ["EventID", "EventName", "EventDate", "Capacity", "DifficultyLevel", "Points"]
+    disp_column = ["TaskID", "TaskName", "Capacity", "DifficultyLevel", "Points"]
     columnsSQL = ', '.join(disp_column) # for the sql wuarey
 
     if search_query:
-        search_condition = f"EventName LIKE '%{search_query}%' OR EventDate LIKE '%{search_query}%' OR Capacity LIKE '%{search_query}%' OR DifficultyLevel LIKE '%{search_query}%' OR Points LIKE '%{search_query}%'"
-        query = f"SELECT {columnsSQL} FROM EventTable WHERE {search_condition}"
+        search_condition = f"TaskName LIKE '%{search_query}%' OR Capacity LIKE '%{search_query}%' OR DifficultyLevel LIKE '%{search_query}%' OR Points LIKE '%{search_query}%'"
+        query = f"SELECT {columnsSQL} FROM TaskTable WHERE {search_condition}"
     else:
-        query = f"SELECT {columnsSQL} FROM EventTable"
+        query = f"SELECT {columnsSQL} FROM TaskTable"
 
     cursor.execute(query)
     rows = cursor.fetchall()
@@ -336,36 +336,36 @@ def DeleteHouseSQL(HouseID):
 
     conn.close()
 
-#### Event Buttons ###
+#### Event ---TASK--- Buttons ###
 
-def EditEventSQL(EventID, EventName, EventDate, Capacity, DifficultyLevel, Points):
+def EditTaskSQL(TaskID, TaskName, Capacity, DifficultyLevel, Points):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE EventTable SET EventName = '{EventName}', EventDate = '{EventDate}', Capacity = '{Capacity}', DifficultyLevel = '{DifficultyLevel}', Points = '{Points}' WHERE EventID = '{EventID}'")
+    cursor.execute(f"UPDATE TaskTable SET TaskName = '{TaskName}', Capacity = '{Capacity}', DifficultyLevel = '{DifficultyLevel}', Points = '{Points}' WHERE TaskID = '{TaskID}'")
     conn.commit()
     conn.close()
     
-def AddEventSQL(EventName, EventDate, Capacity, DifficultyLevel, Points):
+def AddTaskSQL(TaskName, Capacity, DifficultyLevel, Points):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    cursor.execute('SELECT MAX(EventID) FROM EventTable')
+    cursor.execute('SELECT MAX(TaskID) FROM TaskTable')
     conn.commit()
 
-    max_event_id = cursor.fetchone()[0]
+    max_task_id = cursor.fetchone()[0]
     # Calculate the new EventID by incrementing the maximum EventID
-    NewEID = max_event_id + 1 if max_event_id is not None else 1
+    NewTID = max_task_id + 1 if max_task_id is not None else 1
 
-    cursor.execute(f"INSERT INTO EventTable (EventID, EventName, EventDate, Capacity, DifficultyLevel, Points) VALUES ('{NewEID}', '{EventName}', '{EventDate}', '{Capacity}', '{DifficultyLevel}', '{Points}')")
+    cursor.execute(f"INSERT INTO TaskTable (TaskID, TaskName, Capacity, DifficultyLevel, Points) VALUES ('{NewTID}', '{TaskName}', '{Capacity}', '{DifficultyLevel}', '{Points}')")
     conn.commit()
     conn.close()
     
-def DeleteEventSQL(EventID):
+def DeleteTaskSQL(TaskID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
-    cursor.execute(f"DELETE FROM EventTable WHERE EventID = '{EventID}'")
+    cursor.execute(f"DELETE FROM TaskTable WHERE TaskID = '{TaskID}'")
     conn.commit()
 
     conn.close()

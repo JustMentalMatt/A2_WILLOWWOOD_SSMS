@@ -48,8 +48,7 @@ def initiate_login():
     else:
         print("Program Disabled. Please contact the administrator.")
 
-def viewManager(role):
-
+def determineView(role):
     if role == 3:
         AdminMenu()
     elif role == 2:
@@ -66,7 +65,7 @@ def handle_login_result(successful, username, role):
         print("main.py | Login Successful")
         print("main.py | Username:", username)
         print("main.py | Role:", role)
-        viewManager(role)
+        determineView(role)
     else:
         print("main.py | Login Failed")
 
