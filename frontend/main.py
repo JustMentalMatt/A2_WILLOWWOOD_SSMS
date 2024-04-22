@@ -7,7 +7,6 @@ from WIN_AdminView import *
 from WIN_SupervisorView import *
 from WIN_VolunteerView import *
 
-
 class AdminMenu(CTkToplevel):
     def __init__(self, master=None):
         super().__init__(master)
