@@ -68,6 +68,8 @@ def handle_login_result(successful, username, role):
         determineView(role)
     else:
         print("main.py | Login Failed")
+        tk.messagebox.showerror("Login Attempt", "No User found with the given credentials. Please try again.")
+
 
 if __name__ == "__main__":
     initiate_login()
