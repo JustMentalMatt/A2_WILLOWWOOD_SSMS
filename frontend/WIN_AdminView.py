@@ -421,7 +421,7 @@ class adminView(ctk.CTkFrame):
             
             def AddTaskButton(self):
                     
-                    global T_ID, T_Name, T_Date, T_Time, T_Capacity, T_Difficulty
+                    global T_ID, T_Name, T_Capacity, T_Difficulty, T_Points
                     if T_Name.get() == "":
                         tk.messagebox.showerror("Task Addition", "No Task selected to add.")
                         return
@@ -461,7 +461,7 @@ class adminView(ctk.CTkFrame):
             selectedRow = None
             
             def TableClickEvent(self, cell):
-                global selectedRow, T_ID, T_Name, T_Date, T_Time, T_Capacity, T_Difficulty, table
+                global selectedRow, T_ID, T_Name, T_Capacity, T_Difficulty, T_Points, table
 
                 if selectedRow is not None:
                     table.deselect_row(selectedRow)
@@ -473,10 +473,9 @@ class adminView(ctk.CTkFrame):
 
                 T_ID.set(selectedData[0])
                 T_Name.set(selectedData[1])
-                T_Date.set(selectedData[2])
-                T_Time.set(selectedData[3])
-                T_Capacity.set(selectedData[4])
-                T_Difficulty.set(selectedData[5])
+                T_Capacity.set(selectedData[2])
+                T_Difficulty.set(selectedData[3])
+                T_Points.set(selectedData[4])
 
             def INIT_table_Tasks(self, search_query=None):
                 
