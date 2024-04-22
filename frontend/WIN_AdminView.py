@@ -421,8 +421,8 @@ class adminView(ctk.CTkFrame):
             
             def AddTaskButton(self):
                     
-                    global E_ID, E_Name, E_Date, E_Time, E_Capacity, E_Difficulty
-                    if E_Name.get() == "":
+                    global T_ID, T_Name, T_Date, T_Time, T_Capacity, T_Difficulty
+                    if T_Name.get() == "":
                         tk.messagebox.showerror("Task Addition", "No Task selected to add.")
                         return
                     else:
@@ -441,8 +441,8 @@ class adminView(ctk.CTkFrame):
                             return
                         
             def DeleteTaskButton(self):
-                global E_Name
-                if E_Name.get() == "":
+                global T_Name
+                if T_Name.get() == "":
                     tk.messagebox.showerror("Task Deletion", "No Task selected to delete.")
                     return
                 
