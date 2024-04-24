@@ -2,6 +2,7 @@
 
 import re
 import sqlite3
+import tkinter as tk
 
 def validateDate(date):
     # Regular expression for YYYY-MM-DD format
@@ -24,6 +25,42 @@ def validateDate(date):
         elif day > 28:
             return False
     
+    return True
+
+def validateTime(time):
+    # Regular expression for HH:MM:SS format
+    timePattern = re.compile(r'^\d{2}:\d{2}:\d{2}$')
+    if not timePattern.match(time):
+        return False
+    
+    hours, minutes, seconds = map(int, time.split(':'))
+
+    if hours < 0 or hours > 23:
+        return False
+    if minutes < 0 or minutes > 59:
+        return False
+    if seconds < 0 or seconds > 59:
+        return False
+
+    return True
+
+def datetimeCheck(data):
+    datetimePattern = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$')
+
+    if not datetimePattern.match(data):
+        return False
+
+    # Extract date and time components
+    date_time = data.split(' ')
+    date = date_time[0]
+    time = date_time[1]
+
+    if not validateDate(date):
+        return False
+
+    if not validateTime(time):
+        return False
+
     return True
 
 def validatePostcode(postcode):
@@ -71,6 +108,13 @@ def lengthCheck(data, minLength=None, maxLength=None, exactLength=None):
         return False
 
 def rangeCheck(value, minValue=None, maxValue=None, exactValue=None):
+    
+    if isinstance(value, str):
+        try:
+            value = int(value)
+        except ValueError:
+            return False
+    
     if exactValue is not None:
         return value == exactValue
     elif minValue is not None and maxValue is None:
@@ -93,3 +137,160 @@ def dbPresenceCheck(value, table):
     except IndexError as e:
         print(e)
         return False
+    
+    
+    
+# Validation functions for each table
+    
+def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus):
+    
+    if not presenceCheck(Username):
+        tk.messagebox.showerror("Error", "Username is empty")
+        
+    elif not presenceCheck(Password):
+        tk.messagebox.showerror("Error", "Password is empty")
+        
+    elif not lengthCheck(Password, 8):
+        tk.messagebox.showerror("Error", "Password must be at least 8 characters long")
+        
+    elif not presenceCheck(FirstName):
+        tk.messagebox.showerror("Error", "First Name is empty")
+        
+    elif not presenceCheck(LastName):
+        tk.messagebox.showerror("Error", "Last Name is empty")
+        
+    elif not presenceCheck(DOB):
+        tk.messagebox.showerror("Error", "Date of Birth is empty")
+        
+    elif not presenceCheck(ContactNumber):
+        tk.messagebox.showerror("Error", "Contact Number is empty")
+        
+    elif not presenceCheck(Cmbo_Role):
+        tk.messagebox.showerror("Error", "Role is empty")
+        
+    elif not presenceCheck(Cmbo_EnrollmentStatus):
+        tk.messagebox.showerror("Error", "Enrollment Status is empty")
+    
+    elif not validateDate(DOB):
+        tk.messagebox.showerror("Error", "Invalid Date of Birth")
+        
+    elif not validatePhone(ContactNumber):
+        tk.messagebox.showerror("Error", "Invalid Contact Number")
+        
+    elif not dbPresenceCheck(Cmbo_Role, "Role"):
+        tk.messagebox.showerror("Error", "Role does not exist")
+        
+    elif not dbPresenceCheck(Cmbo_EnrollmentStatus, "EnrollmentStatus"):
+        tk.messagebox.showerror("Error", "Enrollment Status does not exist")
+        
+    else:
+        return True
+    
+def HouseValidation(HouseName, HouseAddress, HousePhone, HouseEmail):
+    
+    if not presenceCheck(HouseName):
+        tk.messagebox.showerror("Error", "House Name is empty")
+        
+    elif not presenceCheck(HouseAddress):
+        tk.messagebox.showerror("Error", "House Address is empty")
+        
+    elif not presenceCheck(HousePhone):
+        tk.messagebox.showerror("Error", "House Phone is empty")
+        
+    elif not presenceCheck(HouseEmail):
+        tk.messagebox.showerror("Error", "House Email is empty")
+        
+    elif not validatePhone(HousePhone):
+        tk.messagebox.showerror("Error", "Invalid House Phone")
+        
+    elif not validateEmail(HouseEmail):
+        tk.messagebox.showerror("Error", "Invalid House Email")
+        
+    else:
+        return True
+    
+def TaskValidation(TaskName, Capacity, DifficultyLevel, Points):
+    
+    if not presenceCheck(TaskName):
+        tk.messagebox.showerror("Error", "Task Name is empty")
+        
+    elif not presenceCheck(Capacity):
+        tk.messagebox.showerror("Error", "Capacity is empty")
+        
+    elif not presenceCheck(DifficultyLevel):
+        tk.messagebox.showerror("Error", "Difficulty Level is empty")
+        
+    elif not presenceCheck(Points):
+        tk.messagebox.showerror("Error", "Points is empty")
+        
+    elif not rangeCheck(Capacity, 1):
+        tk.messagebox.showerror("Error", "Capacity must be at least 1")
+        
+    elif not lookupCheck(DifficultyLevel, ["Easy", "Moderate", "Hard"]):
+        tk.messagebox.showerror("Error", "Invalid Difficulty Level")
+        
+    elif not rangeCheck(Points, 1):
+        tk.messagebox.showerror("Error", "Points must be at least 1")
+        
+    else:
+        return True
+    
+def BookingValidaion(TaskID, UserID, BookingDate):
+
+    if not presenceCheck(TaskID):
+        tk.messagebox.showerror("Error", "Task ID is empty")
+    
+    elif not presenceCheck(UserID):
+        tk.messagebox.showerror("Error", "User ID is empty")
+    
+    elif not presenceCheck(BookingDate):
+        tk.messagebox.showerror("Error", "Booking Date is empty")
+    
+    elif not datetimeCheck(BookingDate):
+        tk.messagebox.showerror("Error", "Invalid Booking Date")
+    
+    else:
+        return True
+    
+def RoomValidation(RoomNumber, RoomType, RoomCapacity, HouseID):
+    
+    if not presenceCheck(RoomNumber):
+        tk.messagebox.showerror("Error", "Room Number is empty")
+        
+    elif not presenceCheck(RoomType):
+        tk.messagebox.showerror("Error", "Room Type is empty")
+        
+    elif not presenceCheck(RoomCapacity):
+        tk.messagebox.showerror("Error", "Room Capacity is empty")
+        
+    elif not presenceCheck(HouseID):
+        tk.messagebox.showerror("Error", "House ID is empty")
+        
+    elif not dbPresenceCheck(RoomType, "RoomType"):
+        tk.messagebox.showerror("Error", "Room Type does not exist")
+        
+    elif not rangeCheck(RoomCapacity, 1):
+        tk.messagebox.showerror("Error", "Room Capacity must be at least 1")
+        
+    else:
+        return True
+    
+def BedValidation(RoomID, BedNumber, BedStatus):
+    
+    if not presenceCheck(RoomID):
+        tk.messagebox.showerror("Error", "Room ID is empty")
+        
+    elif not presenceCheck(BedNumber):
+        tk.messagebox.showerror("Error", "Bed Number is empty")
+        
+    elif not presenceCheck(BedStatus):
+        tk.messagebox.showerror("Error", "Bed Status is empty")
+        
+    elif not rangeCheck(BedNumber, 1):
+        tk.messagebox.showerror("Error", "Bed Number must be at least 1")
+        
+    elif not lookupCheck(BedStatus, ["Available", "Occupied", "Reserved"]):
+        tk.messagebox.showerror("Error", "Invalid Bed Status")
+        
+    else:
+        return True

@@ -1,0 +1,6 @@
+HouseID             HouseName           HouseAddress        HousePhone          HouseEmail          
+1                   House A             123 Main St         234-456-7890        housea@example.com  
+2                   House B             456 Elm St          987-654-3210        houseb@example.com  
+3                   House C             789 Oak Rd          222-222-2222        housec@example.com  
+4                   House D             420 Bruh Rd         07742987645         housed@example.com  
+5                   21e4qwdas           qwdas               99898938472         bruh@omega.com      

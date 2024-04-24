@@ -3,3 +3,13 @@
 2024-04-24 18:35:08  | User: UNKNOWN     | Login attempt failed
 2024-04-24 18:35:10  | User: UNKNOWN     | Login attempt failed
 2024-04-24 18:35:16  | User: manager1    | User logged in   
+2024-04-24 21:33:15  | User: manager1    | User logged in   
+2024-04-24 21:34:18  | User: manager1    | User logged in   
+2024-04-24 21:35:04  | User: manager1    | User logged in   
+2024-04-24 21:38:03  | User: manager1    | User logged in   
+2024-04-24 21:45:06  | User: manager1    | User logged in   
+2024-04-24 21:47:27  | User: manager1    | User logged in   
+2024-04-24 21:49:29  | User: manager1    | User logged in   
+2024-04-24 21:52:01  | User: manager1    | User logged in   
+2024-04-24 21:58:45  | User: manager1    | User logged in   
+2024-04-24 22:00:00  | User: manager1    | User logged in   

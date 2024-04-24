@@ -1,6 +1,8 @@
 import sqlite3
 from CTkTable import *
 from customtkinter import *
+import validation
+import tkinter as tk
 
 
 
@@ -305,27 +307,40 @@ def SQL_AdminView_FetchBedTable(search_query=None):
 #### House Buttons ###
 
 def EditHouseSQL(HouseID, HouseName, HouseAddress, HousePhone, HouseEmail):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.HouseValidation(HouseName, HouseAddress, HousePhone, HouseEmail):
+    
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE HouseTable SET HouseName = '{HouseName}', HouseAddress = '{HouseAddress}', HousePhone = '{HousePhone}', HouseEmail = '{HouseEmail}' WHERE HouseID = '{HouseID}'")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"UPDATE HouseTable SET HouseName = '{HouseName}', HouseAddress = '{HouseAddress}', HousePhone = '{HousePhone}', HouseEmail = '{HouseEmail}' WHERE HouseID = '{HouseID}'")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "House Edited Successfully")
+    else:
+        return
 
 def AddHouseSQL(HouseName, HouseAddress, HousePhone, HouseEmail):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.HouseValidation(HouseName, HouseAddress, HousePhone, HouseEmail):
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute('SELECT MAX(HouseID) FROM HouseTable')
-    conn.commit()
+        cursor.execute('SELECT MAX(HouseID) FROM HouseTable')
+        conn.commit()
 
-    max_house_id = cursor.fetchone()[0]
-    # Calculate the new HouseID by incrementing the maximum HouseID
-    NewHID = max_house_id + 1 if max_house_id is not None else 1
+        max_house_id = cursor.fetchone()[0]
+        # Calculate the new HouseID by incrementing the maximum HouseID
+        NewHID = max_house_id + 1 if max_house_id is not None else 1
 
-    cursor.execute(f"INSERT INTO HouseTable (HouseID, HouseName, HouseAddress, HousePhone, HouseEmail) VALUES ('{NewHID}', '{HouseName}', '{HouseAddress}', '{HousePhone}', '{HouseEmail}')")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"INSERT INTO HouseTable (HouseID, HouseName, HouseAddress, HousePhone, HouseEmail) VALUES ('{NewHID}', '{HouseName}', '{HouseAddress}', '{HousePhone}', '{HouseEmail}')")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "House Added Successfully")
+    else:
+        return
 
 def DeleteHouseSQL(HouseID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -339,27 +354,37 @@ def DeleteHouseSQL(HouseID):
 #### Event ---TASK--- Buttons ###
 
 def EditTaskSQL(TaskID, TaskName, Capacity, DifficultyLevel, Points):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.TaskValidation(TaskName, Capacity, DifficultyLevel, Points):
+        
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE TaskTable SET TaskName = '{TaskName}', Capacity = '{Capacity}', DifficultyLevel = '{DifficultyLevel}', Points = '{Points}' WHERE TaskID = '{TaskID}'")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"UPDATE TaskTable SET TaskName = '{TaskName}', Capacity = '{Capacity}', DifficultyLevel = '{DifficultyLevel}', Points = '{Points}' WHERE TaskID = '{TaskID}'")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Task Edited Successfully")
     
 def AddTaskSQL(TaskName, Capacity, DifficultyLevel, Points):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.TaskValidation(TaskName, Capacity, DifficultyLevel, Points):
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute('SELECT MAX(TaskID) FROM TaskTable')
-    conn.commit()
+        cursor.execute('SELECT MAX(TaskID) FROM TaskTable')
+        conn.commit()
 
-    max_task_id = cursor.fetchone()[0]
-    # Calculate the new EventID by incrementing the maximum EventID
-    NewTID = max_task_id + 1 if max_task_id is not None else 1
+        max_task_id = cursor.fetchone()[0]
+        # Calculate the new EventID by incrementing the maximum EventID
+        NewTID = max_task_id + 1 if max_task_id is not None else 1
 
-    cursor.execute(f"INSERT INTO TaskTable (TaskID, TaskName, Capacity, DifficultyLevel, Points) VALUES ('{NewTID}', '{TaskName}', '{Capacity}', '{DifficultyLevel}', '{Points}')")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"INSERT INTO TaskTable (TaskID, TaskName, Capacity, DifficultyLevel, Points) VALUES ('{NewTID}', '{TaskName}', '{Capacity}', '{DifficultyLevel}', '{Points}')")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Task Added Successfully")
+    
     
 def DeleteTaskSQL(TaskID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -373,27 +398,37 @@ def DeleteTaskSQL(TaskID):
 #### Booking Buttons ###
 
 def EditBookingSQL(BookingID, TaskID, UserID, BookingDate):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.BookingValidaion(TaskID, UserID, BookingDate):
+        
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE BookingTable SET TaskID = '{TaskID}', UserID = '{UserID}', BookingDate = '{BookingDate}' WHERE BookingID = '{BookingID}'")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"UPDATE BookingTable SET TaskID = '{TaskID}', UserID = '{UserID}', BookingDate = '{BookingDate}' WHERE BookingID = '{BookingID}'")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Booking Edited Successfully")
+
     
 def AddBookingSQL(TaskID, UserID, BookingDate):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.BookingValidaion(TaskID, UserID, BookingDate):
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute('SELECT MAX(BookingID) FROM BookingTable')
-    conn.commit()
+        cursor.execute('SELECT MAX(BookingID) FROM BookingTable')
+        conn.commit()
 
-    max_booking_id = cursor.fetchone()[0]
-    # Calculate the new BookingID by incrementing the maximum BookingID
-    NewBID = max_booking_id + 1 if max_booking_id is not None else 1
+        max_booking_id = cursor.fetchone()[0]
+        # Calculate the new BookingID by incrementing the maximum BookingID
+        NewBID = max_booking_id + 1 if max_booking_id is not None else 1
 
-    cursor.execute(f"INSERT INTO BookingTable (BookingID, TaskID, UserID, BookingDate) VALUES ('{NewBID}', '{TaskID}', '{UserID}', '{BookingDate}')")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"INSERT INTO BookingTable (BookingID, TaskID, UserID, BookingDate) VALUES ('{NewBID}', '{TaskID}', '{UserID}', '{BookingDate}')")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Booking Added Successfully")
     
 def DeleteBookingSQL(BookingID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -407,27 +442,37 @@ def DeleteBookingSQL(BookingID):
 #### Room Buttons ###
 
 def EditRoomSQL(RoomID, RoomNumber, RoomType, RoomCapacity, HouseID):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.RoomValidation(RoomNumber, RoomType, RoomCapacity, HouseID):
+        
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE RoomTable SET RoomNumber = '{RoomNumber}', RoomType = '{RoomType}', RoomCapacity = '{RoomCapacity}', HouseID = '{HouseID}' WHERE RoomID = '{RoomID}'")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"UPDATE RoomTable SET RoomNumber = '{RoomNumber}', RoomType = '{RoomType}', RoomCapacity = '{RoomCapacity}', HouseID = '{HouseID}' WHERE RoomID = '{RoomID}'")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Room Edited Successfully")
+ 
     
 def AddRoomSQL(RoomNumber, RoomType, RoomCapacity, HouseID):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.RoomValidation(RoomNumber, RoomType, RoomCapacity, HouseID):
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute('SELECT MAX(RoomID) FROM RoomTable')
-    conn.commit()
+        cursor.execute('SELECT MAX(RoomID) FROM RoomTable')
+        conn.commit()
 
-    max_room_id = cursor.fetchone()[0]
-    # Calculate the new RoomID by incrementing the maximum RoomID
-    NewRID = max_room_id + 1 if max_room_id is not None else 1
+        max_room_id = cursor.fetchone()[0]
+        # Calculate the new RoomID by incrementing the maximum RoomID
+        NewRID = max_room_id + 1 if max_room_id is not None else 1
 
-    cursor.execute(f"INSERT INTO RoomTable (RoomID, RoomNumber, RoomType, RoomCapacity, HouseID) VALUES ('{NewRID}', '{RoomNumber}', '{RoomType}', '{RoomCapacity}', '{HouseID}')")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"INSERT INTO RoomTable (RoomID, RoomNumber, RoomType, RoomCapacity, HouseID) VALUES ('{NewRID}', '{RoomNumber}', '{RoomType}', '{RoomCapacity}', '{HouseID}')")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Room Added Successfully")
     
 def DeleteRoomSQL(RoomID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -441,27 +486,36 @@ def DeleteRoomSQL(RoomID):
 #### Bed Buttons ###
 
 def EditBedSQL(BedID, RoomID, BedNumber, BedStatus):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.BedValidation(RoomID, BedNumber, BedStatus):
+        
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE BedTable SET RoomID = '{RoomID}', BedNumber = '{BedNumber}', BedStatus = '{BedStatus}' WHERE BedID = '{BedID}'")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"UPDATE BedTable SET RoomID = '{RoomID}', BedNumber = '{BedNumber}', BedStatus = '{BedStatus}' WHERE BedID = '{BedID}'")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Bed Edited Successfully")
     
 def AddBedSQL(RoomID, BedNumber, BedStatus):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.BedValidation(RoomID, BedNumber, BedStatus):
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute('SELECT MAX(BedID) FROM BedTable')
-    conn.commit()
+        cursor.execute('SELECT MAX(BedID) FROM BedTable')
+        conn.commit()
 
-    max_bed_id = cursor.fetchone()[0]
-    # Calculate the new BedID by incrementing the maximum BedID
-    NewBID = max_bed_id + 1 if max_bed_id is not None else 1
+        max_bed_id = cursor.fetchone()[0]
+        # Calculate the new BedID by incrementing the maximum BedID
+        NewBID = max_bed_id + 1 if max_bed_id is not None else 1
 
-    cursor.execute(f"INSERT INTO BedTable (BedID, RoomID, BedNumber, BedStatus) VALUES ('{NewBID}', '{RoomID}', '{BedNumber}', '{BedStatus}')")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"INSERT INTO BedTable (BedID, RoomID, BedNumber, BedStatus) VALUES ('{NewBID}', '{RoomID}', '{BedNumber}', '{BedStatus}')")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "Bed Added Successfully")
     
 def DeleteBedSQL(BedID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -474,28 +528,37 @@ def DeleteBedSQL(BedID):
 
 #### User Buttons ###
 
-def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID):
+    
+    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID):
+        
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute(f"UPDATE UserTable SET Username = '{Username}', Password = '{Password}', FirstName = '{FirstName}', LastName = '{LastName}', DOB = '{DOB}', ContactNumber = '{ContactNumber}', RoleID = '{Cmbo_Role}', EnrollmentStatus = '{Cmbo_EnrollmentStatus}', HouseID = '{HouseID}', Message = '{Message}' WHERE UserID = '{SqlID}'")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"UPDATE UserTable SET Username = '{Username}', Password = '{Password}', FirstName = '{FirstName}', LastName = '{LastName}', DOB = '{DOB}', ContactNumber = '{ContactNumber}', RoleID = '{Cmbo_Role}', EnrollmentStatus = '{Cmbo_EnrollmentStatus}', Message = '{Message}', HouseID = '{HouseID}' WHERE UserID = '{SqlID}'")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "User Edited Successfully")
     
 def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
-    cursor = conn.cursor()
+    
+    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID):
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
 
-    cursor.execute('SELECT MAX(UserID) FROM UserTable')
-    conn.commit()
+        cursor.execute('SELECT MAX(UserID) FROM UserTable')
+        conn.commit()
 
-    max_user_id = cursor.fetchone()[0]
-    # Calculate the new UserID by incrementing the maximum UserID
-    NewUID = max_user_id + 1 if max_user_id is not None else 1
+        max_user_id = cursor.fetchone()[0]
+        # Calculate the new UserID by incrementing the maximum UserID
+        NewUID = max_user_id + 1 if max_user_id is not None else 1
 
-    cursor.execute(f"INSERT INTO UserTable (UserID, Username, Password, FirstName, LastName, DOB, ContactNumber, RoleID, EnrollmentStatus, Message, HouseID, RoomID, BedID) VALUES ('{NewUID}', '{Username}', '{Password}', '{FirstName}', '{LastName}', '{DOB}', '{ContactNumber}', '{Cmbo_Role}', '{Cmbo_EnrollmentStatus}', '{Message}', '{HouseID}', '{RoomID}', '{BedID}')")
-    conn.commit()
-    conn.close()
+        cursor.execute(f"INSERT INTO UserTable (UserID, Username, Password, FirstName, LastName, DOB, ContactNumber, RoleID, EnrollmentStatus, Message, HouseID, RoomID, BedID) VALUES ('{NewUID}', '{Username}', '{Password}', '{FirstName}', '{LastName}', '{DOB}', '{ContactNumber}', '{Cmbo_Role}', '{Cmbo_EnrollmentStatus}', '{Message}', '{HouseID}', '{RoomID}', '{BedID}')")
+        conn.commit()
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", "User Added Successfully")
     
 def DeleteUserSQL(SqlID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
