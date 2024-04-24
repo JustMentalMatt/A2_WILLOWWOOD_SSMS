@@ -1,0 +1,5 @@
+2024-04-24 18:34:50  | User: UNKNOWN     | Login attempt failed
+2024-04-24 18:35:06  | User: UNKNOWN     | Login attempt failed
+2024-04-24 18:35:08  | User: UNKNOWN     | Login attempt failed
+2024-04-24 18:35:10  | User: UNKNOWN     | Login attempt failed
+2024-04-24 18:35:16  | User: manager1    | User logged in   

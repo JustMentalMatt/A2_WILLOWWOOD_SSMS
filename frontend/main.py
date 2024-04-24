@@ -1,11 +1,25 @@
 
 from customtkinter import *
 from threading import Thread
+import time
 
 from WIN_LoginMain import *
 from WIN_AdminView import *
 from WIN_SupervisorView import *
 from WIN_VolunteerView import *
+
+
+def auditlog(data):
+
+    with open("frontend/uservar.txt", "r") as file:
+        userVAR = file.read().strip()
+        file.close()
+        
+    if userVAR == "":
+        userVAR = "UNKNOWN"
+    with open("auditlog.txt", "a") as file:
+        file.write('{:<20}'.format(time.strftime('%Y-%m-%d %H:%M:%S')) + '{:<20}'.format(" | User: " + userVAR) + '{:<20}'.format(" | " + data) + "\n")
+        file.close()
 
 class AdminMenu(CTkToplevel):
     def __init__(self, master=None):
@@ -64,11 +78,20 @@ def handle_login_result(successful, username, role):
         print("main.py | Login Successful")
         print("main.py | Username:", username)
         print("main.py | Role:", role)
+        
         determineView(role)
+        
+        with open("frontend/uservar.txt", "w") as file:
+            file.write(username)
+            file.close()
+        auditlog("User logged in")
     else:
         print("main.py | Login Failed")
+        with open("frontend/uservar.txt", "w") as file:
+            file.write("")
+            file.close()
+        auditlog("Login attempt failed")
         tk.messagebox.showerror("Login Attempt", "No User found with the given credentials. Please try again.")
-
 
 if __name__ == "__main__":
     initiate_login()

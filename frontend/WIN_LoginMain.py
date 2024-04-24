@@ -4,9 +4,9 @@ from customtkinter import *
 from tkinter import ttk
 from PIL import Image
 import sqlite3
-import time
 
-from WIN_AdminView import mainMenu 
+import validation
+from main import auditlog
 
 globalUser = ""
 globalPass = ""
@@ -259,7 +259,7 @@ agreeing to our terms and conditions.""",
             compound="left",
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
-        SurnameVAR = ctk.CTkEntry(
+        ContactVAR = ctk.CTkEntry(
             master=frame,
             placeholder_text="07742978763",
             width=225,
@@ -269,7 +269,7 @@ agreeing to our terms and conditions.""",
             border_width=1,
             text_color="#000000",
         )
-        SurnameVAR.pack(anchor="w", padx=(25, 0))
+        ContactVAR.pack(anchor="w", padx=(25, 0))
 
         ctk.CTkLabel(
             master=frame,
@@ -346,7 +346,7 @@ agreeing to our terms and conditions.""",
             font=("Arial Bold", 12),
             text_color="#ffffff",
             width=225,
-            command=lambda: self.registerAccount(NameVAR.get(), SurnameVAR.get(), UsernameVAR.get(), DOBVar.get(), passVar.get())
+            command=lambda: self.registerAccount(NameVAR.get(), ContactVAR.get(), UsernameVAR.get(), DOBVar.get(), passVar.get())
         ).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
         ctk.CTkButton(
@@ -363,43 +363,66 @@ agreeing to our terms and conditions.""",
     def registerAccount(self, fullName, contactNumber, username, dob, password):
         sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = sqliteConnection.cursor()
+        
+        firstName = fullName.split()[0].capitalize()
+        lastName = fullName.split()[1].capitalize()
+        
+        # Validation
+        
+        if validation.validateName(fullName):
+            print("LoginMain.py | Name is valid")
+        else:
+            print("LoginMain.py | Name is invalid")
+            tk.messagebox.showerror("Error", "Invalid Name")
 
-        Name = fullName.split(" ")
-        firstName = Name[0]
-        lastName = Name[1]
+        if validation.validatePhone(contactNumber):
+            print("LoginMain.py | Phone is valid")
+        else:
+            print("LoginMain.py | Phone is invalid")
+            tk.messagebox.showerror("Error", "Invalid Phone Number")
+        
+        if validation.validateUsername(username):
+            print("LoginMain.py | Username is valid")
+        else:
+            print("LoginMain.py | Username is invalid")
+            tk.messagebox.showerror("Error", "Invalid Username")
+            
+        if validation.validateDate(dob):
+            print("LoginMain.py | DOB is valid")
+        else:
+            print("LoginMain.py | DOB is invalid")
+            tk.messagebox.showerror("Error", "Invalid Date of Birth")
+            
+        if validation.presenceCheck(password):
+            if validation.lengthCheck(password, minLength=8):
+                print("LoginMain.py | Password is valid")
+                
+                print("LoginMain.py | Connected to SQLite")
 
-        print("LoginMain.py | Connected to SQLite")
+                insert = f"INSERT INTO UserTable (FirstName, LastName, ContactNumber, Username, DOB, Password, RoleID) VALUES ('{firstName}', '{lastName}', '{contactNumber}', '{username}', '{dob}', '{password}', 1)"
+                cursor.execute(insert)
+                sqliteConnection.commit()
+                print("LoginMain.py | Record inserted successfully into UserTable")
+                tk.messagebox.showinfo("Success", "Account Created Successfully")
+                
+                auditlog("Successful account creation")
+                
+                for widget in self.winfo_children():
+                    widget.destroy()
+                    self.create_login_layout()
 
-        insert = f"INSERT INTO UserTable (FirstName, LastName, ContactNumber, Username, DOB, Password, RoleID) VALUES ('{firstName}', '{lastName}', '{contactNumber}', '{username}', '{dob}', '{password}', 1)"
-        cursor.execute(insert)
-        sqliteConnection.commit()
-        print("LoginMain.py | Record inserted successfully into UserTable")
+                cursor.close()
 
-        cursor.close()
-
-        print("LoginMain.py | SQLite connection is closed")
+                print("LoginMain.py | SQLite connection is closed")
+                
+                
+            else:
+                print("LoginMain.py | Password is invalid")
+                tk.messagebox.showerror("Error", "Password must be at least 8 characters long")
+        else:
+            print("LoginMain.py | Password is invalid")
+            tk.messagebox.showerror("Error", "Please Provide a Password")
+            
+            auditlog("Failed account creation")
+        
     
-
-# def loginCheck():
-#     if globalLogin == True:
-#         mainMenu()
-#         print("success")
-#         print(globalUser)
-
-
-
-
-
-# if __name__ == "__main__":
-#     def login_callback(successful, username, role):
-#         if successful:
-#             print("LoginMain.py | Login Successful")
-#             print("LoginMain.py | Username:", username)
-#             print("LoginMain.py | Role:", role)
-#             # Add logic here to handle the successful login
-#         else:
-#             print("LoginMain.py | Login Failed")
-#             # Add logic here to handle the failed login
-
-#     mainApp = mainApp(login_callback)
-#     mainApp.mainloop()
