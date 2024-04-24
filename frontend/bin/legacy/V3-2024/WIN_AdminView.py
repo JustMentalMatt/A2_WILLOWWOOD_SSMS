@@ -21,11 +21,9 @@ class adminView(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.pack(expand=True, fill="both")
-
-        
         self.sidebarFrame()
         self.menuFrame()
-        #self.UserManagementFrame()
+
 
     def pageDestroy():
         for frame in main_view.winfo_children():
@@ -43,8 +41,6 @@ class adminView(ctk.CTkFrame):
 
         title_frame = CTkFrame(main_view, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x",  padx=2, pady=(2, 0))
-
-        #CTkLabel(title_frame, text="Welcome [username]!", font=("Trebuchet MS", 58), text_color="#fff").pack(anchor="center", side="top")
         
         dat_img_backlogo = Image.open("./frontend/Resources/WILLOW_TITLE_LOGO.png")
         img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
@@ -54,7 +50,10 @@ class adminView(ctk.CTkFrame):
         text_frame.propagate(0)
         text_frame.pack(anchor="center", fill="x", pady=(30, 30), padx=27)
         
-        CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\n\nHi!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        CTkLabel(text_frame, text='''Welcome to the Willow Wood Inn Management System.
+                 \nThis system is designed to help you manage your business.
+                 \nYou can use the sidebar to navigate to different parts of the system.''', 
+                 font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
         
 ######
         
@@ -99,20 +98,22 @@ class adminView(ctk.CTkFrame):
             sidebar.pack(fill="y", anchor="w", side="left")
             sidebar.pack_propagate(0)
 
-            
             dat_img_mainLogo = Image.open("./frontend/Resources/WILLOW_LOGO.png")
             img_mainLogo = CTkImage(dark_image=dat_img_mainLogo, light_image=dat_img_mainLogo, size=(200,200))
             CTkLabel(sidebar, text="", image=img_mainLogo).pack(pady=(0, 0), anchor="center")
             
-            CTkButton(sidebar, text="Menu", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 24), hover_color="#207244",
-                      command=lambda: self.pageSwitch(self.menuFrame)).pack(anchor="center", ipady=5, pady=(40, 0))
-            CTkButton(sidebar, text="Dashboard", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-            CTkButton(sidebar, text="User\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
-                      command=lambda: self.pageSwitch(self.UserManagementFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
-            CTkButton(sidebar, text="Reports", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-            CTkButton(sidebar, text="Alerts", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-            
-            CTkButton(sidebar, text="Profile", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 18), hover_color="#207244").pack(anchor="center", ipady=5, pady=(50, 0))
+            CTkButton(sidebar, text="Menu", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 24), 
+                      hover_color="#207244", command=lambda: self.pageSwitch(self.menuFrame)).pack(anchor="center", ipady=5, pady=(40, 0))
+            CTkButton(sidebar, text="Dashboard", text_color="#19383d", fg_color="transparent", 
+                      font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+            CTkButton(sidebar, text="User\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19),
+                      hover_color="#207244", command=lambda: self.pageSwitch(self.UserManagementFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
+            CTkButton(sidebar, text="Reports", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19),
+                      hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+            CTkButton(sidebar, text="Alerts", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19),
+                      hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+            CTkButton(sidebar, text="Profile", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 18),
+                      hover_color="#207244").pack(anchor="center", ipady=5, pady=(50, 0))
             
 
 
