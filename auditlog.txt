@@ -50,3 +50,5 @@
 2024-04-24 23:00:33  | User: manager1    | User Edit Failed 
 2024-04-24 23:00:51  | User: manager1    | User logged in   
 2024-04-24 23:00:51  | User: manager1    | User logged in   
+2024-04-25 00:26:00  | User: supervisor1 | User logged in   
+2024-04-25 00:30:42  | User: supervisor1 | User logged in   
