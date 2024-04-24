@@ -4,6 +4,7 @@ import re
 import sqlite3
 import tkinter as tk
 import time
+import sqlite3
 
 def auditlog(data):
     
@@ -140,23 +141,31 @@ def rangeCheck(value, minValue=None, maxValue=None, exactValue=None):
     else:
         return False
 
-def dbPresenceCheck(value, table):
+def dbPresenceCheck(value, column, table):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     try:
-        cursor.execute(f"SELECT {value} FROM {table}")
-        cursor.fetchall()
-        return True
-    except IndexError as e:
-        print(e)
+        cursor.execute(f"SELECT {column} FROM {table}")
+        result = cursor.fetchall()
+        for row in result:
+            if value in row:
+                conn.close()
+                return True
+        
+        conn.close()
         return False
+    except Exception as e:
+        print(e)
+        conn.close()
+        return False
+
     
     
     
 # Validation functions for each table
     
-def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus):
+def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
     
     if not presenceCheck(Username):
         tk.messagebox.showerror("Error", "Username is empty")
@@ -190,6 +199,12 @@ def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, 
         
     elif not validatePhone(ContactNumber):
         tk.messagebox.showerror("Error", "Invalid Contact Number")
+
+    elif not typeCheck(HouseID, int):
+        tk.messagebox.showerror("Error", "Invalid House ID")
+
+    elif HouseID != "" and not dbPresenceCheck(int(HouseID), "HouseID", "HouseTable"):
+        tk.messagebox.showerror("Error", "Invalid House ID")
         
     else:
         return True

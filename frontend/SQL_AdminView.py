@@ -566,7 +566,7 @@ def DeleteBedSQL(BedID):
 
 def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
     
-    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus):
+    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
         
         conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
@@ -582,7 +582,7 @@ def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumb
     
 def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
     
-    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus):
+    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
         conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 

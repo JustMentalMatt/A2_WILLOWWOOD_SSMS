@@ -27,3 +27,26 @@
 2024-04-24 22:30:26  | User: manager1    | User logged in   
 2024-04-24 22:32:07  | User: manager1    | User logged in   
 2024-04-24 22:32:49  | User: manager1    | User logged in   
+2024-04-24 22:38:05  | User: manager1    | User Edited      
+2024-04-24 22:38:14  | User: manager1    | User Edited      
+2024-04-24 22:38:46  | User: manager1    | User Edit Failed 
+2024-04-24 22:39:03  | User: manager1    | User Edited      
+2024-04-24 22:44:06  | User: manager1    | User logged in   
+2024-04-24 22:47:53  | User: manager1    | User logged in   
+2024-04-24 22:48:18  | User: manager1    | User Edit Failed 
+2024-04-24 22:48:40  | User: manager1    | User logged in   
+2024-04-24 22:49:11  | User: manager1    | User Edit Failed 
+2024-04-24 22:49:27  | User: manager1    | User Edit Failed 
+2024-04-24 22:49:35  | User: manager1    | User Edit Failed 
+2024-04-24 22:49:43  | User: manager1    | User Edit Failed 
+2024-04-24 22:49:50  | User: manager1    | User Edit Failed 
+2024-04-24 22:49:54  | User: manager1    | User logged in   
+2024-04-24 22:57:26  | User: manager1    | User Edit Failed 
+2024-04-24 22:57:34  | User: manager1    | User Edit Failed 
+2024-04-24 22:57:41  | User: manager1    | User Edit Failed 
+2024-04-24 22:57:48  | User: manager1    | User Edited      
+2024-04-24 22:58:02  | User: manager1    | User Edited      
+2024-04-24 23:00:16  | User: manager1    | User logged in   
+2024-04-24 23:00:33  | User: manager1    | User Edit Failed 
+2024-04-24 23:00:51  | User: manager1    | User logged in   
+2024-04-24 23:00:51  | User: manager1    | User logged in   
