@@ -13,3 +13,17 @@
 2024-04-24 21:52:01  | User: manager1    | User logged in   
 2024-04-24 21:58:45  | User: manager1    | User logged in   
 2024-04-24 22:00:00  | User: manager1    | User logged in   
+2024-04-24 22:03:15  | User: manager1    | User logged in   
+2024-04-24 22:05:03  | User: manager1    | User logged in   
+2024-04-24 22:13:09  | User: manager1    | User logged in   
+2024-04-24 22:17:38  | User: manager1    | User logged in   
+2024-04-24 22:28:23  | User: manager1    | Bed Unassigned from Susan Boyle
+2024-04-24 22:28:23  | User: manager1    | Bed Assigned to Susan Boyle
+2024-04-24 22:29:56  | User: manager1    | User logged in   
+2024-04-24 22:30:09  | User: manager1    | Bed Unassigned from User
+2024-04-24 22:30:09  | User: manager1    | Bed Assigned to User
+2024-04-24 22:30:12  | User: manager1    | Bed Assigned to User
+2024-04-24 22:30:13  | User: manager1    | Bed Assigned to User
+2024-04-24 22:30:26  | User: manager1    | User logged in   
+2024-04-24 22:32:07  | User: manager1    | User logged in   
+2024-04-24 22:32:49  | User: manager1    | User logged in   

@@ -7,6 +7,7 @@ import sqlite3
 
 
 from SQL_AdminView import *
+from validation import auditlog
 
 class mainMenu(ctk.CTk):
     def __init__(self):
@@ -82,7 +83,7 @@ class adminView(ctk.CTkFrame):
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
         
-        CTkLabel(title_frame, text="User Management", font=("Arial Black", 25), text_color="#DAF7A6").pack(anchor="nw", side="left")
+        CTkLabel(title_frame, text="System Management", font=("Arial Black", 25), text_color="#DAF7A6").pack(anchor="nw", side="left")
 
         searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="transparent", text_color="#000", placeholder_text="Search...")
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
@@ -1438,7 +1439,7 @@ class adminView(ctk.CTkFrame):
         CTkButton(sidebar, text="Menu", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 24), hover_color="#207244",
                     command=lambda: self.pageSwitch(self.menuFrame)).pack(anchor="center", ipady=5, pady=(40, 0))
         CTkButton(sidebar, text="Dashboard", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
-        CTkButton(sidebar, text="User\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
+        CTkButton(sidebar, text="System\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
                     command=lambda: self.pageSwitch(self.UserManagementFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
         CTkButton(sidebar, text="General\nRegister", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
                   command=lambda: self.pageSwitch(self.GeneralRegisterFrame)).pack(anchor="center", ipady=5, pady=(15, 0))

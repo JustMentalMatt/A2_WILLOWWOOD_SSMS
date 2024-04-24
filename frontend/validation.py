@@ -3,6 +3,20 @@
 import re
 import sqlite3
 import tkinter as tk
+import time
+
+def auditlog(data):
+    
+    with open("frontend/uservar.txt", "r") as file:
+        userVAR = file.read().strip()
+        file.close()
+        
+    if userVAR == "":
+        userVAR = "UNKNOWN"
+    with open("auditlog.txt", "a") as file:
+        file.write('{:<20}'.format(time.strftime('%Y-%m-%d %H:%M:%S')) + '{:<20}'.format(" | User: " + userVAR) + '{:<20}'.format(" | " + data) + "\n")
+        file.close()
+
 
 def validateDate(date):
     # Regular expression for YYYY-MM-DD format
@@ -177,12 +191,6 @@ def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, 
     elif not validatePhone(ContactNumber):
         tk.messagebox.showerror("Error", "Invalid Contact Number")
         
-    elif not dbPresenceCheck(Cmbo_Role, "Role"):
-        tk.messagebox.showerror("Error", "Role does not exist")
-        
-    elif not dbPresenceCheck(Cmbo_EnrollmentStatus, "EnrollmentStatus"):
-        tk.messagebox.showerror("Error", "Enrollment Status does not exist")
-        
     else:
         return True
     
@@ -266,8 +274,8 @@ def RoomValidation(RoomNumber, RoomType, RoomCapacity, HouseID):
     elif not presenceCheck(HouseID):
         tk.messagebox.showerror("Error", "House ID is empty")
         
-    elif not dbPresenceCheck(RoomType, "RoomType"):
-        tk.messagebox.showerror("Error", "Room Type does not exist")
+    elif not lookupCheck(RoomType, ["Single", "Double", "Triple", "Quad", "Queen", "King", "Twin", "Double-Double", "Studio", "Suite", "Mini-Suite", "Cabana", "Villa", "Condo", "Penthouse", "Duplex", "Triplex", "Quadplex", "Quintuplex"]):
+        tk.messagebox.showerror("Error", "Invalid Room Type")
         
     elif not rangeCheck(RoomCapacity, 1):
         tk.messagebox.showerror("Error", "Room Capacity must be at least 1")

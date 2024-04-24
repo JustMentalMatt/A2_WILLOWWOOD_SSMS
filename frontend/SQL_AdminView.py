@@ -4,6 +4,8 @@ from customtkinter import *
 import validation
 import tkinter as tk
 
+from validation import auditlog
+
 
 
 def SQL_AdminView_FetchUserTable(search_query=None): #fetches all users from the database
@@ -158,12 +160,15 @@ def SQLAdminView_AssignBed(user, RoomID, BedID, HouseID):
     existingUser = cursor.fetchone()
     if existingUser:
         cursor.execute(f"UPDATE UserTable SET RoomID = '', BedID = '' WHERE UserID = {existingUser[0]}")
+        auditlog(f"Bed Unassigned from User")
 
     if user == "Unassigned":
         cursor.execute(f"UPDATE UserTable SET RoomID = '', BedID = '' WHERE UserID = {existingUser[0]}")
+        auditlog(f"Bed Unassigned from User")
     else:
         FirstName, LastName = user.split()
         cursor.execute(f"UPDATE UserTable SET RoomID = {RoomID}, BedID = {BedID} WHERE FirstName = '{FirstName}' AND LastName = '{LastName}' AND HouseID = {HouseID}")
+        auditlog(f"Bed Assigned to User")
     
     conn.commit()
     conn.close()
@@ -318,8 +323,9 @@ def EditHouseSQL(HouseID, HouseName, HouseAddress, HousePhone, HouseEmail):
         conn.close()
         
         tk.messagebox.showinfo("Success", "House Edited Successfully")
+        auditlog("House Edited")
     else:
-        return
+        auditlog("House Edit Failed")
 
 def AddHouseSQL(HouseName, HouseAddress, HousePhone, HouseEmail):
     
@@ -339,8 +345,9 @@ def AddHouseSQL(HouseName, HouseAddress, HousePhone, HouseEmail):
         conn.close()
         
         tk.messagebox.showinfo("Success", "House Added Successfully")
+        auditlog("House Added")
     else:
-        return
+        auditlog("House Add Failed")
 
 def DeleteHouseSQL(HouseID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -350,6 +357,7 @@ def DeleteHouseSQL(HouseID):
     conn.commit()
 
     conn.close()
+    auditlog("House Deleted")
 
 #### Event ---TASK--- Buttons ###
 
@@ -365,6 +373,9 @@ def EditTaskSQL(TaskID, TaskName, Capacity, DifficultyLevel, Points):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Task Edited Successfully")
+        auditlog("Task Edited")
+    else:
+        auditlog("Task Edit Failed")
     
 def AddTaskSQL(TaskName, Capacity, DifficultyLevel, Points):
     
@@ -384,6 +395,9 @@ def AddTaskSQL(TaskName, Capacity, DifficultyLevel, Points):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Task Added Successfully")
+        auditlog("Task Added")
+    else:
+        auditlog("Task Add Failed")
     
     
 def DeleteTaskSQL(TaskID):
@@ -394,6 +408,7 @@ def DeleteTaskSQL(TaskID):
     conn.commit()
 
     conn.close()
+    auditlog("Task Deleted")
     
 #### Booking Buttons ###
 
@@ -409,6 +424,9 @@ def EditBookingSQL(BookingID, TaskID, UserID, BookingDate):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Booking Edited Successfully")
+        auditlog("Booking Edited")
+    else:
+        auditlog("Booking Edit Failed")
 
     
 def AddBookingSQL(TaskID, UserID, BookingDate):
@@ -429,6 +447,9 @@ def AddBookingSQL(TaskID, UserID, BookingDate):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Booking Added Successfully")
+        auditlog("Booking Added")
+    else:
+        auditlog("Booking Add Failed")
     
 def DeleteBookingSQL(BookingID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -438,6 +459,7 @@ def DeleteBookingSQL(BookingID):
     conn.commit()
 
     conn.close()
+    auditlog("Booking Deleted")
     
 #### Room Buttons ###
 
@@ -453,6 +475,9 @@ def EditRoomSQL(RoomID, RoomNumber, RoomType, RoomCapacity, HouseID):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Room Edited Successfully")
+        auditlog("Room Edited")
+    else:
+        auditlog("Room Edit Failed")
  
     
 def AddRoomSQL(RoomNumber, RoomType, RoomCapacity, HouseID):
@@ -473,6 +498,9 @@ def AddRoomSQL(RoomNumber, RoomType, RoomCapacity, HouseID):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Room Added Successfully")
+        auditlog("Room Added")
+    else:
+        auditlog("Room Add Failed")
     
 def DeleteRoomSQL(RoomID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -482,6 +510,7 @@ def DeleteRoomSQL(RoomID):
     conn.commit()
 
     conn.close()
+    auditlog("Room Deleted")
     
 #### Bed Buttons ###
 
@@ -497,6 +526,9 @@ def EditBedSQL(BedID, RoomID, BedNumber, BedStatus):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Bed Edited Successfully")
+        auditlog("Bed Edited")
+    else:
+        auditlog("Bed Edit Failed")
     
 def AddBedSQL(RoomID, BedNumber, BedStatus):
     
@@ -516,6 +548,9 @@ def AddBedSQL(RoomID, BedNumber, BedStatus):
         conn.close()
         
         tk.messagebox.showinfo("Success", "Bed Added Successfully")
+        auditlog("Bed Added")
+    else:
+        auditlog("Bed Add Failed")
     
 def DeleteBedSQL(BedID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -525,12 +560,13 @@ def DeleteBedSQL(BedID):
     conn.commit()
 
     conn.close()
+    auditlog("Bed Deleted")
 
 #### User Buttons ###
 
-def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID):
+def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
     
-    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID):
+    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus):
         
         conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
@@ -540,10 +576,13 @@ def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumb
         conn.close()
         
         tk.messagebox.showinfo("Success", "User Edited Successfully")
+        auditlog("User Edited")
+    else:
+        auditlog("User Edit Failed")
     
 def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
     
-    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID):
+    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus):
         conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
@@ -559,6 +598,9 @@ def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo
         conn.close()
         
         tk.messagebox.showinfo("Success", "User Added Successfully")
+        auditlog("User Added")
+    else:
+        auditlog("User Add Failed")
     
 def DeleteUserSQL(SqlID):
     conn = sqlite3.connect('./backend/WillowInnDB.db')
@@ -572,6 +614,7 @@ def DeleteUserSQL(SqlID):
     conn.commit()
 
     conn.close()
+    auditlog("User Deleted")
     
     
 

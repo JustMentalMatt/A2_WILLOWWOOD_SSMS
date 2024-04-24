@@ -8,18 +8,7 @@ from WIN_AdminView import *
 from WIN_SupervisorView import *
 from WIN_VolunteerView import *
 
-
-def auditlog(data):
-
-    with open("frontend/uservar.txt", "r") as file:
-        userVAR = file.read().strip()
-        file.close()
-        
-    if userVAR == "":
-        userVAR = "UNKNOWN"
-    with open("auditlog.txt", "a") as file:
-        file.write('{:<20}'.format(time.strftime('%Y-%m-%d %H:%M:%S')) + '{:<20}'.format(" | User: " + userVAR) + '{:<20}'.format(" | " + data) + "\n")
-        file.close()
+from validation import auditlog
 
 class AdminMenu(CTkToplevel):
     def __init__(self, master=None):
