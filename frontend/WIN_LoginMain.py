@@ -37,8 +37,6 @@ class mainApp(ctk.CTk):
 
         self.mainloop()
 
-
-
 class loginGUI(ctk.CTkFrame):
 
     def __init__(self, parent, loginCallback):
@@ -54,22 +52,6 @@ class loginGUI(ctk.CTkFrame):
             for widget in self.winfo_children():
                 widget.destroy()
             self.create_register_layout()
-
-        def loginCheck(self):
-            if globalLogin:
-                admin_app = mainMenu()
-                admin_app.mainloop()
-
-                self.admin_app = mainMenu(self)
-                print("success")
-                print(globalUser)
-
-                self.mainloop()
-
-                return True
-            else:
-                print("failed")
-                return False
 
         def onLogin():
             sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
@@ -254,7 +236,7 @@ agreeing to our terms and conditions.""",
             compound="left",
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
-        ctk.CTkEntry(
+        NameVAR = ctk.CTkEntry(
             master=frame,
             placeholder_text="Daniel Adams",
             width=225,
@@ -263,11 +245,12 @@ agreeing to our terms and conditions.""",
             border_color="#601E88",
             border_width=1,
             text_color="#000000",
-        ).pack(anchor="w", padx=(25, 0))
+        )
+        NameVAR.pack(anchor="w", padx=(25, 0))
 
         ctk.CTkLabel(
             master=frame,
-            text="  Email:",
+            text="  Contact Number:",
             text_color="#601E88",
             anchor="w",
             justify="left",
@@ -276,17 +259,17 @@ agreeing to our terms and conditions.""",
             compound="left",
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
-        ctk.CTkEntry(
+        SurnameVAR = ctk.CTkEntry(
             master=frame,
-            placeholder_text="dadams@email.com",
+            placeholder_text="07742978763",
             width=225,
             height=20,
             fg_color="#EEEEEE",
             border_color="#601E88",
             border_width=1,
             text_color="#000000",
-            show="*",
-        ).pack(anchor="w", padx=(25, 0))
+        )
+        SurnameVAR.pack(anchor="w", padx=(25, 0))
 
         ctk.CTkLabel(
             master=frame,
@@ -299,7 +282,7 @@ agreeing to our terms and conditions.""",
             compound="left",
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
-        ctk.CTkEntry(
+        UsernameVAR = ctk.CTkEntry(
             master=frame,
             placeholder_text="lizzo432",
             width=225,
@@ -307,9 +290,8 @@ agreeing to our terms and conditions.""",
             fg_color="#EEEEEE",
             border_color="#601E88",
             border_width=1,
-            text_color="#000000",
-            show="*",
-        ).pack(anchor="w", padx=(25, 0))
+            text_color="#000000",)
+        UsernameVAR.pack(anchor="w", padx=(25, 0))
 
         ctk.CTkLabel(
             master=frame,
@@ -322,17 +304,16 @@ agreeing to our terms and conditions.""",
             compound="left",
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
-        ctk.CTkEntry(
+        DOBVar = ctk.CTkEntry(
             master=frame,
-            placeholder_text="DD/MM/YYYY",
+            placeholder_text="YYYY-MM-DD",
             width=225,
             height=20,
             fg_color="#EEEEEE",
             border_color="#601E88",
             border_width=1,
-            text_color="#000000",
-            show="*",
-        ).pack(anchor="w", padx=(25, 0))
+            text_color="#000000",)
+        DOBVar.pack(anchor="w", padx=(25, 0))
 
         ctk.CTkLabel(
             master=frame,
@@ -345,7 +326,7 @@ agreeing to our terms and conditions.""",
             compound="left",
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
-        ctk.CTkEntry(
+        passVar = ctk.CTkEntry(
             master=frame,
             placeholder_text="supersecret123",
             width=225,
@@ -354,8 +335,8 @@ agreeing to our terms and conditions.""",
             border_color="#601E88",
             border_width=1,
             text_color="#000000",
-            show="*",
-        ).pack(anchor="w", padx=(25, 0))
+            show="*",)
+        passVar.pack(anchor="w", padx=(25, 0))
 
         ctk.CTkButton(
             master=frame,
@@ -365,6 +346,7 @@ agreeing to our terms and conditions.""",
             font=("Arial Bold", 12),
             text_color="#ffffff",
             width=225,
+            command=lambda: self.registerAccount(NameVAR.get(), SurnameVAR.get(), UsernameVAR.get(), DOBVar.get(), passVar.get())
         ).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
         ctk.CTkButton(
@@ -378,6 +360,25 @@ agreeing to our terms and conditions.""",
             command=switch_to_login_layout
         ).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
+    def registerAccount(self, fullName, contactNumber, username, dob, password):
+        sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = sqliteConnection.cursor()
+
+        Name = fullName.split(" ")
+        firstName = Name[0]
+        lastName = Name[1]
+
+        print("LoginMain.py | Connected to SQLite")
+
+        insert = f"INSERT INTO UserTable (FirstName, LastName, ContactNumber, Username, DOB, Password, RoleID) VALUES ('{firstName}', '{lastName}', '{contactNumber}', '{username}', '{dob}', '{password}', 1)"
+        cursor.execute(insert)
+        sqliteConnection.commit()
+        print("LoginMain.py | Record inserted successfully into UserTable")
+
+        cursor.close()
+
+        print("LoginMain.py | SQLite connection is closed")
+    
 
 # def loginCheck():
 #     if globalLogin == True:

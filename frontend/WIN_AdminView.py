@@ -105,7 +105,7 @@ class adminView(ctk.CTkFrame):
                 # adminView.TableDestroy(self)
                 # UserTable(self)
                 adminView.TableDestroy(self)
-                self.INIT_TABLE_AllUsers(search_query=None)
+                UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                 
             def AddUserButton(self):
                 global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_Message, e_HouseID, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
@@ -116,7 +116,7 @@ class adminView(ctk.CTkFrame):
                     try:
                         AddUserSQL(e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
                         adminView.TableDestroy(self)
-                        UserTable(self)
+                        UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("User Addition", "Integrity Error.")
                         return
@@ -137,11 +137,11 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteUserSQL(e_ID.get())
                     adminView.TableDestroy(self)
-                    UserTable(self)
+                    UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                UserTable(self)
+                UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                 
             global selectedRow
             selectedRow = None
@@ -182,6 +182,7 @@ class adminView(ctk.CTkFrame):
                 print(f"{search_query} - Search Query") # debug print
                 
                 global table
+                global result
                 result = SQL_AdminView_FetchUserTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
@@ -198,6 +199,20 @@ class adminView(ctk.CTkFrame):
                 table.configure(width=45, height=20)
                 
                 self.optionsFrame()
+
+            def exportTable(self):
+                global result
+                with open('UserTable Export.txt', 'w') as f:
+                    headings = result[0]
+                    for heading in headings[0:]:
+                        f.write('{:<20}'.format(heading))
+                    f.write('\n')
+                    for row in result[1]:
+                        row_data = [str(item) if item is not None else '' for item in row]
+                        for item in row_data[0:]:
+                            f.write('{:<20}'.format(item))
+                        f.write('\n')
+
                 
             def optionsFrame(self):
                 ###
@@ -249,7 +264,8 @@ class adminView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+
         class HouseTable:
             def __init__(self, parent):
                 self.parent = parent
@@ -260,7 +276,7 @@ class adminView(ctk.CTkFrame):
             def EditHouseButton(self):
                 EditHouseSQL(h_ID.get(), h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get())
                 adminView.TableDestroy(self)
-                HouseTable(self)
+                HouseTable(self).INIT_table_House(search_query=None)
 
             def AddHouseButton(self):
                 
@@ -272,7 +288,8 @@ class adminView(ctk.CTkFrame):
                     try:
                         AddHouseSQL(h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get())
                         adminView.TableDestroy(self)
-                        HouseTable(self)
+                        HouseTable(self).INIT_table_House(search_query=None)
+
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("House Addition", "Integrity Error.")
                         return
@@ -293,11 +310,12 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteHouseSQL(h_ID.get())
                     adminView.TableDestroy(self)
-                    HouseTable(self)
+                    HouseTable(self).INIT_table_House(search_query=None)
+
             
             def ClearHouseFieldsButton(self):
                 adminView.TableDestroy(self)
-                HouseTable(self)
+                HouseTable(self).INIT_table_House(search_query=None)
 
             global selectedRow
             selectedRow = None
@@ -324,6 +342,7 @@ class adminView(ctk.CTkFrame):
                 adminView.TableDestroy(self)
                 
                 global table
+                global result
                 result = SQL_AdminView_FetchHouseTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
@@ -340,6 +359,19 @@ class adminView(ctk.CTkFrame):
                 table.configure(width=170, height=40)
                 
                 self.optionsFrame()
+            
+            def exportTable(self):
+                global result
+                with open('HouseTable Export.txt', 'w') as f:
+                    headings = result[0]
+                    for heading in headings[0:]:
+                        f.write('{:<20}'.format(heading))
+                    f.write('\n')
+                    for row in result[1]:
+                        row_data = [str(item) if item is not None else '' for item in row]
+                        for item in row_data[0:]:
+                            f.write('{:<20}'.format(item))
+                        f.write('\n')
             
             def optionsFrame(self):
                 ###
@@ -373,61 +405,63 @@ class adminView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Add House", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddHouseButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Delete House", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteHouseButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearHouseFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
 
-        class EventsTable:
+        class TaskTable:
             def __init__(self, parent):
                 self.parent = parent
                 self.main_view = parent.main_view
-                self.INIT_table_Events(search_query=None)
+                self.INIT_table_Tasks(search_query=None)
                 self.optionsFrame()
 
-            def EditEventButton(self):
-                EditEventSQL(E_ID.get(), E_Name.get(), E_Date.get(), E_Time.get(), E_Capacity.get(), E_Difficulty.get())
+            def EditTaskButton(self):
+                EditTaskSQL(T_ID.get(), T_Name.get(), T_Capacity.get(), T_Difficulty.get(), T_Points.get())
                 adminView.TableDestroy(self)
-                EventsTable(self)
+                TaskTable(self).INIT_table_Tasks(search_query=None)
             
-            def AddEventButton(self):
+            def AddTaskButton(self):
                     
-                    global E_ID, E_Name, E_Date, E_Time, E_Capacity, E_Difficulty
-                    if E_Name.get() == "":
-                        tk.messagebox.showerror("Event Addition", "No Event selected to add.")
+                    global T_ID, T_Name, T_Capacity, T_Difficulty, T_Points
+                    if T_Name.get() == "":
+                        tk.messagebox.showerror("Task Addition", "No Task selected to add.")
                         return
                     else:
                         try:
-                            AddEventSQL(E_Name.get(), E_Date.get(), E_Time.get(), E_Capacity.get(), E_Difficulty.get())
+                            AddTaskSQL(T_Name.get(), T_Capacity.get(), T_Difficulty.get(), T_Points.get())
                             adminView.TableDestroy(self)
-                            EventsTable(self)
+                            TaskTable(self)
                         except sqlite3.IntegrityError:
-                            tk.messagebox.showerror("Event Addition", "Integrity Error.")
+                            tk.messagebox.showerror("Task Addition", "Integrity Error.")
                             return
                         except sqlite3.OperationalError:
-                            tk.messagebox.showerror("Event Addition", "Database Locked - Restart the application.")
+                            tk.messagebox.showerror("Task Addition", "Database Locked - Restart the application.")
                             return
                         except sqlite3.DatabaseError:
-                            tk.messagebox.showerror("Event Addition", "Database Error - Restart the application.")
+                            tk.messagebox.showerror("Task Addition", "Database Error - Restart the application.")
                             return
                         
-            def DeleteEventButton(self):
-                global E_Name
-                if E_Name.get() == "":
-                    tk.messagebox.showerror("Event Deletion", "No Event selected to delete.")
+            def DeleteTaskButton(self):
+                global T_Name
+                if T_Name.get() == "":
+                    tk.messagebox.showerror("Task Deletion", "No Task selected to delete.")
                     return
                 
-                answer = tk.messagebox.askyesno("Event Deletion", f"Are you sure you want to PERMANENTLY DELETE [{E_Name.get()}]?\nThis action cannot be undone.", icon="warning")
+                answer = tk.messagebox.askyesno("Task Deletion", f"Are you sure you want to PERMANENTLY DELETE [{T_Name.get()}]?\nThis action cannot be undone.", icon="warning")
                 if answer:
-                    DeleteEventSQL(E_ID.get())
+                    DeleteTaskSQL(T_ID.get())
                     adminView.TableDestroy(self)
-                    EventsTable(self)
+                    TaskTable(self).INIT_table_Tasks(search_query=None)
+
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                EventsTable(self)
+                TaskTable(self).INIT_table_Tasks(search_query=None)
                 
             global selectedRow
             selectedRow = None
             
             def TableClickEvent(self, cell):
-                global selectedRow, E_ID, E_Name, E_Date, E_Time, E_Capacity, E_Difficulty, table
+                global selectedRow, T_ID, T_Name, T_Capacity, T_Difficulty, T_Points, table
 
                 if selectedRow is not None:
                     table.deselect_row(selectedRow)
@@ -437,19 +471,19 @@ class adminView(ctk.CTkFrame):
                 table.select_row(selectedRow)
                 selectedData = table.get_row(selectedRow)
 
-                E_ID.set(selectedData[0])
-                E_Name.set(selectedData[1])
-                E_Date.set(selectedData[2])
-                E_Time.set(selectedData[3])
-                E_Capacity.set(selectedData[4])
-                E_Difficulty.set(selectedData[5])
+                T_ID.set(selectedData[0])
+                T_Name.set(selectedData[1])
+                T_Capacity.set(selectedData[2])
+                T_Difficulty.set(selectedData[3])
+                T_Points.set(selectedData[4])
 
-            def INIT_table_Events(self, search_query=None):
+            def INIT_table_Tasks(self, search_query=None):
                 
                 adminView.TableDestroy(self)
                 
                 global table
-                result = SQL_AdminView_FetchEventsTable(search_query)
+                global result
+                result = SQL_AdminView_FetchTaskTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
                 
@@ -466,38 +500,51 @@ class adminView(ctk.CTkFrame):
                 
                 self.optionsFrame()
                 
+            def exportTable(self):
+                global result
+                with open('TaskTable Export.txt', 'w') as f:
+                    headings = result[0]
+                    for heading in headings[0:]:
+                        f.write('{:<20}'.format(heading))
+                    f.write('\n')
+                    for row in result[1]:
+                        row_data = [str(item) if item is not None else '' for item in row]
+                        for item in row_data[0:]:
+                            f.write('{:<20}'.format(item))
+                        f.write('\n')
+
             def optionsFrame(self):
                 ###
-                global selectedRow, E_ID, E_Name, E_Date, E_Time, E_Capacity, E_Difficulty, table
-                E_ID = tk.StringVar()
-                E_Name = tk.StringVar()
-                E_Date = tk.StringVar()
-                E_Time = tk.StringVar()
-                E_Capacity = tk.StringVar()
-                E_Difficulty = tk.StringVar()
+                global selectedRow, T_ID, T_Name, T_Points, T_Capacity, T_Difficulty, table
+                T_ID = tk.StringVar()
+                T_Name = tk.StringVar()
+                T_Points = tk.StringVar()
+                T_Capacity = tk.StringVar()
+                T_Difficulty = tk.StringVar()
                 
                 optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
-                CTkLabel(optionsFrame, text="Event Options", font=("Arial Black", 25), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID        Name           Date           Capacity     Difficulty    Points       ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
+                CTkLabel(optionsFrame, text="Task Options", font=("Arial Black", 25), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
+                CTkLabel(optionsFrame, text="  ID        Name          Capacity     Difficulty    Points       ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
 
                 
                 #CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(1, 0))
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
-                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=E_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
-                CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=E_Name).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-                CTkEntry(entryFrame, width=80, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=E_Date).pack(anchor="n", side="left", padx=(5, 2), fill="x")
-                CTkEntry(entryFrame, width=45, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=E_Time).pack(anchor="n", side="left", padx=(20, 2), fill="x")
-                CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=E_Capacity).pack(anchor="n", side="left", padx=(20, 2), fill="x")
-                CTkEntry(entryFrame, width=45, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=E_Difficulty).pack(anchor="n", side="left", padx=(10, 2), fill="x")
+                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
+                CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_Name).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_Capacity).pack(anchor="n", side="left", padx=(20, 2), fill="x")
+                CTkEntry(entryFrame, width=45, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_Difficulty).pack(anchor="n", side="left", padx=(10, 2), fill="x")
+                CTkEntry(entryFrame, width=45, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_Points).pack(anchor="n", side="left", padx=(10, 2), fill="x")
 
-                CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.EditEventButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                CTkButton(optionsFrame, text="Add Event", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddEventButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
-                CTkButton(optionsFrame, text="Delete Event", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteEventButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
+
+                CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.EditTaskButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+                CTkButton(optionsFrame, text="Add Task", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddTaskButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
+                CTkButton(optionsFrame, text="Delete Task", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteTaskButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
 
         class BookingTable:
             def __init__(self, parent):
@@ -507,21 +554,21 @@ class adminView(ctk.CTkFrame):
                 self.optionsFrame()
 
             def EditBookingButton(self):
-                EditBookingSQL(B_ID.get(), B_EventID.get(), B_UserID.get(), B_Date.get())
+                EditBookingSQL(B_ID.get(), B_TaskID.get(), B_UserID.get(), B_Date.get())
                 adminView.TableDestroy(self)
-                BookingTable(self)
+                BookingTable(self).INIT_table_Booking(search_query=None)
                 
             def AddBookingButton(self):
                         
-                global B_ID, B_EventID, B_UserID, B_Date
-                if B_EventID.get() == "":
+                global B_ID, B_TaskID, B_UserID, B_Date
+                if B_TaskID.get() == "":
                     tk.messagebox.showerror("Booking Addition", "No Booking selected to add.")
                     return
                 else:
                     try:
-                        AddBookingSQL(B_EventID.get(), B_UserID.get(), B_Date.get())
+                        AddBookingSQL(B_TaskID.get(), B_UserID.get(), B_Date.get())
                         adminView.TableDestroy(self)
-                        BookingTable(self)
+                        BookingTable(self).INIT_table_Booking(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Booking Addition", "Integrity Error.")
                         return
@@ -533,26 +580,26 @@ class adminView(ctk.CTkFrame):
                         return
             
             def DeleteBookingButton(self):
-                global B_EventID
-                if B_EventID.get() == "":
+                global B_TaskID
+                if B_TaskID.get() == "":
                     tk.messagebox.showerror("Booking Deletion", "No Booking selected to delete.")
                     return
                 
-                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE [{B_EventID.get()}]?\nThis action cannot be undone.", icon="warning")
+                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE [{B_TaskID.get()}]?\nThis action cannot be undone.", icon="warning")
                 if answer:
                     DeleteBookingSQL(B_ID.get())
                     adminView.TableDestroy(self)
-                    BookingTable(self)
+                    BookingTable(self).INIT_table_Booking(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                BookingTable(self)
+                BookingTable(self).INIT_table_Booking(search_query=None)
 
             global selectedRow
             selectedRow = None
             
             def TableClickEvent(self, cell):
-                global selectedRow, B_ID, B_EventID, B_UserID, B_Date, table
+                global selectedRow, B_ID, B_TaskID, B_UserID, B_Date, table
 
                 if selectedRow is not None:
                     table.deselect_row(selectedRow)
@@ -563,7 +610,7 @@ class adminView(ctk.CTkFrame):
                 selectedData = table.get_row(selectedRow)
 
                 B_ID.set(selectedData[0])
-                B_EventID.set(selectedData[1])
+                B_TaskID.set(selectedData[1])
                 B_UserID.set(selectedData[2])
                 B_Date.set(selectedData[3])
 
@@ -572,6 +619,7 @@ class adminView(ctk.CTkFrame):
                 adminView.TableDestroy(self)
                 
                 global table
+                global result
                 result = SQL_AdminView_FetchBookingTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
@@ -589,26 +637,39 @@ class adminView(ctk.CTkFrame):
                 
                 self.optionsFrame()
             
+            def exportTable(self):
+                global result
+                with open('BookingTable Export.txt', 'w') as f:
+                    headings = result[0]
+                    for heading in headings[0:]:
+                        f.write('{:<20}'.format(heading))
+                    f.write('\n')
+                    for row in result[1]:
+                        row_data = [str(item) if item is not None else '' for item in row]
+                        for item in row_data[0:]:
+                            f.write('{:<20}'.format(item))
+                        f.write('\n')
+
             def optionsFrame(self):
                 ###
-                global selectedRow, B_ID, B_EventID, B_UserID, B_Date, table
+                global selectedRow, B_ID, B_TaskID, B_UserID, B_Date, table
                 B_ID = tk.StringVar()
                 B_UserID = tk.StringVar()
-                B_EventID = tk.StringVar()
+                B_TaskID = tk.StringVar()
                 B_Date = tk.StringVar()
                 
                 optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
                 CTkLabel(optionsFrame, text="Booking Options", font=("Arial Black", 25), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID      EventID    UserID               Date        ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
+                CTkLabel(optionsFrame, text="  ID      TaskID     UserID               Date        ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
                 
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
                 
                 CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
-                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_EventID).pack(anchor="n", side="left", padx=(20, 2), fill="x")
+                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_TaskID).pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_UserID).pack(anchor="n", side="left", padx=(35, 2), fill="x")
                 CTkEntry(entryFrame, width=140, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_Date).pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 
@@ -616,7 +677,8 @@ class adminView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Add Booking", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddBookingButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Delete Booking", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteBookingButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+
         class RoomTable:
             def __init__(self, parent):
                 self.parent = parent
@@ -627,7 +689,7 @@ class adminView(ctk.CTkFrame):
             def EditRoomButton(self):
                 EditRoomSQL(R_ID.get(), R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get())
                 adminView.TableDestroy(self)
-                RoomTable(self)
+                RoomTable(self).INIT_table_Room(search_query=None)
                 
             def AddRoomButton(self):
                         
@@ -640,7 +702,7 @@ class adminView(ctk.CTkFrame):
                         AddRoomSQL(R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get())
                         adminView.TableDestroy(self)
                         adminView.TableDestroy(self)
-                        RoomTable(self)
+                        RoomTable(self).INIT_table_Room(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Room Addition", "Integrity Error.")
                         return
@@ -661,11 +723,11 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteRoomSQL(R_ID.get())
                     adminView.TableDestroy(self)
-                    RoomTable(self)
+                    RoomTable(self).INIT_table_Room(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                RoomTable(self)
+                RoomTable(self).INIT_table_Room(search_query=None)
                 
             global selectedRow
             selectedRow = None
@@ -692,6 +754,7 @@ class adminView(ctk.CTkFrame):
                 adminView.TableDestroy(self)
                 
                 global table
+                global result
                 result = SQL_AdminView_FetchRoomTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
@@ -708,6 +771,19 @@ class adminView(ctk.CTkFrame):
                 
                 self.optionsFrame()
                 
+            def exportTable(self):
+                global result
+                with open('RoomTable Export.txt', 'w') as f:
+                    headings = result[0]
+                    for heading in headings[0:]:
+                        f.write('{:<20}'.format(heading))
+                    f.write('\n')
+                    for row in result[1]:
+                        row_data = [str(item) if item is not None else '' for item in row]
+                        for item in row_data[0:]:
+                            f.write('{:<20}'.format(item))
+                        f.write('\n')
+
             def optionsFrame(self):
                 ###
                 global selectedRow, R_ID, R_Number, R_Type, R_Capacity, HouseID, table
@@ -737,7 +813,9 @@ class adminView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Add Room", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddRoomButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Delete Room", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteRoomButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+
+
         class BedTable:
             def __init__(self, parent):
                 self.parent = parent
@@ -748,7 +826,7 @@ class adminView(ctk.CTkFrame):
             def EditBedButton(self):
                 EditBedSQL(B_ID.get(), B_RoomID.get(), B_Number.get(), B_Status.get())
                 adminView.TableDestroy(self)
-                BedTable(self)
+                BedTable(self).INIT_table_Bed(search_query=None)
                 
             def AddBedButton(self):
                             
@@ -760,7 +838,7 @@ class adminView(ctk.CTkFrame):
                     try:
                         AddBedSQL(B_RoomID.get(), B_Number.get(), B_Status.get())
                         adminView.TableDestroy(self)
-                        BedTable(self)
+                        BedTable(self).INIT_table_Bed(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Bed Addition", "Integrity Error.")
                         return
@@ -781,11 +859,11 @@ class adminView(ctk.CTkFrame):
                 if answer:
                     DeleteBedSQL(B_ID.get())
                     adminView.TableDestroy(self)
-                    BedTable(self)
+                    BedTable(self).INIT_table_Bed(search_query=None)
                     
             def ClearFieldsButton(self):
                 adminView.TableDestroy(self)
-                BedTable(self)
+                BedTable(self).INIT_table_Bed(search_query=None)
                 
             global selectedRow
             selectedRow = None
@@ -811,6 +889,7 @@ class adminView(ctk.CTkFrame):
                 adminView.TableDestroy(self)
                 
                 global table
+                global result
                 result = SQL_AdminView_FetchBedTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
@@ -828,6 +907,19 @@ class adminView(ctk.CTkFrame):
                 
                 self.optionsFrame()
                 
+            def exportTable(self):
+                global result
+                with open('BedTable Export.txt', 'w') as f:
+                    headings = result[0]
+                    for heading in headings[0:]:
+                        f.write('{:<20}'.format(heading))
+                    f.write('\n')
+                    for row in result[1]:
+                        row_data = [str(item) if item is not None else '' for item in row]
+                        for item in row_data[0:]:
+                            f.write('{:<20}'.format(item))
+                        f.write('\n')
+
             def optionsFrame(self):
                 ###
                 global selectedRow, B_ID, B_RoomID, B_Number, B_Status, table
@@ -856,6 +948,8 @@ class adminView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Add Bed", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddBedButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Delete Bed", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteBedButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+
 
         def SwitchTable(tableSelectVAR):
             print(tableSelectVAR)
@@ -866,9 +960,9 @@ class adminView(ctk.CTkFrame):
             elif tableName == "HouseTable":
                 self.TableDestroy()
                 HouseTable(self).INIT_table_House(search_query=None)
-            elif tableName == "EventsTable":
+            elif tableName == "TaskTable":
                 self.TableDestroy()
-                EventsTable(self).INIT_table_Events(search_query=None)
+                TaskTable(self).INIT_table_Tasks(search_query=None)
             elif tableName == "BookingTable":
                 self.TableDestroy()
                 BookingTable(self).INIT_table_Booking(search_query=None)
@@ -879,7 +973,7 @@ class adminView(ctk.CTkFrame):
                 self.TableDestroy()
                 BedTable(self).INIT_table_Bed(search_query=None)
 
-        tableSelect = CTkComboBox(title_frame, values=["UserTable", "HouseTable", "EventsTable", "BookingTable", "RoomTable", "BedTable"], command=SwitchTable, width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
+        tableSelect = CTkComboBox(title_frame, values=["UserTable", "HouseTable", "TaskTable", "BookingTable", "RoomTable", "BedTable"], command=SwitchTable, width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000", variable=tableSelectVAR)
         tableSelect.propagate(0)
         tableSelect.pack(anchor="ne", side="right", padx=(0, 10),pady=(0,0), fill="x")
 
@@ -894,9 +988,9 @@ class adminView(ctk.CTkFrame):
             elif tableSelectVAR.get() == "HouseTable":
                 HouseTableINST = HouseTable(parent=self)
                 HouseTableINST.INIT_table_House(search_query=search_query)
-            elif tableSelectVAR.get() == "EventsTable":
-                EventsTableINST = EventsTable(parent=self)
-                EventsTableINST.INIT_table_Events(search_query=search_query)
+            elif tableSelectVAR.get() == "TaskTable":
+                TaskTableINST = TaskTable(parent=self)
+                TaskTableINST.INIT_table_Tasks(search_query=search_query)
             elif tableSelectVAR.get() == "BookingTable":
                 BookingTableINST = BookingTable(parent=self)
                 BookingTableINST.INIT_table_Booking(search_query=search_query)
@@ -921,7 +1015,7 @@ class adminView(ctk.CTkFrame):
             searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
             searchBar.propagate(0)
             
-
+            
             def INIT_TABLE_GeneralRegister(search_query=None):
                 
                 disp_column = SQL_AdminView_FetchGeneralRegister()[0]
@@ -936,7 +1030,6 @@ class adminView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=True)
                 table.configure(width=120, height=30)
-
                 
                 
             INIT_TABLE_GeneralRegister()

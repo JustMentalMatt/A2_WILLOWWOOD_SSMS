@@ -7,7 +7,6 @@ from WIN_AdminView import *
 from WIN_SupervisorView import *
 from WIN_VolunteerView import *
 
-
 class AdminMenu(CTkToplevel):
     def __init__(self, master=None):
         super().__init__(master)
@@ -38,7 +37,6 @@ class VolunteerMenu(CTkToplevel):
         self.main = volunteerView(self)
         self.mainloop()
 
-
 LoggedIn = True 
 def initiate_login():
     if LoggedIn:
@@ -49,8 +47,7 @@ def initiate_login():
     else:
         print("Program Disabled. Please contact the administrator.")
 
-def viewManager(role):
-
+def determineView(role):
     if role == 3:
         AdminMenu()
     elif role == 2:
@@ -67,9 +64,11 @@ def handle_login_result(successful, username, role):
         print("main.py | Login Successful")
         print("main.py | Username:", username)
         print("main.py | Role:", role)
-        viewManager(role)
+        determineView(role)
     else:
         print("main.py | Login Failed")
+        tk.messagebox.showerror("Login Attempt", "No User found with the given credentials. Please try again.")
+
 
 if __name__ == "__main__":
     initiate_login()
