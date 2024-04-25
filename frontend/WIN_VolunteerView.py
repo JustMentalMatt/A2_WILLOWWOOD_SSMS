@@ -41,8 +41,23 @@ class volunteerView(ctk.CTkFrame):
     def pageSwitch(self, page):
         self.pageDestroy()
         page()
+        
+    def EnrollUserButton(self):
+            VolunteerUsername = open("frontend/uservar.txt", "r").read().strip()
+            SQL_VolunteerView_EnrollUser(VolunteerUsername)
+            auditlog(f"User {VolunteerUsername} enrolled in the volunteer scheme")
+            tk.messagebox.showinfo("Success", f"User {VolunteerUsername} enrolled in the volunteer scheme")
+            self.pageDestroy()
+            self.menuFrame()
+            
+    def AssignUserHouseButton(self, house):
+        VolunteerUsername = open("frontend/uservar.txt", "r").read().strip()
+        SQL_VolunteerView_AssignUserHouse(VolunteerUsername, house)
+        self.pageDestroy()
+        self.menuFrame()
 
     def menuFrame(self):
+        
         title_frame = CTkFrame(self.main_view, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=2, pady=(2, 0))
 
@@ -50,12 +65,30 @@ class volunteerView(ctk.CTkFrame):
         img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
         CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
    
-        text_frame = CTkFrame(self.main_view, fg_color="transparent", bg_color="#fff", width=480, height=490, corner_radius=0)
+        text_frame = CTkFrame(self.main_view, fg_color="transparent", bg_color="#fff", width=480, height=300, corner_radius=0)
         text_frame.propagate(0)
         text_frame.pack(anchor="center", fill="x", pady=(30, 30), padx=27)
         
-        CTkLabel(text_frame, text="\n\n\nskibidi rizz simulator", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
-
+        CTkLabel(text_frame, text="\nskibidi rizz simulator", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        
+        CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Volunteer Portal", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        
+        VolunteerUsername = open("frontend/uservar.txt", "r").read().strip()
+        
+        if SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Enrolled" or SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Pending":
+            CTkLabel(text_frame, text="[You are currently enrolled in the scheme!]", font=("Trebuchet MS", 18), text_color="#FF0000", bg_color="#fff").pack(anchor="center", side="top")
+            if SQL_VolunteerView_HouseStatus("user1")[0][0] == "":
+                CTkLabel(text_frame, text="\n\nYou are not assigned to a house yet.\nSelect one below:", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+                CTkButton(text_frame, text="House 1", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=1)).pack(side="left", anchor="center", ipady=5, padx=(115,5), pady=(0, 10))
+                CTkButton(text_frame, text="House 2", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=2)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
+                CTkButton(text_frame, text="House 3", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=3)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
+                CTkButton(text_frame, text="House 4", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=4)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
+            else:
+                CTkLabel(text_frame, text="\n\nYou are assigned to House " + str(SQL_VolunteerView_HouseStatus("user1")[0][0]) + ".", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        
+        else:
+            CTkButton(text_frame, text="Enroll", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 15), hover_color="#207244", command=self.EnrollUserButton).pack(anchor="center", ipady=5, pady=(0, 10))
+        
     def TaskFrame(self):
     
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)

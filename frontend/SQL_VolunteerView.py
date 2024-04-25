@@ -59,3 +59,63 @@ def SQL_VolunteerView_FetchTasks(VolunteerUsername, search_query=None):
     
     return tasks
 
+def SQL_VolunteerView_EnrollmentStatus(VolunteerUsername):
+    
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+    
+    cursor.execute(f"SELECT UserID FROM UserTable WHERE Username = '{VolunteerUsername}'")
+    conn.commit()
+    UserID = cursor.fetchone()
+    
+    cursor.execute(f"SELECT EnrollmentStatus FROM UserTable WHERE UserID = {UserID[0]}")
+    conn.commit()
+    EnrollmentStatus = cursor.fetchone()
+    conn.close()
+    
+    return EnrollmentStatus[0]
+
+def SQL_VolunteerView_HouseStatus(VolunteerUsername):
+
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+    
+    cursor.execute(f"SELECT HouseID FROM UserTable WHERE Username = '{VolunteerUsername}'")
+    conn.commit()
+    
+    status = cursor.fetchall()
+    
+    conn.close()
+    
+    return status
+    
+def SQL_VolunteerView_EnrollUser(VolunteerUsername):
+        
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
+        
+        cursor.execute(f"SELECT UserID FROM UserTable WHERE Username = '{VolunteerUsername}'")
+        conn.commit()
+        UserID = cursor.fetchone()
+        
+        cursor.execute(f"UPDATE UserTable SET EnrollmentStatus = 'Enrolled' WHERE UserID = {UserID[0]}")
+        conn.commit()
+        
+        conn.close()
+    
+def SQL_VolunteerView_AssignUserHouse(VolunteerUsername, house):
+        
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        cursor = conn.cursor()
+        
+        cursor.execute(f"SELECT UserID FROM UserTable WHERE Username = '{VolunteerUsername}'")
+        conn.commit()
+        UserID = cursor.fetchone()
+        
+        cursor.execute(f"UPDATE UserTable SET HouseID = {house} WHERE UserID = {UserID[0]}")
+        conn.commit()
+        
+        conn.close()
+        
+        tk.messagebox.showinfo("Success", f"User {VolunteerUsername} assigned to house {house}")
+        auditlog(f"User {VolunteerUsername} assigned to house {house}")

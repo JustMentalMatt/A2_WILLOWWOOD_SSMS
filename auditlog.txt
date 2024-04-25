@@ -192,3 +192,57 @@
 2024-04-25 23:35:04  | User: user1       | User user1 enrolled in task 5
 2024-04-25 23:36:04  | User: user1       | User user1 enrolled in task 7
 2024-04-25 23:37:27  | User: user1       | User logged in   
+2024-04-25 23:45:40  | User: user1       | User logged in   
+2024-04-25 23:47:23  | User: user1       | User logged in   
+2024-04-25 23:58:24  | User: user1       | User logged in   
+2024-04-25 23:59:23  | User: user1       | User logged in   
+2024-04-25 23:59:27  | User: user1       | User user1 enrolled
+2024-04-25 23:59:29  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-25 23:59:56  | User: manager1    | User logged in   
+2024-04-26 00:00:44  | User: manager1    | User Edited      
+2024-04-26 00:00:58  | User: manager1    | Bed Unassigned from User
+2024-04-26 00:00:58  | User: manager1    | Bed Unassigned from User
+2024-04-26 00:01:08  | User: manager1    | Bed Unassigned from User
+2024-04-26 00:01:08  | User: manager1    | Bed Unassigned from User
+2024-04-26 00:01:12  | User: manager1    | User logged in   
+2024-04-26 00:01:43  | User: manager1    | User Edited      
+2024-04-26 00:03:04  | User: user1       | User logged in   
+2024-04-26 00:03:06  | User: user1       | User user1 enrolled
+2024-04-26 00:03:07  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-26 00:06:05  | User: user1       | User logged in   
+2024-04-26 00:06:09  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-26 00:09:24  | User: user1       | User logged in   
+2024-04-26 00:11:50  | User: user1       | User logged in   
+2024-04-26 00:11:50  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-26 00:12:56  | User: user1       | User logged in   
+2024-04-26 00:13:26  | User: user1       | User logged in   
+2024-04-26 00:13:30  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-26 00:16:57  | User: user1       | User logged in   
+2024-04-26 00:16:59  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-26 00:22:55  | User: user1       | User logged in   
+2024-04-26 00:23:07  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-26 00:23:59  | User: user1       | User logged in   
+2024-04-26 00:24:29  | User: user1       | User logged in   
+2024-04-26 00:25:11  | User: user1       | User logged in   
+2024-04-26 00:33:28  | User: user1       | User logged in   
+2024-04-26 00:37:16  | User: user1       | User logged in   
+2024-04-26 00:39:29  | User: UNKNOWN     | Login attempt failed
+2024-04-26 00:39:32  | User: user1       | User logged in   
+2024-04-26 00:41:55  | User: user1       | User logged in   
+2024-04-26 00:42:18  | User: manager1    | User logged in   
+2024-04-26 00:42:33  | User: manager1    | User Edited      
+2024-04-26 00:43:15  | User: user1       | User logged in   
+2024-04-26 00:43:18  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-26 00:44:15  | User: user1       | User logged in   
+2024-04-26 00:44:31  | User: user1       | User logged in   
+2024-04-26 00:44:45  | User: user1       | User logged in   
+2024-04-26 00:45:36  | User: user1       | User logged in   
+2024-04-26 00:46:32  | User: user1       | User logged in   
+2024-04-26 00:47:38  | User: user1       | User logged in   
+2024-04-26 00:47:56  | User: user1       | User logged in   
+2024-04-26 00:49:36  | User: user1       | User logged in   
+2024-04-26 00:50:11  | User: user1       | User logged in   
+2024-04-26 00:50:56  | User: user1       | User logged in   
+2024-04-26 00:51:44  | User: user1       | User logged in   
+2024-04-26 00:52:26  | User: user1       | User logged in   
+2024-04-26 00:52:42  | User: user1       | User user1 assigned to house 2
