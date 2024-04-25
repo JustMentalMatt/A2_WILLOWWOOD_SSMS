@@ -12,7 +12,7 @@ def SQL_SupervisorView_FetchUserTable(search_query=None):
         conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
-        disp_column = ["UserID", "Username", "FirstName", "LastName", "DOB", "ContactNumber", "EnrollmentStatus", "Message", "RoleID", "HouseID", "RoomID", "BedID"] # iunclude coluims you only wanna show
+        disp_column = ["UserID", "Username", "Password", "FirstName", "LastName", "DOB", "ContactNumber", "EnrollmentStatus", "Message", "RoleID", "HouseID", "RoomID", "BedID"] # iunclude coluims you only wanna show
         columnsSQL = ', '.join(disp_column) # for the sql wuarey
         
         if search_query:

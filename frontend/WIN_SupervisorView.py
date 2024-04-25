@@ -136,17 +136,18 @@ class supervisorView(ctk.CTkFrame):
 
                 e_ID.set(selectedData[0])
                 e_Username.set(selectedData[1])
-                e_FirstName.set(selectedData[2])
-                e_LastName.set(selectedData[3])
-                e_DOB.set(selectedData[4])
-                e_ContactNumber.set(selectedData[5])
-                e_HouseID.set(selectedData[9])
-                e_Message.set(selectedData[7])
-                e_RoomID.set(selectedData[10])
-                e_BedID.set(selectedData[11])
+                e_Password.set(selectedData[2])
+                e_FirstName.set(selectedData[3])
+                e_LastName.set(selectedData[4])
+                e_DOB.set(selectedData[5])
+                e_ContactNumber.set(selectedData[6])
+                e_HouseID.set(selectedData[10])
+                e_Message.set(selectedData[8])
+                e_RoomID.set(selectedData[11])
+                e_BedID.set(selectedData[12])
                 
-                Cmbo_Role.set(selectedData[8])
-                Cmbo_EnrollmentStatus.set(selectedData[6])
+                Cmbo_Role.set(selectedData[9])
+                Cmbo_EnrollmentStatus.set(selectedData[7])
                 
             def INIT_TABLE_AllUsers(self, search_query=None):
                 
@@ -194,6 +195,7 @@ class supervisorView(ctk.CTkFrame):
                 
                 e_ID = tk.StringVar()
                 e_Username = tk.StringVar()
+                e_Password = tk.StringVar()
                 e_FirstName = tk.StringVar()
                 e_LastName = tk.StringVar()
                 e_DOB = tk.StringVar()
@@ -211,13 +213,14 @@ class supervisorView(ctk.CTkFrame):
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
                 CTkLabel(optionsFrame, text="User Options", font=("Arial Black", 20), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID       Username            F_Name             L_Name              DOB          C_Number   Role     E_Status            HouseID   Message RoomID  BedID", font=("Arial Bold", 12), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
+                CTkLabel(optionsFrame, text="  ID       Username         Password           F_Name             L_Name              DOB          C_Number   Role     E_Status            HouseID   Message RoomID  BedID", font=("Arial Bold", 12), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
                 
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
                 CTkEntry(entryFrame, width=55, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Username, state='readonly').pack(anchor="n", side="left", padx=(15, 2), fill="x")
+                CTkEntry(entryFrame, width=55, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Password,  show="*", border_color="#ff0000").pack(anchor="n", side="left", padx=(15, 2), fill="x")
                 CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_FirstName, state='readonly').pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_LastName, state='readonly').pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=80, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_DOB, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
@@ -631,45 +634,61 @@ class supervisorView(ctk.CTkFrame):
 
 
         searchBar.bind("<Return>", lambda event: on_search())
+        
 
     def GeneralRegisterFrame(self):
 
-            title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
-            title_frame.propagate(0)
-            title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
-            
-            CTkLabel(title_frame, text="General Register", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
-            
-            searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="#2A8C55", text_color="#000", placeholder_text="Search...")
-            searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
-            searchBar.propagate(0)
-            
-            
-            def INIT_TABLE_GeneralRegister(search_query=None):
-                
-                disp_column = SQL_AdminView_FetchGeneralRegister()[0]
-                rows = SQL_AdminView_FetchGeneralRegister(search_query)[1] if search_query else SQL_AdminView_FetchGeneralRegister()[1]
-                tabData = [disp_column]
-                tabData.extend(rows)
-                
-                tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=900)
-                tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
-                
-                table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
-                table.edit_row(0, text_color="#000", hover_color="#2A8C55")
-                table.pack(expand=True)
-                table.configure(width=120, height=30)
-                
-                
-            INIT_TABLE_GeneralRegister()
+        def exportTable():
+            result = SQL_AdminView_FetchGeneralRegister()
+            with open('GeneralRegister Export.txt', 'w') as f:
+                headings = result[0]
+                for heading in headings[0:]:
+                    f.write('{:<20}'.format(heading))
+                f.write('\n')
+                for row in result[1]:
+                    row_data = [str(item) if item is not None else '' for item in row]
+                    for item in row_data[0:]:
+                        f.write('{:<20}'.format(item))
+                    f.write('\n')
 
-            def on_search():
-                global search_query
-                search_query = None if searchBar.get() == "" else searchBar.get()
-                self.TableDestroy()
-                INIT_TABLE_GeneralRegister(search_query)
+        title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
+        title_frame.propagate(0)
+        title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
+        
+        CTkLabel(title_frame, text="General Register", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
+        
+        searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="#2A8C55", text_color="#000", placeholder_text="Search...")
+        searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
+        searchBar.propagate(0)
+        
+        
+        def INIT_TABLE_GeneralRegister(search_query=None):
             
-            searchBar.bind("<Return>", lambda event: on_search())
+            disp_column = SQL_AdminView_FetchGeneralRegister()[0]
+            rows = SQL_AdminView_FetchGeneralRegister(search_query)[1] if search_query else SQL_AdminView_FetchGeneralRegister()[1]
+            tabData = [disp_column]
+            tabData.extend(rows)
+            
+            tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=900)
+            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
+            
+            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
+            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+            table.pack(expand=True)
+            table.configure(width=120, height=30)
+            
+            
+        INIT_TABLE_GeneralRegister()
+        
+        CTkButton(title_frame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 15), hover_color="#207244", command=lambda: exportTable()).pack(anchor="ne", side="right", ipady=5, pady=(0, 0), padx=(0, 10))
+
+        def on_search():
+            global search_query
+            search_query = None if searchBar.get() == "" else searchBar.get()
+            self.TableDestroy()
+            INIT_TABLE_GeneralRegister(search_query)
+        
+        searchBar.bind("<Return>", lambda event: on_search())
 
     def HouseManagementFrame(self):
         
