@@ -7,6 +7,7 @@ import sqlite3
 
 
 from SQL_AdminView import *
+from SQL_SupervisorView import *
 from validation import auditlog
 
 class supervisorView(ctk.CTkFrame):
@@ -70,7 +71,7 @@ class supervisorView(ctk.CTkFrame):
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
-        tableSelectVAR = tk.StringVar(value="UserTable") #WIP - not implemented yet.
+        tableSelectVAR = tk.StringVar(value="UserTable")
 
         class UserTable:
             def __init__(self, parent):
@@ -81,7 +82,7 @@ class supervisorView(ctk.CTkFrame):
 
                 
             def EditUserButton(self):
-                EditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
+                SUPVEditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
                 print(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
 
                 # supervisorView.TableDestroy(self)
@@ -226,20 +227,20 @@ class supervisorView(ctk.CTkFrame):
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
-                CTkEntry(entryFrame, width=55, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Username).pack(anchor="n", side="left", padx=(15, 2), fill="x")
-                CTkEntry(entryFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Password).pack(anchor="n", side="left", padx=(20, 2), fill="x")
-                CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_FirstName).pack(anchor="n", side="left", padx=(20, 2), fill="x")
-                CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_LastName).pack(anchor="n", side="left", padx=(20, 2), fill="x")
-                CTkEntry(entryFrame, width=80, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_DOB).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkEntry(entryFrame, width=55, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Username, state='readonly').pack(anchor="n", side="left", padx=(15, 2), fill="x")
+                CTkEntry(entryFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Password, state='readonly', show="*").pack(anchor="n", side="left", padx=(20, 2), fill="x")
+                CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_FirstName, state='readonly').pack(anchor="n", side="left", padx=(20, 2), fill="x")
+                CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_LastName, state='readonly').pack(anchor="n", side="left", padx=(20, 2), fill="x")
+                CTkEntry(entryFrame, width=80, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_DOB, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ContactNumber).pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 
-                CTkComboBox(entryFrame, values=["1", "2", "3"], width=5, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_Role).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkEntry(entryFrame, width=5, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=Cmbo_Role, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 CTkComboBox(entryFrame, values=["Enrolled", "Not Enrolled", "Pending"], width=110, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_EnrollmentStatus).pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_HouseID).pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Message).pack(anchor="n", side="left", padx=(2, 5), fill="x")
-                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_RoomID).pack(anchor="n", side="left", padx=(2, 5), fill="x")
-                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_BedID).pack(anchor="n", side="left", padx=(2, 5), fill="x")
+                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_RoomID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
+                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_BedID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 
                 #CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
                 CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.EditUserButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))

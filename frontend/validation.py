@@ -160,7 +160,16 @@ def dbPresenceCheck(value, column, table):
         conn.close()
         return False
 
+def IDFormatCheck(ID):
     
+    if ID == "" or ID == None or ID == " ":
+        return True
+    else:
+        try:
+            ID = int(ID)
+            return True
+        except ValueError:
+            return False
     
     
 # Validation functions for each table
@@ -199,12 +208,12 @@ def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, 
         
     elif not validatePhone(ContactNumber):
         tk.messagebox.showerror("Error", "Invalid Contact Number")
-
-    elif not typeCheck(HouseID, int):
+        
+    elif not IDFormatCheck(HouseID):
         tk.messagebox.showerror("Error", "Invalid House ID")
 
     elif HouseID != "" and not dbPresenceCheck(int(HouseID), "HouseID", "HouseTable"):
-        tk.messagebox.showerror("Error", "Invalid House ID")
+        tk.messagebox.showerror("Error", "House ID does not exist")
         
     else:
         return True

@@ -52,3 +52,26 @@
 2024-04-24 23:00:51  | User: manager1    | User logged in   
 2024-04-25 00:26:00  | User: supervisor1 | User logged in   
 2024-04-25 00:30:42  | User: supervisor1 | User logged in   
+2024-04-25 13:52:24  | User: supervisor1 | User logged in   
+2024-04-25 13:54:14  | User: supervisor1 | User logged in   
+2024-04-25 13:55:01  | User: UNKNOWN     | Login attempt failed
+2024-04-25 13:55:31  | User: supervisor1 | User logged in   
+2024-04-25 13:55:52  | User: UNKNOWN     | Login attempt failed
+2024-04-25 13:56:38  | User: UNKNOWN     | User Edit Failed 
+2024-04-25 13:57:03  | User: UNKNOWN     | User Edit Failed 
+2024-04-25 13:57:22  | User: UNKNOWN     | User Edit Failed 
+2024-04-25 13:57:37  | User: UNKNOWN     | User Edit Failed 
+2024-04-25 13:58:47  | User: UNKNOWN     | User Edit Failed 
+2024-04-25 14:05:02  | User: manager1    | User logged in   
+2024-04-25 14:18:09  | User: manager1    | User Edit Failed 
+2024-04-25 14:18:20  | User: manager1    | User Edited      
+2024-04-25 14:18:39  | User: manager1    | User Edited      
+2024-04-25 14:20:45  | User: manager1    | User logged in   
+2024-04-25 14:20:50  | User: UNKNOWN     | Login attempt failed
+2024-04-25 14:21:26  | User: UNKNOWN     | User Edit Failed 
+2024-04-25 14:21:35  | User: UNKNOWN     | User Edit Failed 
+2024-04-25 14:21:38  | User: ss          | User logged in   
+2024-04-25 14:22:46  | User: ss          | User Edit Failed 
+2024-04-25 14:23:06  | User: ss          | User Edited      
+2024-04-25 14:23:18  | User: ss          | User Edit Failed 
+2024-04-25 14:23:22  | User: manager1    | User logged in   

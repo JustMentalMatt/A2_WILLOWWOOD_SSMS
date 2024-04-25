@@ -1,0 +1,2 @@
+UserID              Username            Password            FirstName           LastName            DOB                 ContactNumber       EnrollmentStatus    Message             RoleID              HouseID             RoomID              BedID               
+4                   supervisor1         supervisorpass      Sarah               Williams            1978-12-10          1112223333          Enrolled            BALL                2                   2                                                           
