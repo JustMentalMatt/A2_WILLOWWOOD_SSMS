@@ -67,13 +67,14 @@ def handle_login_result(successful, username, role):
         print("main.py | Login Successful")
         print("main.py | Username:", username)
         print("main.py | Role:", role)
-        
-        determineView(role)
-        
+                
         with open("frontend/uservar.txt", "w") as file:
             file.write(username)
             file.close()
         auditlog("User logged in")
+        
+        determineView(role)
+        
     else:
         print("main.py | Login Failed")
         with open("frontend/uservar.txt", "w") as file:

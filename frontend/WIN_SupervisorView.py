@@ -56,7 +56,7 @@ class supervisorView(ctk.CTkFrame):
         text_frame.propagate(0)
         text_frame.pack(anchor="center", fill="x", pady=(30, 30), padx=27)
         
-        CTkLabel(text_frame, text="\n\n\nWelcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\nYou are currently logged in as an ADMIN USER\nTread with care as you have all access rights!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        CTkLabel(text_frame, text="\n\n\nWelcome to the Willow Wood Inn Management System.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\nYou are currently logged in as a SUPERVISOR USER\nHead over to the [House Management] menu to manage your house\n or browse task and user details using the [System Management] menu.", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
 
     def UserManagementFrame(self):
     
@@ -226,7 +226,7 @@ class supervisorView(ctk.CTkFrame):
                 CTkEntry(entryFrame, width=15, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=Cmbo_Role, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 CTkComboBox(entryFrame, values=["Enrolled", "Not Enrolled", "Pending"], width=110, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_EnrollmentStatus, border_color="#ff0000").pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 
-                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_HouseID, border_color="#ff0000").pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_HouseID, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Message, border_color="#ff0000").pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_RoomID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_BedID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
@@ -682,97 +682,108 @@ class supervisorView(ctk.CTkFrame):
         HouseFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=0, width=480, height=600)
         HouseFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
 
-        H1 = CTkFrame(HouseFrame, fg_color="transparent", width=480, height=380, border_color="#FF5733", border_width=5)
-        H1.propagate(0)
-        H1.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
-        CTkLabel(H1, text="House 1", font=("Arial Black", 25), text_color="#FFC300", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
+        H = CTkFrame(HouseFrame, fg_color="transparent", width=480, height=380, border_color="#FF5733", border_width=5)
+        H.propagate(0)
+        H.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
         
-        def INIT_TABLE_House1():
-            disp_column = SQL_AdminView_FetchHouse(HouseID=1)[0]
-            rows = SQL_AdminView_FetchHouse(HouseID=1)[1]
-
-            tabData = [disp_column]
-            tabData.extend(rows)
+        SupervisorHouseID = SQL_SupervisorView_FetchHouseID()
+        
+        if SupervisorHouseID == None or SupervisorHouseID == "" or SupervisorHouseID == " ":
             
-            tabFrame = CTkFrame(master=H1, fg_color="transparent", border_width=0, width=480, height=30)
-            tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
+            CTkLabel(H, text="No House Assigned\n Please contact an Administrator.", font=("Arial Black", 25), text_color="#FFC300", bg_color="transparent").pack(anchor="center", pady=(5, 0), padx=(10, 0))
+        
+        else:
             
-            table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
-            table.edit_row(0, text_color="#000", hover_color="#2A8C55")
-            table.pack(expand=True)
+            CTkLabel(H, text= f"House {SupervisorHouseID} Management", font=("Arial Black", 25), text_color="#FFC300", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
+                
+            def INIT_TABLE_House():
+                
+                disp_column = SQL_AdminView_FetchHouse(HouseID=SupervisorHouseID)[0]
+                rows = SQL_AdminView_FetchHouse(HouseID=SupervisorHouseID)[1]
 
-            dividerFrame1 = CTkFrame(H1, fg_color="transparent", width=240, height=390, border_color="#fff", border_width=2)
-            dividerFrame1.propagate(0)
-            dividerFrame1.pack(side="left", anchor="n", fill="x", padx=25, pady=(20, 20))
+                tabData = [disp_column]
+                tabData.extend(rows)
+                
+                tabFrame = CTkFrame(master=H, fg_color="transparent", border_width=0, width=480, height=30)
+                tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
+                
+                table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
+                table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+                table.pack(expand=True)
 
-            dividerFrame2 = CTkFrame(H1, fg_color="transparent", width=240, height=370, border_color="#fff", border_width=2)
-            dividerFrame2.propagate(0)
-            dividerFrame2.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
+                dividerFrame1 = CTkFrame(H, fg_color="transparent", width=240, height=390, border_color="#fff", border_width=2)
+                dividerFrame1.propagate(0)
+                dividerFrame1.pack(side="left", anchor="n", fill="x", padx=25, pady=(20, 20))
 
-            dividerFrame3 = CTkFrame(H1, fg_color="transparent", width=240, height=370, border_color="#fff", border_width=2)
-            dividerFrame3.propagate(0)
-            dividerFrame3.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
+                dividerFrame2 = CTkFrame(H, fg_color="transparent", width=240, height=370, border_color="#fff", border_width=2)
+                dividerFrame2.propagate(0)
+                dividerFrame2.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
 
-            CTkLabel(dividerFrame1, text="Room 1", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
-            CTkLabel(dividerFrame2, text="Room 2", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
-            CTkLabel(dividerFrame3, text="Room 3", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
+                dividerFrame3 = CTkFrame(H, fg_color="transparent", width=240, height=370, border_color="#fff", border_width=2)
+                dividerFrame3.propagate(0)
+                dividerFrame3.pack(side="left", anchor="n", fill="x", padx=10, pady=(20, 20))
 
-            def AssignBed(user, RoomID, BedID):
-                SQLAdminView_AssignBed(user, RoomID, BedID, HouseID=1)
+                CTkLabel(dividerFrame1, text="Room 1", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
+                CTkLabel(dividerFrame2, text="Room 2", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
+                CTkLabel(dividerFrame3, text="Room 3", font=("Arial Black", 20), text_color="#DAF7A6", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
 
-            def FetchAssignedUser(room_id, bed_id):
-                return SQLAdminView_FetchAssignedUser(room_id, bed_id, house_id=1)
+                def AssignBed(user, RoomID, BedID):
+                    SQLAdminView_AssignBed(user, RoomID, BedID, HouseID=SupervisorHouseID)
 
-            HouseResidents = SQLAdminView_FetchHouseResidents(HouseID=1)
-            C1 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="1": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C1.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C1.set(FetchAssignedUser(1, 1))
+                def FetchAssignedUser(room_id, bed_id):
+                    return SQLAdminView_FetchAssignedUser(room_id, bed_id, house_id=SupervisorHouseID)
 
-            C2 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="2": AssignBed(user, room_id, bed_id),width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C2.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C2.set(FetchAssignedUser(1, 2))
+                HouseResidents = SQLAdminView_FetchHouseResidents(HouseID=SupervisorHouseID)
+                C1 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="1": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C1.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C1.set(FetchAssignedUser(1, 1))
 
-            C3 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="3": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C3.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C3.set(FetchAssignedUser(1, 3))
+                C2 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="2": AssignBed(user, room_id, bed_id),width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C2.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C2.set(FetchAssignedUser(1, 2))
 
-            C4 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="4": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C4.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C4.set(FetchAssignedUser(1, 4))
+                C3 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="3": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C3.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C3.set(FetchAssignedUser(1, 3))
 
-            C5 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="1": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C5.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C5.set(FetchAssignedUser(2, 1))
+                C4 = CTkComboBox(dividerFrame1, values=HouseResidents, command=lambda user="", room_id="1", bed_id="4": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C4.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C4.set(FetchAssignedUser(1, 4))
 
-            C6 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="2": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C6.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C6.set(FetchAssignedUser(2, 2))
+                C5 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="1": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C5.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C5.set(FetchAssignedUser(2, 1))
 
-            C7 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="3": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C7.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C7.set(FetchAssignedUser(2, 3))
+                C6 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="2": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C6.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C6.set(FetchAssignedUser(2, 2))
 
-            C8 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="4": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C8.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C8.set(FetchAssignedUser(2, 4))
+                C7 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="3": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C7.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C7.set(FetchAssignedUser(2, 3))
 
-            C9 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="1": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C9.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C9.set(FetchAssignedUser(3, 1))
+                C8 = CTkComboBox(dividerFrame2, values=HouseResidents, command=lambda user="", room_id="2", bed_id="4": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C8.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C8.set(FetchAssignedUser(2, 4))
 
-            C10 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="2": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C10.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C10.set(FetchAssignedUser(3, 2))
+                C9 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="1": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C9.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C9.set(FetchAssignedUser(3, 1))
 
-            C11 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="3": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C11.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C11.set(FetchAssignedUser(3, 3))
+                C10 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="2": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C10.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C10.set(FetchAssignedUser(3, 2))
 
-            C12 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="4": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
-            C12.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
-            C12.set(FetchAssignedUser(3, 4))
+                C11 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="3": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C11.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C11.set(FetchAssignedUser(3, 3))
 
-        INIT_TABLE_House1()
+                C12 = CTkComboBox(dividerFrame3, values=HouseResidents, command=lambda user="", room_id="3", bed_id="4": AssignBed(user, room_id, bed_id), width=200, height=35, font=("Arial Bold", 15), fg_color="#fff", bg_color="transparent", text_color="#000")
+                C12.pack(anchor="n", side="top", padx=(10, 10), pady=(5, 0))
+                C12.set(FetchAssignedUser(3, 4))
+
+
+            INIT_TABLE_House()
 
 
     def sidebarFrame(self):

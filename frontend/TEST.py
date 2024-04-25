@@ -151,6 +151,33 @@
 # print("Formatted first name:", firstName)
 # print("Formatted last name:", lastName)
 
-from main import auditlog
+# from main import auditlog
 
-auditlog("User logged in: 1234")
+# auditlog("User logged in: 1234")
+
+from SQL_AdminView import *
+from SQL_SupervisorView import *
+
+
+def SQL():
+    
+    with open("frontend/uservar.txt", "r") as file:
+        userVAR = file.read().strip()
+        file.close()
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    cursor = conn.cursor()
+    cursor.execute(f'SELECT HouseID FROM UserTable WHERE Username = "{userVAR}"')
+    rows = cursor.fetchall()
+    conn.close()
+    
+    result = rows[0][0]
+
+    if result != "" or result != " " or result != None:
+        return result
+    else:
+        return None
+
+
+supervisorHouse = SQL()
+
+print(supervisorHouse)
