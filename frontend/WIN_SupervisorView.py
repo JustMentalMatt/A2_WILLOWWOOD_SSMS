@@ -35,7 +35,6 @@ class supervisorView(ctk.CTkFrame):
     def TableDestroy(self):
         frames = self.main_view.winfo_children()
         for frame in frames[1:len(frames)]:
-            print(frame)
             frame.destroy()
         
         # frame = self.main_view.winfo_children()[1] # this is the scrollable frame; specific frame deletion, leaves others.
@@ -83,10 +82,6 @@ class supervisorView(ctk.CTkFrame):
                 
             def EditUserButton(self):
                 SUPVEditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
-                print(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
-
-                # supervisorView.TableDestroy(self)
-                # UserTable(self)
                 supervisorView.TableDestroy(self)
                 UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                 
@@ -136,7 +131,6 @@ class supervisorView(ctk.CTkFrame):
                     table.deselect_row(selectedRow)
 
                 selectedRow = cell["row"]
-                print("Selected Row:", selectedRow)
                 table.select_row(selectedRow)
                 selectedData = table.get_row(selectedRow)
 
@@ -161,9 +155,7 @@ class supervisorView(ctk.CTkFrame):
                 
 
                 supervisorView.TableDestroy(self)
-                
-                print(f"{search_query} - Search Query") # debug print
-                
+                                
                 global table
                 global result
                 result = SQL_AdminView_FetchUserTable(search_query)
@@ -266,7 +258,6 @@ class supervisorView(ctk.CTkFrame):
                     table.deselect_row(selectedRow)
 
                 selectedRow = cell["row"]
-                print("Selected Row:", selectedRow)
                 table.select_row(selectedRow)
                 selectedData = table.get_row(selectedRow)
 
@@ -398,7 +389,6 @@ class supervisorView(ctk.CTkFrame):
                     table.deselect_row(selectedRow)
 
                 selectedRow = cell["row"]
-                print("Selected Row:", selectedRow)
                 table.select_row(selectedRow)
                 selectedData = table.get_row(selectedRow)
 
@@ -536,7 +526,6 @@ class supervisorView(ctk.CTkFrame):
                     table.deselect_row(selectedRow)
 
                 selectedRow = cell["row"]
-                print("Selected Row:", selectedRow)
                 table.select_row(selectedRow)
                 selectedData = table.get_row(selectedRow)
 
@@ -611,7 +600,6 @@ class supervisorView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
 
         def SwitchTable(tableSelectVAR):
-            print(tableSelectVAR)
             tableName = tableSelectVAR
             if tableName == "UserTable":
                 self.TableDestroy()
