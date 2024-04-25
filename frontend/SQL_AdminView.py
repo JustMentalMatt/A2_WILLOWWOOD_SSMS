@@ -442,7 +442,7 @@ def AddBookingSQL(TaskID, UserID, BookingDate):
         # Calculate the new BookingID by incrementing the maximum BookingID
         NewBID = max_booking_id + 1 if max_booking_id is not None else 1
 
-        cursor.execute(f"INSERT INTO BookingTable (BookingID, TaskID, UserID, BookingDate) VALUES ('{NewBID}', '{TaskID}', '{UserID}', '{BookingDate}')")
+        cursor.execute(f"INSERT INTO BookingTable (BookingID, TaskID, UserID, BookingDate) VALUES ({NewBID}, {TaskID}, {UserID[0]}, CURRENT_TIMESTAMP)")
         conn.commit()
         conn.close()
         
