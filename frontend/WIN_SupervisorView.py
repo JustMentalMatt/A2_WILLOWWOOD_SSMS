@@ -81,7 +81,7 @@ class supervisorView(ctk.CTkFrame):
 
                 
             def EditUserButton(self):
-                SUPVEditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
+                EditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
                 supervisorView.TableDestroy(self)
                 UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                 
@@ -136,20 +136,17 @@ class supervisorView(ctk.CTkFrame):
 
                 e_ID.set(selectedData[0])
                 e_Username.set(selectedData[1])
-                e_Password.set(selectedData[2])
-                e_FirstName.set(selectedData[3])
-                e_LastName.set(selectedData[4])
-                e_DOB.set(selectedData[5])
-                e_ContactNumber.set(selectedData[6])
-                #e_RoleID.set(selectedData[7])
-                #e_EnrollmentStatus.set(selectedData[8])
-                e_HouseID.set(selectedData[10])
-                e_Message.set(selectedData[8])
-                e_RoomID.set(selectedData[11])
-                e_BedID.set(selectedData[12])
+                e_FirstName.set(selectedData[2])
+                e_LastName.set(selectedData[3])
+                e_DOB.set(selectedData[4])
+                e_ContactNumber.set(selectedData[5])
+                e_HouseID.set(selectedData[9])
+                e_Message.set(selectedData[7])
+                e_RoomID.set(selectedData[10])
+                e_BedID.set(selectedData[11])
                 
-                Cmbo_Role.set(selectedData[9])
-                Cmbo_EnrollmentStatus.set(selectedData[7])
+                Cmbo_Role.set(selectedData[8])
+                Cmbo_EnrollmentStatus.set(selectedData[6])
                 
             def INIT_TABLE_AllUsers(self, search_query=None):
                 
@@ -158,7 +155,7 @@ class supervisorView(ctk.CTkFrame):
                                 
                 global table
                 global result
-                result = SQL_AdminView_FetchUserTable(search_query)
+                result = SQL_SupervisorView_FetchUserTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
                 
@@ -197,7 +194,6 @@ class supervisorView(ctk.CTkFrame):
                 
                 e_ID = tk.StringVar()
                 e_Username = tk.StringVar()
-                e_Password = tk.StringVar()
                 e_FirstName = tk.StringVar()
                 e_LastName = tk.StringVar()
                 e_DOB = tk.StringVar()
@@ -215,24 +211,23 @@ class supervisorView(ctk.CTkFrame):
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
                 CTkLabel(optionsFrame, text="User Options", font=("Arial Black", 20), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID       Username         Password            F_Name             L_Name              DOB          C_Number   Role     E_Status            HouseID   Message RoomID  BedID", font=("Arial Bold", 12), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
+                CTkLabel(optionsFrame, text="  ID       Username            F_Name             L_Name              DOB          C_Number   Role     E_Status            HouseID   Message RoomID  BedID", font=("Arial Bold", 12), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
                 
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
                 CTkEntry(entryFrame, width=55, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Username, state='readonly').pack(anchor="n", side="left", padx=(15, 2), fill="x")
-                CTkEntry(entryFrame, width=70, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Password, state='readonly', show="*").pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_FirstName, state='readonly').pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_LastName, state='readonly').pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=80, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_DOB, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
-                CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ContactNumber).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ContactNumber, border_color="#ff0000").pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 
                 CTkEntry(entryFrame, width=15, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=Cmbo_Role, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
-                CTkComboBox(entryFrame, values=["Enrolled", "Not Enrolled", "Pending"], width=110, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_EnrollmentStatus).pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkComboBox(entryFrame, values=["Enrolled", "Not Enrolled", "Pending"], width=110, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_EnrollmentStatus, border_color="#ff0000").pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 
-                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_HouseID).pack(anchor="n", side="left", padx=(2, 2), fill="x")
-                CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Message).pack(anchor="n", side="left", padx=(2, 5), fill="x")
+                CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_HouseID, border_color="#ff0000").pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_Message, border_color="#ff0000").pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_RoomID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_BedID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 
@@ -510,7 +505,7 @@ class supervisorView(ctk.CTkFrame):
                     tk.messagebox.showerror("Booking Deletion", "No Booking selected to delete.")
                     return
                 
-                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE [{B_TaskID.get()}]?\nThis action cannot be undone.", icon="warning")
+                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE the booking for [{B_Date.get()}]?\nThis action cannot be undone.", icon="warning")
                 if answer:
                     DeleteBookingSQL(B_ID.get())
                     supervisorView.TableDestroy(self)
@@ -586,22 +581,14 @@ class supervisorView(ctk.CTkFrame):
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
                 CTkLabel(optionsFrame, text="Booking Options", font=("Arial Black", 25), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID      TaskID     UserID               Date        ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
                 
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
                 
-                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_ID, state='readonly').pack(anchor="n", side="left", padx=(5, 2), fill="x")
-                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_TaskID).pack(anchor="n", side="left", padx=(20, 2), fill="x")
-                CTkEntry(entryFrame, width=35, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_UserID).pack(anchor="n", side="left", padx=(35, 2), fill="x")
-                CTkEntry(entryFrame, width=140, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=B_Date).pack(anchor="n", side="left", padx=(20, 2), fill="x")
-                
-                CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.EditBookingButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                CTkButton(optionsFrame, text="Add Booking", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddBookingButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
-                CTkButton(optionsFrame, text="Delete Booking", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteBookingButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
-                CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+
+                CTkButton(optionsFrame, text="Delete Booking", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 26), hover_color="#207244", height=40, width=45, command=self.DeleteBookingButton).pack(anchor="center", side="left", ipady=5, pady=(0, 50), padx=(10,0))
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 26), hover_color="#207244", height=40, width=45, command=self.exportTable).pack(anchor="center", side="right", ipady=5, pady=(0, 50), padx=(0,10))
 
         def SwitchTable(tableSelectVAR):
             tableName = tableSelectVAR

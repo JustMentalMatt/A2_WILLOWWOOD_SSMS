@@ -588,7 +588,7 @@ class adminView(ctk.CTkFrame):
                     tk.messagebox.showerror("Booking Deletion", "No Booking selected to delete.")
                     return
                 
-                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE [{B_TaskID.get()}]?\nThis action cannot be undone.", icon="warning")
+                answer = tk.messagebox.askyesno("Booking Deletion", f"Are you sure you want to PERMANENTLY DELETE the booking for [{B_Date.get()}]?\nThis action cannot be undone.", icon="warning")
                 if answer:
                     DeleteBookingSQL(B_ID.get())
                     adminView.TableDestroy(self)

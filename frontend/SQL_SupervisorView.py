@@ -7,18 +7,25 @@ import tkinter as tk
 from validation import auditlog
 
 
-def SUPVEditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
-   
-    if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
-        
+def SQL_SupervisorView_FetchUserTable(search_query=None):
+
         conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
-        cursor.execute(f"UPDATE UserTable SET Username = '{Username}', Password = '{Password}', FirstName = '{FirstName}', LastName = '{LastName}', DOB = '{DOB}', ContactNumber = '{ContactNumber}', RoleID = '{Cmbo_Role}', EnrollmentStatus = '{Cmbo_EnrollmentStatus}', Message = '{Message}', HouseID = '{HouseID}' WHERE UserID = '{SqlID}'")
-        conn.commit()
-        conn.close()
+        disp_column = ["UserID", "Username", "FirstName", "LastName", "DOB", "ContactNumber", "EnrollmentStatus", "Message", "RoleID", "HouseID", "RoomID", "BedID"] # iunclude coluims you only wanna show
+        columnsSQL = ', '.join(disp_column) # for the sql wuarey
         
-        tk.messagebox.showinfo("Success", "User Edited Successfully")
-        auditlog("User Edited")
-    else:
-        auditlog("User Edit Failed")
+        if search_query:
+        # Add a WHERE clause to filter results based on the search query
+            search_condition = f"UserID LIKE '{search_query}' OR Username LIKE '%{search_query}%' OR FirstName LIKE '%{search_query}%' OR LastName LIKE '%{search_query}%'"
+            query = f"SELECT {columnsSQL} FROM UserTable WHERE {search_condition}"
+        else:
+            query = f"SELECT {columnsSQL} FROM UserTable"
+        
+        
+        #cursor.execute(f'SELECT {columnsSQL} FROM UserTable') #yupada
+        cursor.execute(query)
+        rows = cursor.fetchall() #this puts it in tabular form so u can just use it with the ctk table thing
+
+        conn.close()
+        return disp_column, rows
