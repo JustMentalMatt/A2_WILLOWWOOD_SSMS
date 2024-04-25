@@ -75,3 +75,21 @@
 2024-04-25 14:23:06  | User: ss          | User Edited      
 2024-04-25 14:23:18  | User: ss          | User Edit Failed 
 2024-04-25 14:23:22  | User: manager1    | User logged in   
+2024-04-25 14:32:04  | User: UNKNOWN     | Login attempt failed
+2024-04-25 14:32:36  | User: ss          | User logged in   
+2024-04-25 14:34:32  | User: ss          | User logged in   
+2024-04-25 14:35:14  | User: ss          | User logged in   
+2024-04-25 14:36:16  | User: ss          | User logged in   
+2024-04-25 16:52:27  | User: ss          | User logged in   
+2024-04-25 17:01:40  | User: ss          | User Edit Failed 
+2024-04-25 17:02:06  | User: ss          | User Deleted     
+2024-04-25 17:03:43  | User: manager1    | User logged in   
+2024-04-25 17:04:07  | User: manager1    | User Edit Failed 
+2024-04-25 17:05:49  | User: manager1    | User logged in   
+2024-04-25 17:19:15  | User: manager1    | User logged in   
+2024-04-25 17:44:41  | User: manager1    | User Edited      
+2024-04-25 17:44:56  | User: manager1    | User Edit Failed 
+2024-04-25 17:45:08  | User: manager1    | User Edit Failed 
+2024-04-25 17:45:18  | User: manager1    | User Edited      
+2024-04-25 17:45:21  | User: manager1    | User Edited      
+2024-04-25 17:45:31  | User: manager1    | User Edited      

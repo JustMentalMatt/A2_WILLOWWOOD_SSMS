@@ -163,13 +163,16 @@ def dbPresenceCheck(value, column, table):
 def IDFormatCheck(ID):
     
     if ID == "" or ID == None or ID == " ":
-        return True
+        IsEmpty = True
+        return True, IsEmpty
     else:
         try:
             ID = int(ID)
-            return True
+            IsEmpty = False
+            return True, IsEmpty
         except ValueError:
-            return False
+            IsEmpty = False
+            return False, IsEmpty
     
     
 # Validation functions for each table
@@ -209,12 +212,10 @@ def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, 
     elif not validatePhone(ContactNumber):
         tk.messagebox.showerror("Error", "Invalid Contact Number")
         
-    elif not IDFormatCheck(HouseID):
+    elif not IDFormatCheck(HouseID)[0]:
         tk.messagebox.showerror("Error", "Invalid House ID")
-
-    elif HouseID != "" and not dbPresenceCheck(int(HouseID), "HouseID", "HouseTable"):
+    elif not IDFormatCheck(HouseID)[1] and not dbPresenceCheck(int(HouseID), "HouseID", "HouseTable"):
         tk.messagebox.showerror("Error", "House ID does not exist")
-        
     else:
         return True
     
@@ -326,3 +327,27 @@ def BedValidation(RoomID, BedNumber, BedStatus):
         
     else:
         return True
+    
+    
+    
+# # Test Cases
+# HouseID = "f"
+# print(IDFormatCheck(HouseID))
+
+# if IDFormatCheck(HouseID)[0] == False:
+#     print("Invalid House ID")
+# elif IDFormatCheck(HouseID)[1] == False and dbPresenceCheck(int(HouseID), "HouseID", "HouseTable") == False:
+#     print("House ID does not exist")
+# else:
+#     print("Valid House ID")
+    
+    
+# HouseID = "3"
+# print(IDFormatCheck(HouseID))
+
+# if not IDFormatCheck(HouseID)[0]:
+#     print("Invalid House ID")
+# elif not IDFormatCheck(HouseID)[1] and not dbPresenceCheck(int(HouseID), "HouseID", "HouseTable"):
+#     print("House ID does not exist")
+# else:
+#     print("Valid House ID")

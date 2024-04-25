@@ -19,7 +19,7 @@ class supervisorView(ctk.CTkFrame):
                                   width=900, height=650, corner_radius=0)
         self.main_view.pack_propagate(0)
         self.main_view.pack(side="right")
-
+        self.focus()
         self.sidebarFrame()
         self.menuFrame()
 
@@ -172,6 +172,7 @@ class supervisorView(ctk.CTkFrame):
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.pack(expand=False)
                 table.configure(width=45, height=20)
+                # table.configure(disp_column=2, show='*')
                 
                 self.optionsFrame()
 
@@ -190,8 +191,10 @@ class supervisorView(ctk.CTkFrame):
 
                 
             def optionsFrame(self):
-                ###
                 global e_ID, e_Username, e_Password, e_FirstName, e_LastName, e_DOB, e_ContactNumber, e_RoleID, e_EnrollmentStatus, e_HouseID, e_Message, e_RoomID, e_BedID, Cmbo_Role, Cmbo_EnrollmentStatus
+                
+                global table
+                
                 e_ID = tk.StringVar()
                 e_Username = tk.StringVar()
                 e_Password = tk.StringVar()
@@ -212,9 +215,8 @@ class supervisorView(ctk.CTkFrame):
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
                 CTkLabel(optionsFrame, text="User Options", font=("Arial Black", 20), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID       Username         Password            F_Name             L_Name              DOB         C_Number         Role          E_Status          HouseID   Message RoomID  BedID", font=("Arial Bold", 12), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
+                CTkLabel(optionsFrame, text="  ID       Username         Password            F_Name             L_Name              DOB          C_Number   Role     E_Status            HouseID   Message RoomID  BedID", font=("Arial Bold", 12), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
                 
-                #CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(1, 0))
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
@@ -226,7 +228,7 @@ class supervisorView(ctk.CTkFrame):
                 CTkEntry(entryFrame, width=80, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_DOB, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 CTkEntry(entryFrame, width=65, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_ContactNumber).pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 
-                CTkEntry(entryFrame, width=5, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=Cmbo_Role, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
+                CTkEntry(entryFrame, width=15, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=Cmbo_Role, state='readonly').pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 CTkComboBox(entryFrame, values=["Enrolled", "Not Enrolled", "Pending"], width=110, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", variable=Cmbo_EnrollmentStatus).pack(anchor="n", side="left", padx=(2, 2), fill="x")
                 
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_HouseID).pack(anchor="n", side="left", padx=(2, 2), fill="x")
@@ -240,6 +242,8 @@ class supervisorView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
                 CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+                CTkButton(optionsFrame, text="Refresh Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=lambda: table.draw_table()).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+
 
         class HouseTable:
             def __init__(self, parent):
