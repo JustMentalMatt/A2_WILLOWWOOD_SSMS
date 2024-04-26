@@ -7,7 +7,6 @@ import sqlite3
 
 
 from SQL_AdminView import *
-from validation import auditlog
 
 class mainMenu(ctk.CTk):
     def __init__(self):

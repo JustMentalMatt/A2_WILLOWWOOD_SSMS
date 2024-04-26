@@ -1,9 +1,7 @@
 import sqlite3
 from CTkTable import *
 from customtkinter import *
-import validation
 import tkinter as tk
-import datetime
 
 from validation import auditlog
 

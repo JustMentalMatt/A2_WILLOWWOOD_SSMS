@@ -1,7 +1,5 @@
 
 from customtkinter import *
-from threading import Thread
-import time
 
 from WIN_LoginMain import *
 from WIN_AdminView import *
@@ -40,16 +38,6 @@ class VolunteerMenu(CTkToplevel):
         self.main = volunteerView(self)
         self.mainloop()
 
-LoggedIn = True 
-def initiate_login():
-    if LoggedIn:
-        object = mainApp(handle_login_result)
-        global t
-        t = Thread(target=object)  # Create a thread to run AdminMenu
-        t.start()
-    else:
-        print("Program Disabled. Please contact the administrator.")
-
 def determineView(role):
     if role == 3:
         AdminMenu()
@@ -84,6 +72,4 @@ def handle_login_result(successful, username, role):
         tk.messagebox.showerror("Login Attempt", "No User found with the given credentials. Please try again.")
 
 if __name__ == "__main__":
-    #initiate_login()
-    
     mainApp(handle_login_result)
