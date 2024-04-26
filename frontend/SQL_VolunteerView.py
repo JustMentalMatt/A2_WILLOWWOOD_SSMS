@@ -25,7 +25,7 @@ def SQL_VolunteerView_EnrollInTask(TaskID, VolunteerUsername):
     conn.commit()
     UserID = cursor.fetchone()
         
-    cursor.execute(f"SELECT UserID FROM BookingTable WHERE TaskID = {TaskID}")
+    cursor.execute(f"SELECT * FROM BookingTable WHERE TaskID = {TaskID} AND UserID = {UserID[0]}")
     conn.commit()
     existingUser = cursor.fetchone()
     if existingUser:

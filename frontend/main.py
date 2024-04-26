@@ -84,4 +84,6 @@ def handle_login_result(successful, username, role):
         tk.messagebox.showerror("Login Attempt", "No User found with the given credentials. Please try again.")
 
 if __name__ == "__main__":
-    initiate_login()
+    #initiate_login()
+    
+    mainApp(handle_login_result)

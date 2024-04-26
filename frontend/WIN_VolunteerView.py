@@ -77,14 +77,14 @@ class volunteerView(ctk.CTkFrame):
         
         if SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Enrolled" or SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Pending":
             CTkLabel(text_frame, text="[You are currently enrolled in the scheme!]", font=("Trebuchet MS", 18), text_color="#FF0000", bg_color="#fff").pack(anchor="center", side="top")
-            if SQL_VolunteerView_HouseStatus("user1")[0][0] == "":
+            if SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0] == "" or SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0] == None or SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0] == " ":
                 CTkLabel(text_frame, text="\n\nYou are not assigned to a house yet.\nSelect one below:", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
                 CTkButton(text_frame, text="House 1", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=1)).pack(side="left", anchor="center", ipady=5, padx=(115,5), pady=(0, 10))
                 CTkButton(text_frame, text="House 2", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=2)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
                 CTkButton(text_frame, text="House 3", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=3)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
                 CTkButton(text_frame, text="House 4", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=4)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
             else:
-                CTkLabel(text_frame, text="\n\nYou are assigned to House " + str(SQL_VolunteerView_HouseStatus("user1")[0][0]) + ".", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+                CTkLabel(text_frame, text="\n\nYou are assigned to House " + str(SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0]) + ".", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
         
         else:
             CTkButton(text_frame, text="Enroll", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 15), hover_color="#207244", command=self.EnrollUserButton).pack(anchor="center", ipady=5, pady=(0, 10))

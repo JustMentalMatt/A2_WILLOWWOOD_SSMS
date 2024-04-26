@@ -1,6 +1,6 @@
 import sqlite3
 
-db = sqlite3.connect('database.db')
+db = sqlite3.connect('WillowInnDB.db')
 cursor = db.cursor()
 
 cursor.execute('''
@@ -70,24 +70,26 @@ cursor.execute('''
 
 
 cursor.execute('''
-create table if not exists UserTable(
-    UserID           INTEGER
-        primary key autoincrement,
-    Username         VARCHAR(255) not null
-        unique,
-    Password         VARCHAR(255) not null,
-    FirstName        VARCHAR(255) not null,
-    LastName         VARCHAR(255) not null,
-    DOB              DATE         not null,
-    ContactNumber    TEXT         not null,
-    RoleID           INTEGER      not null
-        references UserRoleTable,
-    EnrollmentStatus TEXT    default 'Not Enrolled',
-    HouseID          INTEGER default NULL
-        references HouseTable,
-    Message          TEXT    default NULL,
-    RoomID           INTEGER default NULL
-        references RoomTable,
-    BedID            INTEGER default NULL
-        references BedTable);
-''')
+    create table if not exists UserTable(
+        UserID           INTEGER
+            primary key autoincrement,
+        Username         VARCHAR(255) not null
+            unique,
+        Password         VARCHAR(255) not null,
+        FirstName        VARCHAR(255) not null,
+        LastName         VARCHAR(255) not null,
+        DOB              DATE         not null,
+        ContactNumber    TEXT         not null,
+        RoleID           INTEGER      not null
+            references UserRoleTable,
+        EnrollmentStatus TEXT    default 'Not Enrolled',
+        HouseID          INTEGER default NULL
+            references HouseTable,
+        Message          TEXT    default NULL,
+        RoomID           INTEGER default NULL
+            references RoomTable,
+        BedID            INTEGER default NULL
+            references BedTable);
+            ''')
+
+db.commit()

@@ -246,3 +246,34 @@
 2024-04-26 00:51:44  | User: user1       | User logged in   
 2024-04-26 00:52:26  | User: user1       | User logged in   
 2024-04-26 00:52:42  | User: user1       | User user1 assigned to house 2
+2024-04-26 13:55:27  | User: manager1    | User logged in   
+2024-04-26 14:12:39  | User: manager1    | Successful account creation
+2024-04-26 14:12:52  | User: amongusinternational | User logged in   
+2024-04-26 14:12:56  | User: amongusinternational | User amongusinternational enrolled in the volunteer scheme
+2024-04-26 14:13:59  | User: amongusinternational | User logged in   
+2024-04-26 14:50:41  | User: amongusinternational | Failed account creation
+2024-04-26 14:50:43  | User: amongusinternational | Failed account creation
+2024-04-26 14:50:45  | User: amongusinternational | Failed account creation
+2024-04-26 14:52:41  | User: amongusinternational | Failed account creation
+2024-04-26 14:54:36  | User: UNKNOWN     | Failed account creation
+2024-04-26 14:56:33  | User: UNKNOWN     | Failed account creation
+2024-04-26 14:57:58  | User: UNKNOWN     | Failed account creation
+2024-04-26 15:00:44  | User: UNKNOWN     | Failed account creation
+2024-04-26 15:01:20  | User: UNKNOWN     | Failed account creation
+2024-04-26 15:01:23  | User: UNKNOWN     | Failed account creation
+2024-04-26 15:01:29  | User: UNKNOWN     | Failed account creation
+2024-04-26 15:01:53  | User: UNKNOWN     | Successful account creation
+2024-04-26 15:02:01  | User: UNKNOWN     | Login attempt failed
+2024-04-26 15:02:05  | User: username1   | User logged in   
+2024-04-26 15:02:23  | User: username1   | User username1 enrolled in the volunteer scheme
+2024-04-26 15:04:15  | User: username1   | User logged in   
+2024-04-26 15:04:26  | User: username1   | User logged in   
+2024-04-26 15:05:20  | User: username1   | User logged in   
+2024-04-26 15:05:29  | User: username1   | User username1 assigned to house 4
+2024-04-26 15:05:44  | User: username1   | User username1 enrolled in task 5
+2024-04-26 15:06:48  | User: username1   | User username1 enrolled in task 4
+2024-04-26 15:06:52  | User: username1   | User username1 enrolled in task 6
+2024-04-26 15:08:16  | User: username1   | User username1 enrolled in task 7
+2024-04-26 15:11:16  | User: username1   | User logged in   
+2024-04-26 15:11:24  | User: username1   | User username1 enrolled in task 1
+2024-04-26 15:12:49  | User: manager1    | User logged in   

@@ -41,7 +41,6 @@ class adminView(ctk.CTkFrame):
         self.sidebarFrame()
         self.menuFrame()
 
-
     def onLogout(self):
             self.destroy()
             self.quit()
@@ -77,20 +76,24 @@ class adminView(ctk.CTkFrame):
         
         CTkLabel(text_frame, text="\n\n\nWelcome to the Willow Wood Inn Management System.\nThis system is designed to help you manage your business.\nYou can use the sidebar to navigate to different parts of the system.\n\n\n\n\nYou are currently logged in as an ADMIN USER\nTread with care as you have all access rights!", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
 
-    def UserManagementFrame(self):
-    
+    def UserManagementFrame(self): # User Management Frame
+         
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
         
+        # Title
         CTkLabel(title_frame, text="System Management", font=("Arial Black", 25), text_color="#DAF7A6").pack(anchor="nw", side="left")
 
+        # Search Bar
         searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="transparent", text_color="#000", placeholder_text="Search...")
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
-        tableSelectVAR = tk.StringVar(value="UserTable") #WIP - not implemented yet.
+        # Table Selector Dropdown
+        tableSelectVAR = tk.StringVar(value="UserTable") # default value
 
+        # User Table Screen
         class UserTable:
             def __init__(self, parent):
                 self.parent = parent
