@@ -277,3 +277,14 @@
 2024-04-26 15:11:16  | User: username1   | User logged in   
 2024-04-26 15:11:24  | User: username1   | User username1 enrolled in task 1
 2024-04-26 15:12:49  | User: manager1    | User logged in   
+2024-04-26 15:18:40  | User: manager1    | User logged in   
+2024-04-26 15:19:22  | User: manager1    | User logged in   
+2024-04-26 15:22:19  | User: manager1    | User logged in   
+2024-04-26 15:22:49  | User: manager1    | User logged in   
+2024-04-26 15:23:14  | User: manager1    | User logged in   
+2024-04-26 15:24:05  | User: manager1    | User logged in   
+2024-04-26 15:25:09  | User: manager1    | User Deleted     
+2024-04-26 15:25:19  | User: manager1    | User Edited      
+2024-04-26 15:28:43  | User: manager1    | User Added       
+2024-04-26 15:29:56  | User: manager1    | User logged in   
+2024-04-26 15:31:46  | User: manager1    | User logged in   

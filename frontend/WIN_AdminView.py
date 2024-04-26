@@ -196,8 +196,9 @@ class adminView(ctk.CTkFrame):
                 tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
                 tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
                 
-                table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
+                table = CTkTable(master=tabFrame, wraplength=100, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
+                
                 table.pack(expand=False)
                 table.configure(width=45, height=20)
                 
