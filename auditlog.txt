@@ -301,3 +301,18 @@
 2024-04-27 00:56:07  | User: ss          | User logged in   
 2024-04-28 01:01:30  | User: ss          | User logged in   
 2024-04-28 01:02:51  | User: 000         | User logged in   
+2024-04-28 14:16:21  | User: user1       | User logged in   
+2024-04-28 14:18:45  | User: manager1    | User logged in   
+2024-04-28 14:18:56  | User: manager1    | User Edited      
+2024-04-28 14:19:08  | User: user1       | User logged in   
+2024-04-28 14:19:34  | User: manager1    | User logged in   
+2024-04-28 14:19:43  | User: manager1    | User Edited      
+2024-04-28 14:20:15  | User: manager1    | User Edit Failed 
+2024-04-28 14:20:32  | User: user1       | User logged in   
+2024-04-28 14:21:44  | User: user1       | User logged in   
+2024-04-28 14:22:08  | User: user1       | User logged in   
+2024-04-28 14:27:48  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-04-28 14:32:06  | User: user1       | User user1 assigned to house 2
+2024-04-28 14:56:46  | User: user1       | User user1 enrolled in task 7
+2024-04-28 18:52:04  | User: user1       | User logged in   
+2024-04-28 19:07:44  | User: ss          | User logged in   

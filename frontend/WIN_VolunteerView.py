@@ -58,34 +58,36 @@ class volunteerView(ctk.CTkFrame):
         
         title_frame = CTkFrame(self.main_view, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=2, pady=(2, 0))
-
+        # Title Logo
         dat_img_backlogo = Image.open("./frontend/Resources/WILLOW_TITLE_LOGO.png")
         img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
         CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
-   
+        # Title Label
         text_frame = CTkFrame(self.main_view, fg_color="transparent", bg_color="#fff", width=480, height=300, corner_radius=0)
         text_frame.propagate(0)
         text_frame.pack(anchor="center", fill="x", pady=(30, 30), padx=27)
-        
-        CTkLabel(text_frame, text="\nskibidi rizz simulator", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
-        
-        CTkLabel(text_frame, text="Welcome to the Willow Wood Inn Volunteer Portal", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
-        
+        # Title Text
+        CTkLabel(text_frame, text="\n\nWelcome to the Willow Wood Inn Volunteer Portal", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
+        # Fetch the user's username from the file
         VolunteerUsername = open("frontend/uservar.txt", "r").read().strip()
         
+        # Check if the user is already enrolled in the scheme
         if SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Enrolled" or SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Pending":
+            # If the user is already enrolled, display a confirmation message
             CTkLabel(text_frame, text="[You are currently enrolled in the scheme!]", font=("Trebuchet MS", 18), text_color="#FF0000", bg_color="#fff").pack(anchor="center", side="top")
+            # Check if the user is already assigned to a house
             if SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0] == "" or SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0] == None or SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0] == " ":
+                # If the user is not assigned to a house, display the house selection buttons
                 CTkLabel(text_frame, text="\n\nYou are not assigned to a house yet.\nSelect one below:", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
                 CTkButton(text_frame, text="House 1", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=1)).pack(side="left", anchor="center", ipady=5, padx=(115,5), pady=(0, 10))
                 CTkButton(text_frame, text="House 2", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=2)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
                 CTkButton(text_frame, text="House 3", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=3)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
                 CTkButton(text_frame, text="House 4", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=lambda: self.AssignUserHouseButton(house=4)).pack(side="left", anchor="center", ipady=5, padx=(5,5), pady=(0, 10))
-            else:
+            else: # If the user is already assigned to a house, display the house they are assigned to
                 CTkLabel(text_frame, text="\n\nYou are assigned to House " + str(SQL_VolunteerView_HouseStatus(VolunteerUsername)[0][0]) + ".", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
         
-        else:
-            CTkButton(text_frame, text="Enroll", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 15), hover_color="#207244", command=self.EnrollUserButton).pack(anchor="center", ipady=5, pady=(0, 10))
+        else: # If the user is not enrolled in the scheme, display the enroll button
+            CTkButton(text_frame, text="Enroll", text_color="#19383d", fg_color="#FFA500", font=("Arial Bold", 15), hover_color="#ff8c00", border_width=3, border_color="#FF0000", bg_color="#fff", command=self.EnrollUserButton).pack(anchor="center", ipady=5, pady=(10, 10))
         
     def TaskFrame(self):
     
@@ -139,6 +141,7 @@ class volunteerView(ctk.CTkFrame):
                 
                 global table
                 global result
+                # Fetch the tasks from the database
                 result = SQL_AdminView_FetchTaskTable(search_query)
                 disp_column = result[0]
                 rows = result[1]
@@ -148,12 +151,12 @@ class volunteerView(ctk.CTkFrame):
                 
                 tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
                 tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
-                
+                # Create the table
                 table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
                 table.edit_row(0, text_color="#000", hover_color="#2A8C55")
                 table.configure(width=140, height=40)
                 table.pack(expand=True)
-                
+                # Create the options frame
                 self.optionsFrame()
                 
             def exportTable(self):
@@ -169,14 +172,16 @@ class volunteerView(ctk.CTkFrame):
                             f.write('{:<20}'.format(item))
                         f.write('\n')
                         
+            # Assign the selected task to the user
             def AssignTaskButton(self):
                 global T_ID, T_Name, T_Capacity, T_Difficulty, T_Points
-                if T_ID.get() == "":
+                if T_ID.get() == "": # Check if a task is selected
                     tk.messagebox.showerror("Error", "Please select a task to enroll in.")
-                else:
+                else: # If a task is selected, enroll the user in the task
                     with open("frontend/uservar.txt", "r") as file:
                         userVAR = file.read().strip()
                         file.close()
+                    # Call the SQL function to enroll the user in the task
                     SQL_VolunteerView_EnrollInTask(T_ID.get(), userVAR)
                     self.ClearFieldsButton()
 
@@ -194,7 +199,8 @@ class volunteerView(ctk.CTkFrame):
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
                 CTkLabel(optionsFrame, text="Task Options", font=("Arial Black", 25), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
                 CTkLabel(optionsFrame, text="  ID        Name          Capacity     Difficulty    Points       ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
-
+                # Create the entry fields for the task details
+                # All of these are read-only
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
@@ -203,8 +209,8 @@ class volunteerView(ctk.CTkFrame):
                 CTkEntry(entryFrame, width=75, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_Capacity, state='readonly').pack(anchor="n", side="left", padx=(20, 2), fill="x")
                 CTkEntry(entryFrame, width=45, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_Difficulty, state='readonly').pack(anchor="n", side="left", padx=(10, 2), fill="x")
                 CTkEntry(entryFrame, width=45, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=T_Points, state='readonly').pack(anchor="n", side="left", padx=(10, 2), fill="x")
-
-                CTkButton(optionsFrame, text="Enroll in Task", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AssignTaskButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+                # Create the buttons for enroll and export
+                CTkButton(optionsFrame, text="Enrol in Task", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AssignTaskButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
                 CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
 
 
@@ -236,7 +242,7 @@ class volunteerView(ctk.CTkFrame):
         
         
     def EnrolledTasksFrame(self):
-    
+        # Fetch the user's username from the file
         with open("frontend/uservar.txt", "r") as file:
             VolunteerUsername = file.read().strip()
             file.close()
@@ -253,28 +259,29 @@ class volunteerView(ctk.CTkFrame):
                     for item in row_data[0:]:
                         f.write('{:<20}'.format(item))
                     f.write('\n')
-
+        # Title Frame
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
-        
+        # Title Label
         CTkLabel(title_frame, text="My Tasks", font=("Arial Black", 25), text_color="#2A8C55").pack(anchor="nw", side="left")
         
         searchBar = CTkEntry(title_frame, width=250, height=35, font=("Arial Bold", 20), fg_color="#fff", bg_color="#2A8C55", text_color="#000", placeholder_text="Search...")
         searchBar.pack(anchor="ne", side="right", padx=(0, 5), fill="x")
         searchBar.propagate(0)
         
-        
+        # Function to initialize the table
         def INIT_TABLE_EnrolledTasks(search_query=None):
-            
+            # Only display the TaskID and TaskName
             disp_column = "TaskID", "TaskName"
+            # Fetch the tasks from the database, filtering by the search query if it exists
             rows = SQL_VolunteerView_FetchTasks(VolunteerUsername, search_query) if search_query else SQL_VolunteerView_FetchTasks(VolunteerUsername)
             tabData = [disp_column]
             tabData.extend(rows)
             
             tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=900)
             tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
-            
+            # Create the table
             table = CTkTable(master=tabFrame, values=tabData, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4", text_color="#000", width=75)
             table.edit_row(0, text_color="#000", hover_color="#2A8C55")
             table.pack(expand=True)
@@ -282,7 +289,7 @@ class volunteerView(ctk.CTkFrame):
             
             
         INIT_TABLE_EnrolledTasks()
-        
+        # Export Button
         CTkButton(title_frame, text="Export Tasks", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 15), hover_color="#207244", command=lambda: exportTable()).pack(anchor="ne", side="right", ipady=5, pady=(0, 0), padx=(0, 10))
 
         def on_search():
@@ -294,7 +301,7 @@ class volunteerView(ctk.CTkFrame):
         searchBar.bind("<Return>", lambda event: on_search())
         
 
-    def GeneralRegisterFrame(self):
+    def GeneralRegisterFrame(self): # reused from WIN_SupervisorView.py
 
         def exportTable():
             result = SQL_AdminView_FetchGeneralRegister()
@@ -348,16 +355,16 @@ class volunteerView(ctk.CTkFrame):
         
         searchBar.bind("<Return>", lambda event: on_search())
 
-
+    # Sidebar Frame
     def sidebarFrame(self):
         sidebar = CTkFrame(self, fg_color="#edebde", width=176, height=650, corner_radius=0)
         sidebar.pack(fill="y", anchor="w", side="left")
         sidebar.pack_propagate(0)
-
+        # Sidebar Logo
         dat_img_mainLogo = Image.open("./frontend/Resources/WILLOW_LOGO.png")
         img_mainLogo = CTkImage(dark_image=dat_img_mainLogo, light_image=dat_img_mainLogo, size=(200,200))
         CTkLabel(sidebar, text="", image=img_mainLogo).pack(pady=(0, 0), anchor="center")
-        
+        # Sidebar Buttons
         CTkButton(sidebar, text="Menu", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 24), hover_color="#207244",
                     command=lambda: self.pageSwitch(self.menuFrame)).pack(anchor="center", ipady=5, pady=(40, 0))
         CTkButton(sidebar, text="Volunteer\nTasks", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
