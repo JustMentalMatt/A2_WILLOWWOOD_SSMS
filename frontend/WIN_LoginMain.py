@@ -12,20 +12,6 @@ globalUser = ""
 globalPass = ""
 globalLogin = False
 
-
-# class mainApp(ctk.CTk):
-#     def __init__(self):
-#         # main window setup
-#         super().__init__()
-#         self.geometry("600x480")
-#         self.title("i love jesus better than icecream")
-#         self.resizable(False, False)
-
-#         self.main = loginGUI(self)
-
-#         self.mainloop()
-#         loginCheck()
-
 class mainApp(ctk.CTk):
     def __init__(self, loginCallback):
         super().__init__()
@@ -46,13 +32,17 @@ class loginGUI(ctk.CTkFrame):
         self.loginCallback = loginCallback
         self.create_login_layout()
 
+
+    # Creates the login layout frame, asking user to input their username and password.
     def create_login_layout(self):
 
+        # This function switches the layout from the login layout to the register layout.
         def switch_to_register_layout():
             for widget in self.winfo_children():
                 widget.destroy()
             self.create_register_layout()
 
+        # This function is called when the user clicks the login button. It checks the user's credentials against the database.
         def onLogin():
             sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = sqliteConnection.cursor()
@@ -66,6 +56,8 @@ class loginGUI(ctk.CTkFrame):
             cursor.execute(credential_fetch)
             results = cursor.fetchall()
 
+            # If the user's credentials are correct, the global variables are set and the loginCallback function is called.
+            # The loginCallback function is defined in main.py and is used to determine the user's role and open the appropriate view.
             for row in results:
                 username = row[0]
                 password = row[1]
@@ -86,6 +78,7 @@ class loginGUI(ctk.CTkFrame):
             else:
                 self.loginCallback(False, None, None)
 
+        # These are the images used in the login layout.
         side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
         email_icon_data = Image.open("./frontend/Templates/Login/Images/email-icon.png")
         password_icon_data = Image.open("./frontend/Templates/Login/Images/password-icon.png")
@@ -96,6 +89,7 @@ class loginGUI(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="", image=side_img).pack(expand=True, side="left")
 
+        # This frame contains the login form.
         frame = ctk.CTkFrame(self, width=300, height=480, fg_color="#ffffff")
         frame.pack_propagate(0)
         frame.pack(expand=True, side="right")
@@ -112,24 +106,20 @@ class loginGUI(ctk.CTkFrame):
         ctk.CTkButton(master=frame, text="Login", fg_color="#274e13", hover_color="#E44982", font=("Arial Bold", 12), text_color="#ffffff", width=225, command=onLogin).pack(anchor="w", pady=(40, 0), padx=(25, 0))
         ctk.CTkButton(master=frame, text="Register", fg_color="#EEEEEE", hover_color="#c4c2c2", font=("Arial Bold", 12), text_color="#274e13", width=225, command=switch_to_register_layout).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
-
+    # Creates the register layout frame, asking user to input their details to create an account.
     def create_register_layout(self):
 
+        # This function switches the layout from the register layout to the login layout.
         def switch_to_login_layout():
             for widget in self.winfo_children():
                 widget.destroy()
             self.create_login_layout()
 
         side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
-        email_icon_data = Image.open("./frontend/Templates/Login/Images/email-icon.png")
-        password_icon_data = Image.open("./frontend/Templates/Login/Images/password-icon.png")
-
         side_img = CTkImage(dark_image=side_img_data, light_image=side_img_data, size=(300, 480))
-        email_icon = CTkImage(dark_image=email_icon_data, light_image=email_icon_data, size=(20, 20))
-        password_icon = CTkImage(dark_image=password_icon_data, light_image=password_icon_data, size=(17, 17))
 
         ctk.CTkLabel(self, text="", image=side_img).pack(expand=True, side="left")
-
+        # This frame contains the register form.
         frame = ctk.CTkFrame(self, width=300, height=480, fg_color="#ffffff")
         frame.pack_propagate(0)
         frame.pack(expand=True, side="right")
@@ -154,11 +144,13 @@ class loginGUI(ctk.CTkFrame):
         ctk.CTkButton(master=frame, text="Create Account", fg_color="#274e13", hover_color="#E44982", font=("Arial Bold", 12), text_color="#ffffff", width=225, command=lambda: self.registerAccount(NameVAR.get(), ContactVAR.get(), UsernameVAR.get(), DOBVar.get(), passVar.get())).pack(anchor="w", pady=(20, 0), padx=(25, 0))
         ctk.CTkButton(master=frame, text="Back to Login", fg_color="#EEEEEE", hover_color="#c4c2c2", font=("Arial Bold", 12), text_color="#601E88", width=225, command=switch_to_login_layout).pack(anchor="w", pady=(10, 0), padx=(25, 0))
 
-
+    # This function is called when the user clicks the create account button. 
+    # It checks the user's input and inserts the data into the database.
     def registerAccount(self, fullName, contactNumber, username, dob, password):
         sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = sqliteConnection.cursor()
         
+        # Validation Methods
         if fullName == "" or fullName == " ":
             tk.messagebox.showerror("Error", "Please Provide a Name")
         else:
@@ -198,7 +190,7 @@ class loginGUI(ctk.CTkFrame):
                     auditlog("Failed account creation")
                     
                 else:
-                    
+                    # If all the user's input is valid, the data is inserted into the database.
                     print("LoginMain.py | Connected to SQLite")
 
                     insert = f"INSERT INTO UserTable (FirstName, LastName, ContactNumber, Username, DOB, Password, RoleID) VALUES ('{firstName}', '{lastName}', '{contactNumber}', '{username}', '{dob}', '{password}', 1)"
@@ -207,8 +199,9 @@ class loginGUI(ctk.CTkFrame):
                     print("LoginMain.py | Record inserted successfully into UserTable")
                     tk.messagebox.showinfo("Success", "Account Created Successfully")
                     
-                    auditlog("Successful account creation")
+                    auditlog("Successful account creation") # Audit Log records the creation of a new account
                     
+                    # The layout is switched back to the login layout.
                     for widget in self.winfo_children():
                         widget.destroy()
                         self.create_login_layout()

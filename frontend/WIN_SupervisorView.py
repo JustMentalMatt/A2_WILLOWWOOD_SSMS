@@ -8,7 +8,6 @@ import sqlite3
 
 from SQL_AdminView import *
 from SQL_SupervisorView import *
-from validation import auditlog
 
 class supervisorView(ctk.CTkFrame):
     def __init__(self, parent):
@@ -23,7 +22,6 @@ class supervisorView(ctk.CTkFrame):
         self.sidebarFrame()
         self.menuFrame()
 
-
     def onLogout(self):
             self.destroy()
             self.quit()
@@ -36,9 +34,6 @@ class supervisorView(ctk.CTkFrame):
         frames = self.main_view.winfo_children()
         for frame in frames[1:len(frames)]:
             frame.destroy()
-        
-        # frame = self.main_view.winfo_children()[1] # this is the scrollable frame; specific frame deletion, leaves others.
-        # frame.destroy()                            # CHANGE OTHER CODE IN onSearch() IF CHANGING THIS TO THE ABOVE METHOD!
 
     def pageSwitch(self, page):
         self.pageDestroy()
@@ -236,7 +231,6 @@ class supervisorView(ctk.CTkFrame):
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_RoomID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 CTkEntry(entryFrame, width=25, height=25, font=("Arial Bold", 12), fg_color="#fff", bg_color="transparent", text_color="#000", textvariable=e_BedID, state='readonly').pack(anchor="n", side="left", padx=(2, 5), fill="x")
                 
-                #CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="w", ipady=5, pady=(15, 0))
                 CTkButton(optionsFrame, text="Apply Changes", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.EditUserButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
                 CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.AddUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
@@ -575,7 +569,7 @@ class supervisorView(ctk.CTkFrame):
                         f.write('\n')
 
             def optionsFrame(self):
-                ###
+                # These variables are used to store the data from the table
                 global selectedRow, B_ID, B_TaskID, B_UserID, B_Date, table
                 B_ID = tk.StringVar()
                 B_UserID = tk.StringVar()
@@ -591,7 +585,7 @@ class supervisorView(ctk.CTkFrame):
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
                 
-
+                # reduced buttons limit supervisor access to only the necessary functions
                 CTkButton(optionsFrame, text="Delete Booking", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 26), hover_color="#207244", height=40, width=45, command=self.DeleteBookingButton).pack(anchor="center", side="left", ipady=5, pady=(0, 50), padx=(10,0))
                 CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 26), hover_color="#207244", height=40, width=45, command=self.exportTable).pack(anchor="center", side="right", ipady=5, pady=(0, 50), padx=(0,10))
 
@@ -693,7 +687,7 @@ class supervisorView(ctk.CTkFrame):
         searchBar.bind("<Return>", lambda event: on_search())
 
     def HouseManagementFrame(self):
-        
+        # House Management Frame
         title_frame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=35)
         title_frame.propagate(0)
         title_frame.pack(anchor="n", fill="x", padx=15, pady=(29, 0))
@@ -707,16 +701,17 @@ class supervisorView(ctk.CTkFrame):
         H.propagate(0)
         H.pack(anchor="n", fill="x", padx=10, pady=(20, 20))
         
+        # Gets the ID of the currently logged in Supervisor's House
         SupervisorHouseID = SQL_SupervisorView_FetchHouseID()
         
+        # If the Supervisor is not assigned to a House, display an error message
         if SupervisorHouseID == None or SupervisorHouseID == "" or SupervisorHouseID == " ":
-            
             CTkLabel(H, text="No House Assigned\n Please contact an Administrator.", font=("Arial Black", 25), text_color="#FFC300", bg_color="transparent").pack(anchor="center", pady=(5, 0), padx=(10, 0))
-        
-        else:
-            
+        else: # If the Supervisor is assigned to a House, display the House Management options, specific to that users assigned House.
             CTkLabel(H, text= f"House {SupervisorHouseID} Management", font=("Arial Black", 25), text_color="#FFC300", bg_color="transparent").pack(anchor="nw", side="top", pady=(5, 0), padx=(10, 0))
-                
+            
+            # House Management Table - Reusing the code from WIN_AdminView.py, however it is modified 
+            # to only display the House that the Supervisor is assigned to, by changing the HouseID parameter.
             def INIT_TABLE_House():
                 
                 disp_column = SQL_AdminView_FetchHouse(HouseID=SupervisorHouseID)[0]

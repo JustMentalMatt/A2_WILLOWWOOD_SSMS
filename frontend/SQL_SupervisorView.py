@@ -31,10 +31,12 @@ def SQL_SupervisorView_FetchUserTable(search_query=None):
         return disp_column, rows
     
 def SQL_SupervisorView_FetchHouseID():
-
+    # Fetch the username from the uservar.txt file
     with open("frontend/uservar.txt", "r") as file:
         userVAR = file.read().strip()
         file.close()
+    # Fetch the HouseID from the UserTable, where the username is the
+    # same as the one in the uservar.txt file
     conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
     cursor.execute(f'SELECT HouseID FROM UserTable WHERE Username = "{userVAR}"')
@@ -42,7 +44,7 @@ def SQL_SupervisorView_FetchHouseID():
     conn.close()
     
     result = rows[0][0]
-
+    # If the HouseID is not empty, return the HouseID
     if result != "" or " ":
         return result
     else:

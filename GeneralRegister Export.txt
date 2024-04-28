@@ -1,0 +1,9 @@
+UserID              Username            FirstName           LastName            RoleID              EnrollmentStatus    HouseID             
+1                   user1               John                Doe                 1                   Enrolled            2                   
+2                   user2               Jane                Smith               1                   Pending             2                   
+3                   manager1            Michael             Johnson             3                   Enrolled            2                   
+4                   ss                  Sarah               Williams            2                   Enrolled            2                   
+5                   aurora              Aurora              Aksnes              2                   Enrolled            1                   
+6                   bigsuzie            Susan               Boyle               1                   Enrolled            1                   
+7                   000                 Tom                 Shi                 2                   Enrolled                                
+13                  username1           Joe                 Biden               1                   Enrolled            4                   
