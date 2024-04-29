@@ -316,3 +316,19 @@
 2024-04-28 14:56:46  | User: user1       | User user1 enrolled in task 7
 2024-04-28 18:52:04  | User: user1       | User logged in   
 2024-04-28 19:07:44  | User: ss          | User logged in   
+2024-04-29 15:55:12  | User: manager1    | User logged in   
+2024-04-29 15:56:34  | User: manager1    | User logged in   
+2024-04-29 16:02:15  | User: manager1    | Booking Edited   
+2024-04-29 16:02:19  | User: manager1    | Booking Edited   
+2024-04-29 16:02:24  | User: manager1    | Booking Edited   
+2024-04-29 16:02:44  | User: bigsuzie    | User logged in   
+2024-04-29 16:03:45  | User: manager1    | User logged in   
+2024-04-29 16:04:19  | User: manager1    | User Deleted     
+2024-04-29 16:04:53  | User: bigsuzie    | User logged in   
+2024-04-29 16:26:18  | User: manager1    | User logged in   
+2024-04-29 16:26:40  | User: manager1    | User Deleted     
+2024-04-29 17:36:54  | User: bigsuzie    | User logged in   
+2024-04-29 17:37:03  | User: manager1    | User logged in   
+2024-04-29 18:05:30  | User: manager1    | User Edit Failed 
+2024-04-29 18:06:03  | User: manager1    | User Edited      
+2024-04-29 18:07:16  | User: manager1    | User Edit Failed 

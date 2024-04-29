@@ -1,6 +1,0 @@
-HouseID             HouseName           HouseAddress        HousePhone          HouseEmail          
-1                   House A             123 Main St         07737647832         housea@example.com  
-2                   House B             456 Elm St          07747675843         houseb@example.com  
-3                   House C             789 Oak Rd          99586764532         housec@example.com  
-4                   House D             420 Bruh Rd         07742987645         housed@example.com  
-5                   House E             487 Cream Rd        07742875842         housee@example.com  

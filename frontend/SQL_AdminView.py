@@ -583,7 +583,7 @@ def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo
     if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
         conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
-
+        # Get the maximum UserID
         cursor.execute('SELECT MAX(UserID) FROM UserTable')
         conn.commit()
 
@@ -605,10 +605,6 @@ def DeleteUserSQL(SqlID):
     cursor = conn.cursor()
 
     cursor.execute(f"DELETE FROM UserTable WHERE UserID = '{SqlID}'")
-    conn.commit()
-
-    #REORDER THE USERID
-    cursor.execute(f"UPDATE UserTable SET UserID = UserID - 1 WHERE UserID > '{SqlID}'")
     conn.commit()
 
     conn.close()

@@ -47,7 +47,6 @@ class adminView(ctk.CTkFrame):
     def TableDestroy(self):
         frames = self.main_view.winfo_children()
         for frame in frames[1:len(frames)]:
-            print(frame)
             frame.destroy()
 
     # this function is called when the user click sidebar buttons
