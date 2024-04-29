@@ -66,7 +66,7 @@ def handle_login_result(successful, username, role):
         print("main.py | Role:", role)
 
         # Write the username to a file for use in other modules
-        with open("frontend/uservar.txt", "w") as file:
+        with open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/uservar.txt", "w") as file:
             file.write(username)
             file.close()
         auditlog("User logged in")
@@ -76,7 +76,7 @@ def handle_login_result(successful, username, role):
     else:
         # If the login fails, clear the uservar.txt file
         print("main.py | Login Failed")
-        with open("frontend/uservar.txt", "w") as file:
+        with open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/.txt", "w") as file:
             file.write("")
             file.close()
         auditlog("Login attempt failed")

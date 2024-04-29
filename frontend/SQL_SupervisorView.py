@@ -9,7 +9,7 @@ from validation import auditlog
 
 def SQL_SupervisorView_FetchUserTable(search_query=None):
 
-        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         disp_column = ["UserID", "Username", "Password", "FirstName", "LastName", "DOB", "ContactNumber", "EnrollmentStatus", "Message", "RoleID", "HouseID", "RoomID", "BedID"] # iunclude coluims you only wanna show
@@ -32,12 +32,12 @@ def SQL_SupervisorView_FetchUserTable(search_query=None):
     
 def SQL_SupervisorView_FetchHouseID():
     # Fetch the username from the uservar.txt file
-    with open("frontend/uservar.txt", "r") as file:
+    with open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/uservar.txt", "r") as file:
         userVAR = file.read().strip()
         file.close()
     # Fetch the HouseID from the UserTable, where the username is the
     # same as the one in the uservar.txt file
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
     cursor = conn.cursor()
     cursor.execute(f'SELECT HouseID FROM UserTable WHERE Username = "{userVAR}"')
     rows = cursor.fetchall()

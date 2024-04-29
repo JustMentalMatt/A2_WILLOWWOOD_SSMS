@@ -9,7 +9,7 @@ from validation import auditlog
 def SQL_VolunteerView_EnrollInTask(TaskID, VolunteerUsername):
     # Convert TaskID to int
     TaskID = int(TaskID)
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
     cursor = conn.cursor()
     cursor.execute('SELECT MAX(BookingID) FROM BookingTable')
     conn.commit()
@@ -36,7 +36,7 @@ def SQL_VolunteerView_EnrollInTask(TaskID, VolunteerUsername):
         
 def SQL_VolunteerView_FetchTasks(VolunteerUsername, search_query=None):
     
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Get the UserID of the Volunteer
     cursor.execute(f"SELECT UserID FROM UserTable WHERE Username = '{VolunteerUsername}'")
@@ -57,7 +57,7 @@ def SQL_VolunteerView_FetchTasks(VolunteerUsername, search_query=None):
 
 def SQL_VolunteerView_EnrollmentStatus(VolunteerUsername):
     
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Get the UserID of the Volunteer
     cursor.execute(f"SELECT UserID FROM UserTable WHERE Username = '{VolunteerUsername}'")
@@ -73,7 +73,7 @@ def SQL_VolunteerView_EnrollmentStatus(VolunteerUsername):
 
 def SQL_VolunteerView_HouseStatus(VolunteerUsername):
 
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Get the HouseID of the Volunteer if they are assigned to a house
     cursor.execute(f"SELECT HouseID FROM UserTable WHERE Username = '{VolunteerUsername}'")
@@ -87,7 +87,7 @@ def SQL_VolunteerView_HouseStatus(VolunteerUsername):
     
 def SQL_VolunteerView_EnrollUser(VolunteerUsername):
         
-        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
         cursor = conn.cursor()
         
         cursor.execute(f"SELECT UserID FROM UserTable WHERE Username = '{VolunteerUsername}'")
@@ -101,7 +101,7 @@ def SQL_VolunteerView_EnrollUser(VolunteerUsername):
     
 def SQL_VolunteerView_AssignUserHouse(VolunteerUsername, house):
         
-        conn = sqlite3.connect('./backend/WillowInnDB.db')
+        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
         cursor = conn.cursor()
         
         cursor.execute(f"SELECT UserID FROM UserTable WHERE Username = '{VolunteerUsername}'")

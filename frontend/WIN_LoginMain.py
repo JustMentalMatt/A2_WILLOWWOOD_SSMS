@@ -44,7 +44,7 @@ class loginGUI(ctk.CTkFrame):
 
         # This function is called when the user clicks the login button. It checks the user's credentials against the database.
         def onLogin():
-            sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
+            sqliteConnection = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
             cursor = sqliteConnection.cursor()
 
             print("LoginMain.py | Connected to SQLite")
@@ -79,9 +79,9 @@ class loginGUI(ctk.CTkFrame):
                 self.loginCallback(False, None, None)
 
         # These are the images used in the login layout.
-        side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
-        email_icon_data = Image.open("./frontend/Templates/Login/Images/email-icon.png")
-        password_icon_data = Image.open("./frontend/Templates/Login/Images/password-icon.png")
+        side_img_data = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/side-img.png")
+        email_icon_data = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/email-icon.png")
+        password_icon_data = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/password-icon.png")
 
         side_img = CTkImage(dark_image=side_img_data, light_image=side_img_data, size=(300, 480))
         email_icon = CTkImage(dark_image=email_icon_data, light_image=email_icon_data, size=(20, 20))
@@ -115,7 +115,7 @@ class loginGUI(ctk.CTkFrame):
                 widget.destroy()
             self.create_login_layout()
 
-        side_img_data = Image.open("./frontend/Templates/Login/Images/side-img.png")
+        side_img_data = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/side-img.png")
         side_img = CTkImage(dark_image=side_img_data, light_image=side_img_data, size=(300, 480))
 
         ctk.CTkLabel(self, text="", image=side_img).pack(expand=True, side="left")
@@ -147,7 +147,7 @@ class loginGUI(ctk.CTkFrame):
     # This function is called when the user clicks the create account button. 
     # It checks the user's input and inserts the data into the database.
     def registerAccount(self, fullName, contactNumber, username, dob, password):
-        sqliteConnection = sqlite3.connect('./backend/WillowInnDB.db')
+        sqliteConnection = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
         cursor = sqliteConnection.cursor()
         
         # Validation Methods
@@ -165,7 +165,7 @@ class loginGUI(ctk.CTkFrame):
                 tk.messagebox.showerror("Error", "Invalid Name")
                 auditlog("Failed account creation")
             else:
-                with open("frontend/uservar.txt", "w") as file:
+                with open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/uservar.txt", "w") as file:
                         file.write("UNKNOWN") 
                         file.close()
 

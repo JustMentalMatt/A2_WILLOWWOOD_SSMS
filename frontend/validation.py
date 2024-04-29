@@ -8,7 +8,7 @@ import sqlite3
 
 def auditlog(data):
     
-    with open("frontend/uservar.txt", "r") as file:
+    with open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/uservar.txt", "r") as file:
         userVAR = file.read().strip()
         file.close()
         
@@ -142,7 +142,7 @@ def rangeCheck(value, minValue=None, maxValue=None, exactValue=None):
         return False
 
 def dbPresenceCheck(value, column, table):
-    conn = sqlite3.connect('./backend/WillowInnDB.db')
+    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     try:

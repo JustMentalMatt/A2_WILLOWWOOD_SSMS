@@ -59,7 +59,7 @@ class adminView(ctk.CTkFrame):
         title_frame = CTkFrame(self.main_view, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=2, pady=(2, 0))
 
-        dat_img_backlogo = Image.open("./frontend/Resources/WILLOW_TITLE_LOGO.png")
+        dat_img_backlogo = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/WILLOW_TITLE_LOGO.png")
         img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
         CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
    
@@ -1479,7 +1479,7 @@ class adminView(ctk.CTkFrame):
         sidebar.pack_propagate(0)
 
         # The logo of the system
-        dat_img_mainLogo = Image.open("./frontend/Resources/WILLOW_LOGO.png")
+        dat_img_mainLogo = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/WILLOW_LOGO.png")
         img_mainLogo = CTkImage(dark_image=dat_img_mainLogo, light_image=dat_img_mainLogo, size=(200,200))
         CTkLabel(sidebar, text="", image=img_mainLogo).pack(pady=(0, 0), anchor="center")
         
