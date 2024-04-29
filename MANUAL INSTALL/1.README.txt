@@ -1,0 +1,24 @@
+Manually running the program is not reccomended, however it is possible for users with advanced
+technical knowledge.
+
+To manually install the program, its libraries must be installed first.
+
+1. Move the "Install Libraries.bat" and requirements.txt to the root directory 
+   (outside of this folder)
+2. Execute the .bat file and libraries will install.
+3. Run the IDLE version of the main.py file.
+
+Alternatively, execute the "pip install -r requirements.txt" command from the root directory.
+^^^ This is a substitute for the .bat file, the requirements.txt file must still be moved to the
+root folder.
+
+
+---------------------------------------------------------------------------------------------------
+If running the software from a code or text editor: VSCODE, VisualStudio, PyCharm .etc
+open the root folder as a new project - don't simply open the main.py file as it won't be
+able to access any other files.
+
+- If using this method, run the "main.py" file, NOT the IDLE one. This is due to the non-IDLE
+	file running from the root folder, as it is opened from a code-editor, however the IDLE
+	version has its root directory changed from within the frontend folder, to the root folder.
+	(using "../")

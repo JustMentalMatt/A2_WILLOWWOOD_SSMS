@@ -10,7 +10,7 @@ from validation import auditlog
 
 def SQL_AdminView_FetchUserTable(search_query=None): #fetches all users from the database
 
-            conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+            conn = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = conn.cursor()
 
             disp_column = ["UserID", "Username", "Password", "FirstName", "LastName", "DOB", "ContactNumber", "EnrollmentStatus", "Message", "RoleID", "HouseID", "RoomID", "BedID"]
@@ -31,7 +31,7 @@ def SQL_AdminView_FetchUserTable(search_query=None): #fetches all users from the
         
 def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrollment status (pending and enrolled)
 
-            conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+            conn = sqlite3.connect('./backend/WillowInnDB.db')
             cursor = conn.cursor()
             # Get the columns to display
             disp_column = ["UserID", "Username", "FirstName", "LastName", "RoleID", "EnrollmentStatus", "HouseID"]
@@ -52,7 +52,7 @@ def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrol
             return disp_column, rows
 
 # def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID, Message):
-#     conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+#     conn = sqlite3.connect('./backend/WillowInnDB.db')
 #     cursor = conn.cursor()
 
 #     cursor.execute(f"UPDATE UserTable SET Username = '{Username}', Password = '{Password}', FirstName = '{FirstName}', LastName = '{LastName}', DOB = '{DOB}', ContactNumber = '{ContactNumber}', Role = '{Cmbo_Role}', EnrollmentStatus = '{Cmbo_EnrollmentStatus}', HouseID = '{HouseID}', Message = '{Message}' WHERE UserID = '{SqlID}'")
@@ -60,7 +60,7 @@ def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrol
 #     conn.close()
 
 # def DeleteUserSQL(SqlID):
-#     conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+#     conn = sqlite3.connect('./backend/WillowInnDB.db')
 #     cursor = conn.cursor()
 
 #     cursor.execute(f"DELETE FROM UserTable WHERE UserID = '{SqlID}'")
@@ -73,7 +73,7 @@ def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrol
 #     conn.close()
 
 # def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID, Message):
-#     conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+#     conn = sqlite3.connect('./backend/WillowInnDB.db')
 #     cursor = conn.cursor()
 
 #     cursor.execute('SELECT MAX(UserID) FROM UserTable')
@@ -88,7 +88,7 @@ def SQL_AdminView_FetchGeneralRegister(search_query=None): #sorts users by enrol
 #     conn.close()
 
 def SQL_AdminView_FetchHouse(HouseID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail"]
@@ -118,7 +118,7 @@ def SQL_AdminView_FetchHouse(HouseID):
     return disp_column, combinedrows, HouseSupervisor
 
 def SQLAdminView_FetchHouseResidents(HouseID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["FirstName", "LastName"]
@@ -133,7 +133,7 @@ def SQLAdminView_FetchHouseResidents(HouseID):
     return residents
 
 def SQLAdminView_FetchAssignedUser(room_id, bed_id, house_id):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["FirstName", "LastName"]
@@ -149,7 +149,7 @@ def SQLAdminView_FetchAssignedUser(room_id, bed_id, house_id):
         return "Unassigned"
 
 def SQLAdminView_AssignBed(user, RoomID, BedID, HouseID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     cursor.execute(f"SELECT UserID FROM UserTable WHERE RoomID = {RoomID} AND BedID = {BedID} AND HouseID = {HouseID}")
@@ -170,7 +170,7 @@ def SQLAdminView_AssignBed(user, RoomID, BedID, HouseID):
     conn.close()
 
 def SQL_AdminView_FetchHouse2(HouseID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail"]
@@ -194,7 +194,7 @@ def SQL_AdminView_FetchHouse2(HouseID):
     return disp_column, combinedrows, HouseSupervisor
 
 def SQLAdminView_FetchHouse2Residents():
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["FirstName", "LastName"]
@@ -211,7 +211,7 @@ def SQLAdminView_FetchHouse2Residents():
 ########## new @@@@@@@@@@@
 
 def SQL_AdminView_FetchHouseTable(search_query=None):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["HouseID", "HouseName", "HouseAddress", "HousePhone", "HouseEmail"]
@@ -230,7 +230,7 @@ def SQL_AdminView_FetchHouseTable(search_query=None):
     return disp_column, rows
 
 def SQL_AdminView_FetchTaskTable(search_query=None):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     disp_column = ["TaskID", "TaskName", "Capacity", "DifficultyLevel", "Points"]
@@ -249,7 +249,7 @@ def SQL_AdminView_FetchTaskTable(search_query=None):
     return disp_column, rows
 
 def SQL_AdminView_FetchBookingTable(search_query=None):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Get the columns to display
     disp_column = ["BookingID", "TaskID", "UserID", "BookingDate"]
@@ -268,7 +268,7 @@ def SQL_AdminView_FetchBookingTable(search_query=None):
     return disp_column, rows
 
 def SQL_AdminView_FetchRoomTable(search_query=None):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Get the columns to display
     disp_column = ["RoomID", "RoomNumber", "RoomType", "RoomCapacity", "HouseID"]
@@ -287,7 +287,7 @@ def SQL_AdminView_FetchRoomTable(search_query=None):
     return disp_column, rows
 
 def SQL_AdminView_FetchBedTable(search_query=None):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Get the columns to display
     disp_column = ["BedID", "RoomID", "BedNumber", "BedStatus"]
@@ -311,7 +311,7 @@ def EditHouseSQL(HouseID, HouseName, HouseAddress, HousePhone, HouseEmail):
     
     if validation.HouseValidation(HouseName, HouseAddress, HousePhone, HouseEmail):
     
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         cursor.execute(f"UPDATE HouseTable SET HouseName = '{HouseName}', HouseAddress = '{HouseAddress}', HousePhone = '{HousePhone}', HouseEmail = '{HouseEmail}' WHERE HouseID = '{HouseID}'")
@@ -327,7 +327,7 @@ def EditHouseSQL(HouseID, HouseName, HouseAddress, HousePhone, HouseEmail):
 def AddHouseSQL(HouseName, HouseAddress, HousePhone, HouseEmail):
     
     if validation.HouseValidation(HouseName, HouseAddress, HousePhone, HouseEmail):
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         cursor.execute('SELECT MAX(HouseID) FROM HouseTable')
@@ -348,7 +348,7 @@ def AddHouseSQL(HouseName, HouseAddress, HousePhone, HouseEmail):
         auditlog("House Add Failed")
 
 def DeleteHouseSQL(HouseID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     cursor.execute(f"DELETE FROM HouseTable WHERE HouseID = '{HouseID}'")
@@ -363,7 +363,7 @@ def EditTaskSQL(TaskID, TaskName, Capacity, DifficultyLevel, Points):
     
     if validation.TaskValidation(TaskName, Capacity, DifficultyLevel, Points):
         
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         cursor.execute(f"UPDATE TaskTable SET TaskName = '{TaskName}', Capacity = '{Capacity}', DifficultyLevel = '{DifficultyLevel}', Points = '{Points}' WHERE TaskID = '{TaskID}'")
@@ -378,7 +378,7 @@ def EditTaskSQL(TaskID, TaskName, Capacity, DifficultyLevel, Points):
 def AddTaskSQL(TaskName, Capacity, DifficultyLevel, Points):
     
     if validation.TaskValidation(TaskName, Capacity, DifficultyLevel, Points):
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         cursor.execute('SELECT MAX(TaskID) FROM TaskTable')
@@ -399,7 +399,7 @@ def AddTaskSQL(TaskName, Capacity, DifficultyLevel, Points):
     
     
 def DeleteTaskSQL(TaskID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     cursor.execute(f"DELETE FROM TaskTable WHERE TaskID = '{TaskID}'")
@@ -414,7 +414,7 @@ def EditBookingSQL(BookingID, TaskID, UserID, BookingDate):
     # Check if the booking is valid
     if validation.BookingValidaion(TaskID, UserID, BookingDate):
         # If true, update the booking
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         cursor.execute(f"UPDATE BookingTable SET TaskID = '{TaskID}', UserID = '{UserID}', BookingDate = '{BookingDate}' WHERE BookingID = '{BookingID}'")
@@ -430,7 +430,7 @@ def EditBookingSQL(BookingID, TaskID, UserID, BookingDate):
 def AddBookingSQL(TaskID, UserID, BookingDate):
     
     if validation.BookingValidaion(TaskID, UserID, BookingDate):
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
         # Get the maximum BookingID
         cursor.execute('SELECT MAX(BookingID) FROM BookingTable')
@@ -450,7 +450,7 @@ def AddBookingSQL(TaskID, UserID, BookingDate):
         auditlog("Booking Add Failed")
     
 def DeleteBookingSQL(BookingID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Delete the booking
     cursor.execute(f"DELETE FROM BookingTable WHERE BookingID = '{BookingID}'")
@@ -465,7 +465,7 @@ def EditRoomSQL(RoomID, RoomNumber, RoomType, RoomCapacity, HouseID):
     # Check if the room is valid
     if validation.RoomValidation(RoomNumber, RoomType, RoomCapacity, HouseID):
         
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
         # Update the room
         cursor.execute(f"UPDATE RoomTable SET RoomNumber = '{RoomNumber}', RoomType = '{RoomType}', RoomCapacity = '{RoomCapacity}', HouseID = '{HouseID}' WHERE RoomID = '{RoomID}'")
@@ -481,7 +481,7 @@ def EditRoomSQL(RoomID, RoomNumber, RoomType, RoomCapacity, HouseID):
 def AddRoomSQL(RoomNumber, RoomType, RoomCapacity, HouseID):
     # Check if the room is valid
     if validation.RoomValidation(RoomNumber, RoomType, RoomCapacity, HouseID):
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         cursor.execute('SELECT MAX(RoomID) FROM RoomTable')
@@ -501,7 +501,7 @@ def AddRoomSQL(RoomNumber, RoomType, RoomCapacity, HouseID):
         auditlog("Room Add Failed") # Log the failure of the room addition
     
 def DeleteRoomSQL(RoomID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Delete the room
     cursor.execute(f"DELETE FROM RoomTable WHERE RoomID = '{RoomID}'")
@@ -516,7 +516,7 @@ def EditBedSQL(BedID, RoomID, BedNumber, BedStatus):
     # Check if the bed is valid
     if validation.BedValidation(RoomID, BedNumber, BedStatus):
         
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
         # Update the bed
         cursor.execute(f"UPDATE BedTable SET RoomID = '{RoomID}', BedNumber = '{BedNumber}', BedStatus = '{BedStatus}' WHERE BedID = '{BedID}'")
@@ -531,7 +531,7 @@ def EditBedSQL(BedID, RoomID, BedNumber, BedStatus):
 def AddBedSQL(RoomID, BedNumber, BedStatus):
     # Check if the bed is valid
     if validation.BedValidation(RoomID, BedNumber, BedStatus):
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
         # Get the maximum BedID
         cursor.execute('SELECT MAX(BedID) FROM BedTable')
@@ -551,7 +551,7 @@ def AddBedSQL(RoomID, BedNumber, BedStatus):
         auditlog("Bed Add Failed") # Log the failure of the bed addition
     
 def DeleteBedSQL(BedID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
     # Delete the bed
     cursor.execute(f"DELETE FROM BedTable WHERE BedID = '{BedID}'")
@@ -566,7 +566,7 @@ def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumb
     
     if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
         
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
 
         cursor.execute(f"UPDATE UserTable SET Username = '{Username}', Password = '{Password}', FirstName = '{FirstName}', LastName = '{LastName}', DOB = '{DOB}', ContactNumber = '{ContactNumber}', RoleID = '{Cmbo_Role}', EnrollmentStatus = '{Cmbo_EnrollmentStatus}', Message = '{Message}', HouseID = '{HouseID}' WHERE UserID = '{SqlID}'")
@@ -581,7 +581,7 @@ def EditUserSQL(SqlID, Username, Password, FirstName, LastName, DOB, ContactNumb
 def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, Message, HouseID, RoomID, BedID):
     
     if validation.UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
-        conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+        conn = sqlite3.connect('./backend/WillowInnDB.db')
         cursor = conn.cursor()
         # Get the maximum UserID
         cursor.execute('SELECT MAX(UserID) FROM UserTable')
@@ -601,7 +601,7 @@ def AddUserSQL(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo
         auditlog("User Add Failed")
     
 def DeleteUserSQL(SqlID):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     cursor.execute(f"DELETE FROM UserTable WHERE UserID = '{SqlID}'")
@@ -641,7 +641,7 @@ def DeleteUserSQL(SqlID):
 # def ChangeTableView(Option):
 
 #     def SQLChangeTableView(search_query=None):
-#         conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+#         conn = sqlite3.connect('./backend/WillowInnDB.db')
 #         cursor = conn.cursor()
 
 #         disp_column = ["UserID", "Username", "Password", "FirstName", "LastName", "DOB", "ContactNumber", "Role", "EnrollmentStatus", "HouseID", "Message"] # iunclude coluims you only wanna show
@@ -673,7 +673,7 @@ def DeleteUserSQL(SqlID):
 ####################################################################################################################
 
 # def MANUALREORDER():
-#     conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+#     conn = sqlite3.connect('./backend/WillowInnDB.db')
 #     cursor = conn.cursor()
 
 #     cursor.execute(f"UPDATE UserTable SET UserID = UserID - 1 WHERE UserID > 15")

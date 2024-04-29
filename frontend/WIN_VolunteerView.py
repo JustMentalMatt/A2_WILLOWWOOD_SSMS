@@ -3,7 +3,7 @@ import tkinter as tk
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
-
+from customtkinter import *
 from SQL_AdminView import *
 from SQL_SupervisorView import *
 from SQL_VolunteerView import *
@@ -41,7 +41,7 @@ class volunteerView(ctk.CTkFrame):
         page()
         
     def EnrollUserButton(self):
-            VolunteerUsername = open("frontend/uservar.txt", "r").read().strip()
+            VolunteerUsername = open("./backend/uservar.txt", "r").read().strip()
             SQL_VolunteerView_EnrollUser(VolunteerUsername)
             auditlog(f"User {VolunteerUsername} enrolled in the volunteer scheme")
             tk.messagebox.showinfo("Success", f"User {VolunteerUsername} enrolled in the volunteer scheme")
@@ -49,7 +49,7 @@ class volunteerView(ctk.CTkFrame):
             self.menuFrame()
             
     def AssignUserHouseButton(self, house):
-        VolunteerUsername = open("frontend/uservar.txt", "r").read().strip()
+        VolunteerUsername = open("./backend/uservar.txt", "r").read().strip()
         SQL_VolunteerView_AssignUserHouse(VolunteerUsername, house)
         self.pageDestroy()
         self.menuFrame()
@@ -59,7 +59,7 @@ class volunteerView(ctk.CTkFrame):
         title_frame = CTkFrame(self.main_view, fg_color="transparent")
         title_frame.pack(anchor="n", fill="x", padx=2, pady=(2, 0))
         # Title Logo
-        dat_img_backlogo = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/WILLOW_TITLE_LOGO.png")
+        dat_img_backlogo = Image.open("./frontend/Resources/WILLOW_TITLE_LOGO.png")
         img_backlogo = CTkImage(dark_image=dat_img_backlogo, light_image=dat_img_backlogo, size=(720,240))
         CTkLabel(title_frame, text="", image=img_backlogo).pack(pady=(0, 0), anchor="n")
         # Title Label
@@ -69,7 +69,7 @@ class volunteerView(ctk.CTkFrame):
         # Title Text
         CTkLabel(text_frame, text="\n\nWelcome to the Willow Wood Inn Volunteer Portal", font=("Trebuchet MS", 18), text_color="#000", bg_color="#fff").pack(anchor="center", side="top")
         # Fetch the user's username from the file
-        VolunteerUsername = open("frontend/uservar.txt", "r").read().strip()
+        VolunteerUsername = open("./backend/uservar.txt", "r").read().strip()
         
         # Check if the user is already enrolled in the scheme
         if SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Enrolled" or SQL_VolunteerView_EnrollmentStatus(VolunteerUsername) == "Pending":
@@ -161,7 +161,7 @@ class volunteerView(ctk.CTkFrame):
                 
             def exportTable(self):
                 global result
-                with open('TaskTable Export.txt', 'w') as f:
+                with open('./TaskTable Export.txt', 'w') as f:
                     headings = result[0]
                     for heading in headings[0:]:
                         f.write('{:<20}'.format(heading))
@@ -178,7 +178,7 @@ class volunteerView(ctk.CTkFrame):
                 if T_ID.get() == "": # Check if a task is selected
                     tk.messagebox.showerror("Error", "Please select a task to enroll in.")
                 else: # If a task is selected, enroll the user in the task
-                    with open("frontend/uservar.txt", "r") as file:
+                    with open("./backend/uservar.txt", "r") as file:
                         userVAR = file.read().strip()
                         file.close()
                     # Call the SQL function to enroll the user in the task
@@ -243,13 +243,13 @@ class volunteerView(ctk.CTkFrame):
         
     def EnrolledTasksFrame(self):
         # Fetch the user's username from the file
-        with open("frontend/uservar.txt", "r") as file:
+        with open("./backend/uservar.txt", "r") as file:
             VolunteerUsername = file.read().strip()
             file.close()
     
         def exportTable():
             result = SQL_VolunteerView_FetchTasks(VolunteerUsername)
-            with open(f'{VolunteerUsername} - Task Export.txt', 'w') as f:
+            with open(f'./{VolunteerUsername} - Task Export.txt', 'w') as f:
                 headings = "TaskID", "TaskName"
                 for heading in headings[0:]:
                     f.write('{:<20}'.format(heading))
@@ -305,7 +305,7 @@ class volunteerView(ctk.CTkFrame):
 
         def exportTable():
             result = SQL_AdminView_FetchGeneralRegister()
-            with open('GeneralRegister Export.txt', 'w') as f:
+            with open('./GeneralRegister Export.txt', 'w') as f:
                 headings = result[0]
                 for heading in headings[0:]:
                     f.write('{:<20}'.format(heading))
@@ -361,7 +361,7 @@ class volunteerView(ctk.CTkFrame):
         sidebar.pack(fill="y", anchor="w", side="left")
         sidebar.pack_propagate(0)
         # Sidebar Logo
-        dat_img_mainLogo = Image.open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/frontend/Resources/WILLOW_LOGO.png")
+        dat_img_mainLogo = Image.open("./frontend/Resources/WILLOW_LOGO.png")
         img_mainLogo = CTkImage(dark_image=dat_img_mainLogo, light_image=dat_img_mainLogo, size=(200,200))
         CTkLabel(sidebar, text="", image=img_mainLogo).pack(pady=(0, 0), anchor="center")
         # Sidebar Buttons

@@ -8,7 +8,7 @@ import sqlite3
 
 def auditlog(data):
     
-    with open("C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/uservar.txt", "r") as file:
+    with open("./backend/uservar.txt", "r") as file:
         userVAR = file.read().strip()
         file.close()
         
@@ -142,7 +142,7 @@ def rangeCheck(value, minValue=None, maxValue=None, exactValue=None):
         return False
 
 def dbPresenceCheck(value, column, table):
-    conn = sqlite3.connect('C:/Users/Matthew/Documents/FINAL_A2_WILLOWWOOD_SSMS/backend/WillowInnDB.db')
+    conn = sqlite3.connect('./backend/WillowInnDB.db')
     cursor = conn.cursor()
 
     try:
@@ -328,26 +328,3 @@ def BedValidation(RoomID, BedNumber, BedStatus):
     else:
         return True
     
-    
-    
-# # Test Cases
-# HouseID = "f"
-# print(IDFormatCheck(HouseID))
-
-# if IDFormatCheck(HouseID)[0] == False:
-#     print("Invalid House ID")
-# elif IDFormatCheck(HouseID)[1] == False and dbPresenceCheck(int(HouseID), "HouseID", "HouseTable") == False:
-#     print("House ID does not exist")
-# else:
-#     print("Valid House ID")
-    
-    
-# HouseID = "3"
-# print(IDFormatCheck(HouseID))
-
-# if not IDFormatCheck(HouseID)[0]:
-#     print("Invalid House ID")
-# elif not IDFormatCheck(HouseID)[1] and not dbPresenceCheck(int(HouseID), "HouseID", "HouseTable"):
-#     print("House ID does not exist")
-# else:
-#     print("Valid House ID")
