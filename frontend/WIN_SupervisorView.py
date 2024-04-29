@@ -278,7 +278,7 @@ class supervisorView(ctk.CTkFrame):
                 tabData = [disp_column]
                 tabData.extend(rows)
                 
-                tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=350)
+                tabFrame = CTkScrollableFrame(master=self.main_view, fg_color="transparent", border_color="#2A8C55",scrollbar_fg_color="transparent", border_width=2, width=480, height=400)
                 tabFrame.pack(side="top", expand=False, fill="both", padx=10, pady=10)
                 
                 table = CTkTable(master=tabFrame, values=tabData, command=self.TableClickEvent, colors=["#E6E6E6", "#EEEEEE"], header_color="#FFC300", hover_color="#B4B4B4", text_color="#000", width=75)
@@ -302,7 +302,7 @@ class supervisorView(ctk.CTkFrame):
                         f.write('\n')
             
             def optionsFrame(self):
-                ###
+
                 global h_ID, h_Name, h_Address, h_Telephone, h_Email
                 
                 h_ID = tk.StringVar()
@@ -312,20 +312,18 @@ class supervisorView(ctk.CTkFrame):
                 h_Email = tk.StringVar()
                 
 
-                optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=300, border_color="#2A8C55", border_width=2)
+                optionsFrame = CTkFrame(self.main_view, fg_color="transparent", width=480, height=250, border_color="#2A8C55", border_width=2)
                 optionsFrame.propagate(0)
                 optionsFrame.pack(anchor="n", fill="x", padx=10, pady=(20, 20)) 
                 CTkLabel(optionsFrame, text="House Options", font=("Arial Black", 25), bg_color="transparent", text_color="#DAF7A6").pack(anchor="nw", side="top")
-                CTkLabel(optionsFrame, text="  ID        Name         Address    Telephone    Email        ", font=("Arial Bold", 15), text_color="#FFC300").pack(anchor="w", side="top", padx=(10, 0), pady=(5, 0))
 
                 
-                #CTkButton(optionsFrame, text="Add User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 19), hover_color="#207244", command=lambda: addUserButton()).pack(anchor="w", ipady=5, pady=(1, 0))
                 entryFrame = CTkFrame(optionsFrame, fg_color="transparent", width=480, height=30, border_color="#2A8C55", border_width=0)
                 entryFrame.propagate(0)
                 entryFrame.pack(anchor="n", fill="x", padx=5, pady=(0,0))
 
                
-                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
+                CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 20), hover_color="#207244", height=20, width=35, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(2, 10), padx=(0,10))
 
         class TaskTable:
             def __init__(self, parent):
