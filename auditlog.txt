@@ -364,3 +364,5 @@
 2024-05-02 18:31:24  | User: ss          | User logged in   
 2024-05-02 18:31:32  | User: user1       | User logged in   
 2024-05-02 18:34:06  | User: manager1    | User logged in   
+2024-05-03 00:14:11  | User: manager1    | User logged in   
+2024-05-03 00:17:13  | User: manager1    | User logged in   
