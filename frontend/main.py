@@ -72,7 +72,7 @@ def handle_login_result(successful, username, role):
             file.close()
         auditlog("User logged in")
 
-        determineView(role)
+        determineView(role) 
 
     else:
         # If the login fails, clear the uservar.txt file
