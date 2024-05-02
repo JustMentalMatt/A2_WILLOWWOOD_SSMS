@@ -358,3 +358,9 @@
 2024-04-30 00:44:35  | User: ss          | User logged in   
 2024-04-30 00:46:00  | User: ss          | User logged in   
 2024-04-30 00:46:22  | User: user1       | User logged in   
+2024-05-01 01:19:05  | User: manager1    | User logged in   
+2024-05-02 18:29:44  | User: manager1    | User logged in   
+2024-05-02 18:31:14  | User: manager1    | User logged in   
+2024-05-02 18:31:24  | User: ss          | User logged in   
+2024-05-02 18:31:32  | User: user1       | User logged in   
+2024-05-02 18:34:06  | User: manager1    | User logged in   
