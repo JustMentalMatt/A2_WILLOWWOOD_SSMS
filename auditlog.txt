@@ -364,6 +364,7 @@
 2024-05-02 18:31:24  | User: ss          | User logged in   
 2024-05-02 18:31:32  | User: user1       | User logged in   
 2024-05-02 18:34:06  | User: manager1    | User logged in   
+<<<<<<< HEAD
 2024-05-03 15:28:20  | User: manager1    | Login attempt failed
 2024-05-03 15:30:01  | User: manager1    | User logged in   
 2024-05-03 15:31:39  | User: UNKNOWN     | Failed account creation
@@ -401,3 +402,7 @@
 2024-05-03 16:52:08  | User: user1       | User user1 enrolled in the volunteer scheme
 2024-05-03 16:53:01  | User: user1       | User user1 assigned to house 4
 2024-05-03 16:54:07  | User: user1       | User user1 enrolled in task 2
+=======
+2024-05-03 00:14:11  | User: manager1    | User logged in   
+2024-05-03 00:17:13  | User: manager1    | User logged in   
+>>>>>>> c92f3f7e92d27a94e2f916301d2215c80cf661dc
