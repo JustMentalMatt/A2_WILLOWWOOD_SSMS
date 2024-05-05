@@ -364,3 +364,40 @@
 2024-05-02 18:31:24  | User: ss          | User logged in   
 2024-05-02 18:31:32  | User: user1       | User logged in   
 2024-05-02 18:34:06  | User: manager1    | User logged in   
+2024-05-03 15:28:20  | User: manager1    | Login attempt failed
+2024-05-03 15:30:01  | User: manager1    | User logged in   
+2024-05-03 15:31:39  | User: UNKNOWN     | Failed account creation
+2024-05-03 15:32:17  | User: UNKNOWN     | Successful account creation
+2024-05-03 15:33:12  | User: UNKNOWN     | Successful account creation
+2024-05-03 15:36:33  | User: manager1    | User logged in   
+2024-05-03 15:37:22  | User: manager1    | User logged in   
+2024-05-03 15:37:48  | User: manager1    | User Edited      
+2024-05-03 15:38:02  | User: supervisor1 | User logged in   
+2024-05-03 15:38:24  | User: user1       | User logged in   
+2024-05-03 15:39:28  | User: manager1    | User logged in   
+2024-05-03 15:41:02  | User: user1       | User logged in   
+2024-05-03 15:41:45  | User: manager1    | User logged in   
+2024-05-03 15:46:08  | User: manager1    | Task Added       
+2024-05-03 15:47:33  | User: manager1    | House Add Failed 
+2024-05-03 15:49:01  | User: manager1    | User Add Failed  
+2024-05-03 15:50:27  | User: manager1    | User Added       
+2024-05-03 15:53:17  | User: manager1    | User Edited      
+2024-05-03 15:55:14  | User: manager1    | User Edited      
+2024-05-03 15:56:18  | User: manager1    | User logged in   
+2024-05-03 15:58:33  | User: manager1    | Task Edited      
+2024-05-03 15:59:50  | User: manager1    | Bed Edit Failed  
+2024-05-03 16:03:06  | User: manager1    | User Edit Failed 
+2024-05-03 16:04:04  | User: manager1    | Booking Deleted  
+2024-05-03 16:05:27  | User: manager1    | User Edit Failed 
+2024-05-03 16:47:00  | User: manager1    | Bed Unassigned from User
+2024-05-03 16:47:00  | User: manager1    | Bed Unassigned from User
+2024-05-03 16:48:20  | User: manager1    | User Edited      
+2024-05-03 16:48:58  | User: supervisor1 | User logged in   
+2024-05-03 16:49:34  | User: tomiix05    | User logged in   
+2024-05-03 16:50:40  | User: user1       | User logged in   
+2024-05-03 16:50:51  | User: manager1    | User logged in   
+2024-05-03 16:51:06  | User: manager1    | User Edited      
+2024-05-03 16:51:44  | User: user1       | User logged in   
+2024-05-03 16:52:08  | User: user1       | User user1 enrolled in the volunteer scheme
+2024-05-03 16:53:01  | User: user1       | User user1 assigned to house 4
+2024-05-03 16:54:07  | User: user1       | User user1 enrolled in task 2

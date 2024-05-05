@@ -1,0 +1,4 @@
+RoomID              RoomNumber          RoomType            RoomCapacity        HouseID             
+1                   101                 Single              1                   1                   
+3                   201                 Single              1                   2                   
+5                   301                 Single              1                   3                   
