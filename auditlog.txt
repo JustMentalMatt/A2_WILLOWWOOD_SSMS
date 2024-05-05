@@ -406,3 +406,25 @@
 2024-05-03 00:14:11  | User: manager1    | User logged in   
 2024-05-03 00:17:13  | User: manager1    | User logged in   
 >>>>>>> c92f3f7e92d27a94e2f916301d2215c80cf661dc
+2024-05-05 02:13:16  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:18:20  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:18:23  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:18:31  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:27:39  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:27:43  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:29:34  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:29:37  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:29:41  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:29:44  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:29:48  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:29:57  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:32:43  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:34:12  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:34:15  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:34:19  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:34:33  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:37:30  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:37:37  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:42:31  | User: UNKNOWN     | Failed account creation
+2024-05-05 02:42:46  | User: manager1    | User logged in   
+2024-05-05 02:46:50  | User: manager1    | User Add Failed  

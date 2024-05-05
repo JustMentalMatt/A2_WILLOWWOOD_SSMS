@@ -157,6 +157,14 @@ class loginGUI(ctk.CTkFrame):
             try:
                 firstName = fullName.split()[0].capitalize()
                 lastName = fullName.split()[1].capitalize()
+                if len(firstName) < 2 or len(lastName) < 2:
+                    tk.messagebox.showerror("Error", "Name too short")
+                    auditlog("Failed account creation")
+                    return
+                if len(firstName) > 40 or len(lastName) > 40:
+                    tk.messagebox.showerror("Error", "Name too long")
+                    auditlog("Failed account creation")
+                    return
             except IndexError:
                 tk.messagebox.showerror("Error", "Please Provide a Full Name")
                 return
@@ -172,10 +180,17 @@ class loginGUI(ctk.CTkFrame):
                 if not validation.validatePhone(contactNumber):
                     tk.messagebox.showerror("Error", "Invalid Phone Number")
                     auditlog("Failed account creation")
+                    
+                elif validation.dbPresenceCheck(username, "Username", "UserTable"):
+                    tk.messagebox.showerror("Error", "Username already exists")
+                    auditlog("Failed account creation")
                 
                 elif not validation.validateUsername(username):
                     tk.messagebox.showerror("Error", "Invalid Username")
                     auditlog("Failed account creation")
+                    
+                elif not validation.lengthCheck(username, 5, 20):
+                    tk.messagebox.showerror("Error", "Username must be between 6 and 20 characters long")
                     
                 elif not validation.validateDate(dob):
                     tk.messagebox.showerror("Error", "Invalid Date of Birth")

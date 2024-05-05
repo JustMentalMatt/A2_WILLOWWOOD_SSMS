@@ -182,6 +182,12 @@ def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, 
     if not presenceCheck(Username):
         tk.messagebox.showerror("Error", "Username is empty")
         
+    elif not lengthCheck(Username, 5, 20):
+        tk.messagebox.showerror("Error", "Username must be between 6 and 20 characters long")
+        
+    elif dbPresenceCheck(Username, "Username", "UserTable"):
+        tk.messagebox.showerror("Error", "Username already exists")
+        
     elif not presenceCheck(Password):
         tk.messagebox.showerror("Error", "Password is empty")
         
@@ -194,6 +200,14 @@ def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, 
     elif not presenceCheck(LastName):
         tk.messagebox.showerror("Error", "Last Name is empty")
         
+    elif len(FirstName) < 2 or len(LastName) < 2:
+                tk.messagebox.showerror("Error", "Name too short")
+                auditlog("Failed account creation")
+                
+    elif len(FirstName) > 40 or len(LastName) > 40:
+            tk.messagebox.showerror("Error", "Name too long")
+            auditlog("Failed account creation")
+
     elif not presenceCheck(DOB):
         tk.messagebox.showerror("Error", "Date of Birth is empty")
         
@@ -327,4 +341,3 @@ def BedValidation(RoomID, BedNumber, BedStatus):
         
     else:
         return True
-    
