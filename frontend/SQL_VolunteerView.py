@@ -26,6 +26,7 @@ def SQL_VolunteerView_EnrollInTask(TaskID, VolunteerUsername):
     existingUser = cursor.fetchone()
     if existingUser: # If the user is already enrolled in the task show an error message
         tk.messagebox.showerror("Error", "User already enrolled in this task")
+        return False
     else: # If the user is not already enrolled in the task, enroll them
         cursor.execute(f"INSERT INTO BookingTable (BookingID, TaskID, UserID, BookingDate) VALUES ({NewBookingID}, {TaskID}, {UserID[0]}, CURRENT_TIMESTAMP)")
         conn.commit()
@@ -33,6 +34,7 @@ def SQL_VolunteerView_EnrollInTask(TaskID, VolunteerUsername):
         # Show a success message
         auditlog(f"User {VolunteerUsername} enrolled in task {TaskID}")
         tk.messagebox.showinfo("Success", f"User {VolunteerUsername} enrolled in task {TaskID}")
+        return True
         
 def SQL_VolunteerView_FetchTasks(VolunteerUsername, search_query=None):
     

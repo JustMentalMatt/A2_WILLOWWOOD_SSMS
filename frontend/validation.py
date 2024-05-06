@@ -177,7 +177,7 @@ def IDFormatCheck(ID):
     
 # Validation functions for each table
     
-def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID):
+def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, Cmbo_Role, Cmbo_EnrollmentStatus, HouseID, notEdit=True):
     
     if not presenceCheck(Username):
         tk.messagebox.showerror("Error", "Username is empty")
@@ -185,7 +185,7 @@ def UserValidation(Username, Password, FirstName, LastName, DOB, ContactNumber, 
     elif not lengthCheck(Username, 5, 20):
         tk.messagebox.showerror("Error", "Username must be between 6 and 20 characters long")
         
-    elif dbPresenceCheck(Username, "Username", "UserTable"):
+    elif notEdit and dbPresenceCheck(Username, "Username", "UserTable"):
         tk.messagebox.showerror("Error", "Username already exists")
         
     elif not presenceCheck(Password):

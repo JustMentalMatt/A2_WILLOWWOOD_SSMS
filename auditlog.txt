@@ -428,3 +428,54 @@
 2024-05-05 02:42:31  | User: UNKNOWN     | Failed account creation
 2024-05-05 02:42:46  | User: manager1    | User logged in   
 2024-05-05 02:46:50  | User: manager1    | User Add Failed  
+2024-05-06 17:50:50  | User: manager1    | Login attempt failed
+2024-05-06 17:51:02  | User: manager1    | User logged in   
+2024-05-06 17:54:21  | User: manager1    | User Edit Failed 
+2024-05-06 17:57:03  | User: manager1    | User logged in   
+2024-05-06 17:57:10  | User: manager1    | User Edit Failed 
+2024-05-06 18:09:27  | User: UNKNOWN     | Failed account creation
+2024-05-06 18:09:31  | User: UNKNOWN     | Failed account creation
+2024-05-06 18:09:38  | User: manager1    | User logged in   
+2024-05-06 18:09:45  | User: manager1    | User Edited      
+2024-05-06 18:09:55  | User: manager1    | User Edit Failed 
+2024-05-06 18:10:10  | User: manager1    | User Edit Failed 
+2024-05-06 18:10:31  | User: manager1    | User Edit Failed 
+2024-05-06 18:10:42  | User: manager1    | User Edit Failed 
+2024-05-06 18:10:55  | User: manager1    | User Edited      
+2024-05-06 18:11:22  | User: manager1    | User Edited      
+2024-05-06 18:11:33  | User: manager1    | User Add Failed  
+2024-05-06 18:11:58  | User: manager1    | User Add Failed  
+2024-05-06 18:12:28  | User: manager1    | User Edited      
+2024-05-06 18:12:43  | User: manager1    | User Edited      
+2024-05-06 18:20:44  | User: manager1    | User logged in   
+2024-05-06 18:21:00  | User: manager1    | User Edit Failed 
+2024-05-06 18:21:01  | User: manager1    | User Edit Failed 
+2024-05-06 18:21:05  | User: manager1    | User Edit Failed 
+2024-05-06 18:21:06  | User: manager1    | User Edit Failed 
+2024-05-06 18:21:08  | User: manager1    | User Edit Failed 
+2024-05-06 18:21:12  | User: manager1    | User Edited      
+2024-05-06 18:21:22  | User: manager1    | User Edited      
+2024-05-06 18:21:34  | User: manager1    | User Edited      
+2024-05-06 18:21:50  | User: manager1    | User Edited      
+2024-05-06 18:22:01  | User: manager1    | User Edited      
+2024-05-06 18:23:22  | User: manager1    | User logged in   
+2024-05-06 18:23:30  | User: manager1    | User Edited      
+2024-05-06 18:23:39  | User: manager1    | User Edit Failed 
+2024-05-06 18:23:44  | User: manager1    | User Edited      
+2024-05-06 18:24:42  | User: manager1    | User logged in   
+2024-05-06 18:24:55  | User: manager1    | User Edit Failed 
+2024-05-06 18:24:56  | User: manager1    | User Edit Failed 
+2024-05-06 18:24:58  | User: manager1    | User Edit Failed 
+2024-05-06 18:25:01  | User: manager1    | User Edited      
+2024-05-06 18:34:37  | User: manager1    | User logged in   
+2024-05-06 18:34:49  | User: manager1    | User Edit Failed 
+2024-05-06 18:34:51  | User: manager1    | User Edit Failed 
+2024-05-06 18:34:54  | User: manager1    | User Edited      
+2024-05-06 18:35:09  | User: manager1    | Task Edit Failed 
+2024-05-06 18:35:12  | User: manager1    | Task Edited      
+2024-05-06 18:35:33  | User: manager1    | User Edit Failed 
+2024-05-06 18:35:37  | User: manager1    | User Edit Failed 
+2024-05-06 18:35:40  | User: manager1    | User Edit Failed 
+2024-05-06 18:35:46  | User: manager1    | User Add Failed  
+2024-05-06 18:35:48  | User: manager1    | User Add Failed  
+2024-05-06 18:36:23  | User: manager1    | User logged in   

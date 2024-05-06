@@ -97,11 +97,11 @@ class adminView(ctk.CTkFrame):
 
             # Edit User Button called when the user clicks the "Apply Changes" button
             def EditUserButton(self):
-                EditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
-
+               
                 # Refresh the table
-                adminView.TableDestroy(self)
-                UserTable(self).INIT_TABLE_AllUsers(search_query=None)
+                if EditUserSQL(e_ID.get(), e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get()):
+                    adminView.TableDestroy(self)
+                    UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                 
             # Add User Button called when the user clicks the "Add User" button
             def AddUserButton(self):
@@ -111,9 +111,9 @@ class adminView(ctk.CTkFrame):
                     return
                 else:
                     try:
-                        AddUserSQL(e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get())
-                        adminView.TableDestroy(self)
-                        UserTable(self).INIT_TABLE_AllUsers(search_query=None)
+                        if AddUserSQL(e_Username.get(), e_Password.get(), e_FirstName.get(), e_LastName.get(), e_DOB.get(), e_ContactNumber.get(), Cmbo_Role.get(), Cmbo_EnrollmentStatus.get(), e_Message.get(), e_HouseID.get(), e_RoomID.get(), e_BedID.get()):
+                            adminView.TableDestroy(self)
+                            UserTable(self).INIT_TABLE_AllUsers(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("User Addition", "Integrity Error.")
                         return
@@ -270,7 +270,6 @@ class adminView(ctk.CTkFrame):
                 CTkButton(optionsFrame, text="Delete User", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.DeleteUserButton).pack(anchor="w", side="left", ipady=5, pady=(10, 10), padx=(10,0))
                 CTkButton(optionsFrame, text="Clear Fields", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.ClearFieldsButton).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
                 CTkButton(optionsFrame, text="Export Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=self.exportTable).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
-                CTkButton(optionsFrame, text="Refresh Table", text_color="#19383d", fg_color="#fff", font=("Arial Bold", 12), hover_color="#207244", height=10, width=15, command=lambda: table.draw_table()).pack(anchor="e", side="right", ipady=5, pady=(10, 10), padx=(0,10))
 
         class HouseTable:
             def __init__(self, parent):
@@ -281,10 +280,10 @@ class adminView(ctk.CTkFrame):
 
             def EditHouseButton(self):
                 # Edit the House in the database through the SQL function in SQL_AdminView.py
-                EditHouseSQL(h_ID.get(), h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get())
-                # Refresh the table
-                adminView.TableDestroy(self)
-                HouseTable(self).INIT_table_House(search_query=None)
+                if EditHouseSQL(h_ID.get(), h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get()):
+                    # Refresh the table
+                    adminView.TableDestroy(self)
+                    HouseTable(self).INIT_table_House(search_query=None)
 
             def AddHouseButton(self):
                 
@@ -295,10 +294,10 @@ class adminView(ctk.CTkFrame):
                 else:
                     try:
                         # Add the House to the database throguh the SQL function
-                        AddHouseSQL(h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get())
+                        if AddHouseSQL(h_Name.get(), h_Address.get(), h_Telephone.get(), h_Email.get()):
                         # Refresh the table
-                        adminView.TableDestroy(self)
-                        HouseTable(self).INIT_table_House(search_query=None)
+                            adminView.TableDestroy(self)
+                            HouseTable(self).INIT_table_House(search_query=None)
 
                     # These errors should not occur due to the validation methods, however in the event of 
                     # a system error, the user is informed. Database locking shouldn't happen, but could if the database is being accessed by another user
@@ -426,10 +425,10 @@ class adminView(ctk.CTkFrame):
                 self.optionsFrame()
 
             def EditTaskButton(self):
-                EditTaskSQL(T_ID.get(), T_Name.get(), T_Capacity.get(), T_Difficulty.get(), T_Points.get())
-                # Refresh the table
-                adminView.TableDestroy(self)
-                TaskTable(self).INIT_table_Tasks(search_query=None)
+                if EditTaskSQL(T_ID.get(), T_Name.get(), T_Capacity.get(), T_Difficulty.get(), T_Points.get()):
+                    # Refresh the table
+                    adminView.TableDestroy(self)
+                    TaskTable(self).INIT_table_Tasks(search_query=None)
             
             def AddTaskButton(self):
                     
@@ -439,9 +438,9 @@ class adminView(ctk.CTkFrame):
                         return
                     else:
                         try:
-                            AddTaskSQL(T_Name.get(), T_Capacity.get(), T_Difficulty.get(), T_Points.get())
-                            adminView.TableDestroy(self)
-                            TaskTable(self)
+                            if AddTaskSQL(T_Name.get(), T_Capacity.get(), T_Difficulty.get(), T_Points.get()):
+                                adminView.TableDestroy(self)
+                                TaskTable(self).INIT_table_Tasks(search_query=None)
                         except sqlite3.IntegrityError:
                             tk.messagebox.showerror("Task Addition", "Integrity Error.")
                             return
@@ -563,10 +562,10 @@ class adminView(ctk.CTkFrame):
 
             def EditBookingButton(self):
                 # Edit the Booking in the database through the SQL function in SQL_AdminView.py
-                EditBookingSQL(B_ID.get(), B_TaskID.get(), B_UserID.get(), B_Date.get())
-                # Refresh the table
-                adminView.TableDestroy(self)
-                BookingTable(self).INIT_table_Booking(search_query=None)
+                if EditBookingSQL(B_ID.get(), B_TaskID.get(), B_UserID.get(), B_Date.get()):
+                    # Refresh the table
+                    adminView.TableDestroy(self)
+                    BookingTable(self).INIT_table_Booking(search_query=None)
                 
             def AddBookingButton(self):
                         
@@ -577,10 +576,10 @@ class adminView(ctk.CTkFrame):
                 else:
                     try:
                         # Add the Booking to the database through the SQL function in SQL_AdminView.py
-                        AddBookingSQL(B_TaskID.get(), B_UserID.get(), B_Date.get())
-                        # Refresh the table
-                        adminView.TableDestroy(self)
-                        BookingTable(self).INIT_table_Booking(search_query=None)
+                        if AddBookingSQL(B_TaskID.get(), B_UserID.get(), B_Date.get()):
+                            # Refresh the table
+                            adminView.TableDestroy(self)
+                            BookingTable(self).INIT_table_Booking(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Booking Addition", "Integrity Error.")
                         return
@@ -705,10 +704,10 @@ class adminView(ctk.CTkFrame):
                 
             def EditRoomButton(self):
                 # Edit the Room in the database through the SQL function in SQL_AdminView.py
-                EditRoomSQL(R_ID.get(), R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get())
-                # Refresh the table
-                adminView.TableDestroy(self)
-                RoomTable(self).INIT_table_Room(search_query=None)
+                if EditRoomSQL(R_ID.get(), R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get()):
+                    # Refresh the table
+                    adminView.TableDestroy(self)
+                    RoomTable(self).INIT_table_Room(search_query=None)
                 
             def AddRoomButton(self):
                         
@@ -719,11 +718,11 @@ class adminView(ctk.CTkFrame):
                 else:
                     try:
                         # Add the Room to the database through the SQL function in SQL_AdminView.py
-                        AddRoomSQL(R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get())
+                        if AddRoomSQL(R_Number.get(), R_Type.get(), R_Capacity.get(), HouseID.get()):
                         # Refresh the table - This was a bug in the original code, must be destroyed twice
-                        adminView.TableDestroy(self)
-                        adminView.TableDestroy(self)
-                        RoomTable(self).INIT_table_Room(search_query=None)
+                            adminView.TableDestroy(self)
+                            adminView.TableDestroy(self)
+                            RoomTable(self).INIT_table_Room(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Room Addition", "Integrity Error.")
                         return
@@ -847,10 +846,10 @@ class adminView(ctk.CTkFrame):
                 
             def EditBedButton(self):
                 # Edit the Bed in the database through the SQL function in SQL_AdminView.py
-                EditBedSQL(B_ID.get(), B_RoomID.get(), B_Number.get(), B_Status.get())
-                # Refresh the table
-                adminView.TableDestroy(self)
-                BedTable(self).INIT_table_Bed(search_query=None)
+                if EditBedSQL(B_ID.get(), B_RoomID.get(), B_Number.get(), B_Status.get()):
+                    # Refresh the table
+                    adminView.TableDestroy(self)
+                    BedTable(self).INIT_table_Bed(search_query=None)
                 
             def AddBedButton(self):
                 # These variables are used to store the values of the fields in the Bed Options frame          
@@ -861,10 +860,10 @@ class adminView(ctk.CTkFrame):
                 else:
                     try:
                         # Add the Bed to the database through the SQL function in SQL_AdminView.py           
-                        AddBedSQL(B_RoomID.get(), B_Number.get(), B_Status.get())
-                        # Refresh the table
-                        adminView.TableDestroy(self)
-                        BedTable(self).INIT_table_Bed(search_query=None)
+                        if AddBedSQL(B_RoomID.get(), B_Number.get(), B_Status.get()):
+                            # Refresh the table
+                            adminView.TableDestroy(self)
+                            BedTable(self).INIT_table_Bed(search_query=None)
                     except sqlite3.IntegrityError:
                         tk.messagebox.showerror("Bed Addition", "Integrity Error.")
                         return
@@ -1487,7 +1486,7 @@ class adminView(ctk.CTkFrame):
         # The menu options
         CTkButton(sidebar, text="Menu", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 24), hover_color="#207244",
                     command=lambda: self.pageSwitch(self.menuFrame)).pack(anchor="center", ipady=5, pady=(40, 0))
-        CTkButton(sidebar, text="Dashboard", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
+        #CTkButton(sidebar, text="Dashboard", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244").pack(anchor="center", ipady=5, pady=(15, 0))
         CTkButton(sidebar, text="System\nManagement", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",
                     command=lambda: self.pageSwitch(self.UserManagementFrame)).pack(anchor="center", ipady=5, pady=(15, 0))
         CTkButton(sidebar, text="General\nRegister", text_color="#19383d", fg_color="transparent", font=("Arial Bold", 19), hover_color="#207244",

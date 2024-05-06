@@ -182,8 +182,8 @@ class volunteerView(ctk.CTkFrame):
                         userVAR = file.read().strip()
                         file.close()
                     # Call the SQL function to enroll the user in the task
-                    SQL_VolunteerView_EnrollInTask(T_ID.get(), userVAR)
-                    self.ClearFieldsButton()
+                    if SQL_VolunteerView_EnrollInTask(T_ID.get(), userVAR):
+                        self.ClearFieldsButton()
 
             def optionsFrame(self):
 
